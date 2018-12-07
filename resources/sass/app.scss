@@ -1,0 +1,94 @@
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+main {
+  padding-top: 90px;
+}
+
+nav {
+  background-color: #252529;
+}
+
+header h3 {
+  font-weight: 100!important;
+  text-transform: uppercase;
+}
+
+.content {
+  padding-left: 300px;
+}
+
+.sidebar {
+  width: 300px;
+  position: fixed;
+  top: 90px;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  text-transform: uppercase;
+  font-weight: 100;
+}
+
+.sidebar li.nav-item {
+  height: 90px;
+  line-height: 80px;
+  font-size: 1.3em;
+}
+
+.sidebar li:hover {
+  background: rgba(0,0,0,0.2);
+}
+
+.sidebar a {
+  color: #d9d9d9!important;
+}
+
+.sidebar .material-icons {
+  padding: 20px;
+  font-size: 36px;
+  float: left;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.sidebar-links {
+  height: 50px;
+  line-height: 50px;
+  background-color: #252529!important;
+}
+
+.sidebar-links a {
+  width: 50%;
+  float: left;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.chevron-right {
+  float: right;
+  font-size: 48px!important;
+  height: 0;
+}
+
+.alert {
+  margin-bottom: 0!important;
+}
+
+.actions {
+  margin-top: -19px;
+  height: 0;
+  float: right;
+}
+
+.actions .toggle-switch {
+}
+
+.actions form {
+  display: inline;
+}
+
+.actions *:hover {
+  text-decoration: none;
+}
