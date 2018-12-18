@@ -29,3 +29,10 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('alerts/price_point', 'Alerts\PricePointAlertController')->only(['create', 'store', 'update'])->parameters(['price_point' => 'alert']);
     Route::resource('notifications', 'NotificationController')->only(['index']);
 });
+
+Route::group(['middleware' => ['guest', 'signed']], function() {
+    Route::get('/alerts/{alert}/disable', 'Alerts\DisableAlertController')->name('alerts.disable');
+    //Route::get('/users/{user}/confirm', 'Auth\RegisterController@confirm')->name('users.confirm');
+    //Route::get('/users/{user}/email/{email}', 'UserController@confirmEmailChange')->name('users.email.change');
+    //Route::get('/channels/{userNotificationChannel}/confirm', 'UserNotificationChannelController@confirm')->name('channels.confirm');
+});

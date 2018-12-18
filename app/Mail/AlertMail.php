@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\URL;
 
-class AlertTriggered extends Mailable
+class AlertMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -25,7 +25,6 @@ class AlertTriggered extends Mailable
 
     private $ticker;
 
-    private $cooldown;
     /**
      * Create a new message instance.
      *
@@ -50,9 +49,10 @@ class AlertTriggered extends Mailable
         $this->to($this->user->routeNotificationForMail());
         $url = URL::signedRoute('alerts.disable', ['alert' => $this->alert->id]);
         $editUrl = url()->route('alerts.edit', ['alert' => $this->alert->id]);
+
         return $this->markdown('emails.alert.triggered', [
             'alert' => $this->alert,
-            'value' => $this->ticker->{$this->alert->conditions['metric']},
+            'value' => $this->ticker->getMetric($this->alert->conditions['metric']),
             'disableUrl' => $url,
             'editUrl' => $editUrl,
         ]);

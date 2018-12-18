@@ -2,6 +2,9 @@
 
 namespace App\Console;
 
+use App\Alert;
+use App\Console\Commands\FetchTickers;
+use App\Jobs\ProcessAlert;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,8 +27,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->job(FetchTickers::class)->everyFiveMinutes();
+        /*$schedule->call(function(){
+            Alert::enabled()->get()->each([ProcessAlert::class, 'dispatch']);
+        })->everyFiveMinutes();*/
     }
 
     /**
