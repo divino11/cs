@@ -11,10 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 Auth::routes();
+Route::get('/', 'HomeController');
 Route::group(['middleware' => 'auth'], function(){
     Route::group(['as' => 'api.'],function(){
             Route::get('/tickers', 'Api\LatestTickerController')->name('tickers');
