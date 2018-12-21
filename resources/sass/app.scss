@@ -92,3 +92,13 @@ header h3 {
 .actions *:hover {
   text-decoration: none;
 }
+
+.notifications .material-icons {
+  padding-right: 10px;
+  font-size: 36px;
+  height: 0;
+}
+
+.notifications .text-muted {
+  padding-left: 45px;
+}

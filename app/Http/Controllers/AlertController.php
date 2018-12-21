@@ -17,7 +17,7 @@ class AlertController extends Controller
      */
     public function index()
     {
-        $alerts = Alert::all();
+        $alerts = Auth::user()->alerts;
 
         return view('alert.index', ['alerts' => $alerts]);
     }

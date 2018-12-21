@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Alert;
+use App\Enums\AlertMetric;
 use App\Mail\AlertMail;
 use App\Ticker;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -65,8 +66,10 @@ class AlertTriggered extends Notification
     public function toArray($notifiable)
     {
         return [
-            'alert' => $this->alert,
-            'ticker' => $this->ticker
+            'alert_name' => $this->alert->name,
+            'alert_description' => view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render(),
+            'ticker_key' => AlertMetric::getKey($this->alert->conditions['metric']),
+            'ticker_value' => $this->ticker->getMetric($this->alert->conditions['metric']),
         ];
     }
 }

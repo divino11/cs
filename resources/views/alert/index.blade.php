@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="list-group">
-        @foreach($alerts as $alert)
+        @forelse($alerts as $alert)
             <div class="list-group-item list-group-item-action flex-column align-items-start p-4">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{ $alert->name }}</h5>
@@ -38,7 +38,9 @@
                     @include('alert.description.' . $alert->type)
                 </p>
             </div>
-        @endforeach
+        @empty
+            <h3 class="text-center pt-5">You don't have any alerts</h3>
+        @endforelse
     </div>
 @endsection
 
