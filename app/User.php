@@ -12,7 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @mixin \Eloquent
  */
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -69,10 +69,15 @@ class User extends Authenticatable
         parent::markEmailAsVerified();
 
         if ($this->email == $this->notification_email) {
-            $this->forceFill([
-                'notification_email_verified_at' => $this->freshTimestamp(),
-            ])->save();
+            $this->markNotificationEmailAsVerified();
         }
+    }
+
+    public function markNotificationEmailAsVerified()
+    {
+        $this->forceFill([
+            'notification_email_verified_at' => $this->freshTimestamp(),
+        ])->save();
     }
 
     public function routeNotificationForMail()

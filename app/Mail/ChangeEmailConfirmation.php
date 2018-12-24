@@ -14,16 +14,14 @@ class ChangeEmailConfirmation extends Mailable
 
     private $user;
 
-    private $email;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user, $email)
+    public function __construct(User $user)
     {
         $this->user = $user;
-        $this->email = $email;
     }
 
     /**
@@ -33,12 +31,12 @@ class ChangeEmailConfirmation extends Mailable
      */
     public function build()
     {
-        $url = URL::temporarySignedRoute('users.email.change', now()->addHour(), [
+        $url = URL::temporarySignedRoute('users.email.change', now()->addDay(), [
             'user' => $this->user,
-            'email' => $this->email
+            'email' => $this->user->notification_email
         ]);
         return $this
-            ->to($this->email)
+            ->to($this->user->notification_email)
             ->markdown('emails.user.change_email', ['url' => $url, 'user' => $this->user]);
     }
 }
