@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Alert extends Model
 {
-    protected $fillable = ['exchange_id', 'market_id', 'type', 'conditions', 'triggerings_limit'];
+    protected $fillable = ['exchange_id', 'market_id', 'type', 'conditions', 'triggerings_limit', 'enabled'];
 
     protected $casts = ['conditions' => 'array'];
 

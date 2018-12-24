@@ -68,7 +68,7 @@ class AlertTriggered extends Notification
         return [
             'alert_name' => $this->alert->name,
             'alert_description' => view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render(),
-            'ticker_key' => AlertMetric::getKey($this->alert->conditions['metric']),
+            'ticker_key' => AlertMetric::getKey((int)$this->alert->conditions['metric']),
             'ticker_value' => $this->ticker->getMetric($this->alert->conditions['metric']),
         ];
     }
