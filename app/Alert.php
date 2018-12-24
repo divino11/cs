@@ -71,7 +71,7 @@ class Alert extends Model
 
     public function scopeEnabled(Builder $query)
     {
-        return $query->where('triggerings_number', '<', 'triggerings_limit');
+        return $query->whereColumn('triggerings_number', '<', 'triggerings_limit')->where('enabled', true);
     }
 
     public function toggle()
