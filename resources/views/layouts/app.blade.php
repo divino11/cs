@@ -11,9 +11,12 @@
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-dark fixed-top bg-dark p-0">
-        <img alt="CoinSpy" src="{{ asset('images/logo-cs.png') }}">
-        <h3 class="col-sm-9 h3 m-0 p-0 text-white navbar-text">@yield('title')</h3>
+    <nav class="navbar navbar-dark fixed-top bg-dark p-0 navbar-expand-md">
+        <a href="#" class="navbar-brand">CS</a>
+        <span class="col-xs-9 h3 m-0 p-0 navbar-text">@yield('title')</span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
     </nav>
 </header>
 <main class="full-width">

@@ -10470,13 +10470,76 @@ main {
   padding-top: 90px;
 }
 
+@media screen and (max-width: 768px) {
+  main {
+    padding-top: 37px;
+  }
+}
+
 nav {
   background-color: #252529;
 }
 
-header h3 {
+header .navbar-text {
   font-weight: 100 !important;
   text-transform: uppercase;
+  color: white;
+}
+
+@media screen and (max-width: 768px) {
+  header .navbar-text {
+    font-size: 18px;
+    margin-left: -50px !important;
+  }
+}
+
+.navbar-brand {
+  height: 90px;
+  padding: auto;
+  width: 300px;
+  font-size: 48px;
+  background-color: black;
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .navbar-brand {
+    background: none;
+    font-size: 22px;
+    padding: 0 10px 0;
+    height: auto;
+    width: 100px;
+    text-align: left;
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  header nav img {
+    height: 60px;
+  }
+}
+
+header nav h3 {
+  margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+  header nav h3 {
+    width: 100%;
+    text-align: center;
+    margin: 10px !important;
+  }
+}
+
+.login-card {
+  padding: 1.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .login-card {
+    padding: 0;
+  }
 }
 
 .content {
