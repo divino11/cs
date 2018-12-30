@@ -67,6 +67,9 @@ header nav h3 {
 
 .content {
   padding-left: 300px;
+  @media screen and (max-width: 768px) {
+    padding: 0;
+  }
 }
 
 .sidebar {
@@ -78,6 +81,10 @@ header nav h3 {
   z-index: 100;
   text-transform: uppercase;
   font-weight: 100;
+  @media screen and (max-width: 768px) {
+    top: 37px;
+    width: 100%;
+  }
 }
 
 .sidebar li.nav-item {
@@ -125,9 +132,10 @@ header nav h3 {
 }
 
 .actions {
-  margin-top: -19px;
-  height: 0;
-  float: right;
+  @media screen and (min-width: 767px) {
+    margin-top: -46px;
+    float: right;
+  }
 }
 
 .actions .toggle-switch {

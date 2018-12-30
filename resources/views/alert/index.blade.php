@@ -9,6 +9,9 @@
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{ $alert->name }}</h5>
                 </div>
+                <p class="mb-1 text-muted">
+                    @include('alert.description.' . $alert->type)
+                </p>
                 <div class="actions">
                     <form action="{{ route('alerts.edit', ['alert_id' => $alert->id]) }}">
                         @csrf
@@ -34,9 +37,6 @@
                         </div>
                     </form>
                 </div>
-                <p class="mb-1 text-muted">
-                    @include('alert.description.' . $alert->type)
-                </p>
             </div>
         @empty
             <h3 class="text-center pt-5">You don't have any alerts</h3>
