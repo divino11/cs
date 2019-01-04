@@ -7,6 +7,7 @@ use App\AlertStrategies\PricePoint;
 use App\Contracts\AlertStrategy;
 use App\Enums\AlertType;
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -67,6 +68,11 @@ class Alert extends Model
     public function getNameAttribute()
     {
         return strtoupper($this->exchange->name) . ' - ' . $this->market->base . '/' . $this->market->quote;
+    }
+
+    public function getIntervalAttribute()
+    {
+        return CarbonInterval::make($this->conditions['interval'])->forHumans();
     }
 
     public function scopeEnabled(Builder $query)

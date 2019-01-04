@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * App\Ticker
  *
- * @mixin \Eloquent
+ * @mixin \Illuminate\Database\Eloquent\
  */
 class Ticker extends Model
 {
@@ -36,7 +36,7 @@ class Ticker extends Model
 
     public function scopeMarketLatest(Builder $query, $exchangeId, $marketId)
     {
-        return $query->where('exchange_id', $exchangeId)->where('market_id', $marketId)->latest()->first();
+        return $query->where('exchange_id', $exchangeId)->where('market_id', $marketId)->latest();
     }
 
     public function getMetric($metric)
