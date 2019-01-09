@@ -122,9 +122,15 @@ header nav h3 {
 }
 
 .chevron-right {
-  float: right;
   font-size: 48px!important;
   height: 0;
+  position: absolute;
+  right: 0;
+  top: 35%;
+  transform: translate(-50%,-50%);
+  @media screen and (max-width: 768px) {
+    font-size: 34px !important;
+  }
 }
 
 .alert {
@@ -157,4 +163,57 @@ header nav h3 {
 
 .notifications .text-muted {
   padding-left: 45px;
+}
+
+@media screen and (max-width: 768px) {
+  ul.nav.nav-tabs li.nav-item {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  ul.nav.nav-tabs li.nav-item a {
+    width: 100%;
+    border: none;
+    color: #000;
+    background-color: transparent;
+    text-transform: uppercase;
+  }
+
+  ul.nav.nav-tabs li.nav-item a.active {
+    color: #fff;
+    background-color: #000;
+    border-radius: 0;
+  }
+
+  .account-name {
+    font-size: 18px;
+  }
+
+  .alert-description {
+    width: 80%;
+    font-size: 13px;
+  }
+
+  #alertForm.w-75 {
+    width: 100% !important;
+  }
+}
+
+.details-item {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 3px 0;
+}
+
+.detail {
+  width: 50%;
+}
+
+.details-item .detail:first-child {
+  font-weight: bold;
+}
+
+#alertForm label {
+  font-weight: bold;
 }
