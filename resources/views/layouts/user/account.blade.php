@@ -7,7 +7,7 @@
             @tabitem(['route' => 'login'])SMS credits @endtabitem
             @tabitem(['route' => 'login'])Plan @endtabitem
             @tabitem(['route' => 'login'])Billing @endtabitem
-            @tabitem(['route' => 'login'])Support @endtabitem
+            @tabitem(['route' => 'user.support'])Support @endtabitem
             @tabitem(['route' => 'login'])FAQ @endtabitem
         </ul>
         <div class="tab-content pt-3">
