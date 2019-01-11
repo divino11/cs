@@ -38,6 +38,6 @@ class ChangePasswordController extends Controller
 
         $request->user()->notify(new UpdatePasswordSuccess($request->user()->email));
 
-        return redirect()->route('user.account')->with('status', 'Password was update');
+        return redirect()->route('user.account')->with('status', 'Password has been updated');
     }
 }

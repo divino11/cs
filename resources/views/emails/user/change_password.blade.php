@@ -1,5 +1,5 @@
 @component('mail::message')
-    Your password has been update. Thank you.
+    Your password has been changed.
 
     Thanks, {{ config('app.name') }}
 
