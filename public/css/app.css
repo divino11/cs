@@ -9755,6 +9755,16 @@ header nav h3 {
   font-weight: bold;
 }
 
+li.nav-item.active {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-left: 4px solid #616161;
+}
+
+.sidebar-links .active {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-bottom: 4px solid #616161;
+}
+
 #alertForm label {
   font-weight: bold;
 }

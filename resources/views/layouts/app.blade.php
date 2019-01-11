@@ -23,18 +23,18 @@
                 <ul class="navbar-nav flex-column w-100 h-100">
                     <li>
                         <div class="nav sidebar-links">
-                            <a class="border-right border-dark" href="{{ route('user.account') }}">Account</a>
+                            <a class="border-right border-dark {{ (Request::is('user*') ? 'active' : '') }}" href="{{ route('user.account') }}">Account</a>
                             <a href="#" onclick="$('#logoutForm').submit()">Logout</a>
                             <form method="post" action="{{ route('logout') }}" id="logoutForm">@csrf</form>
                         </div>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('alerts.create') }}"><span
+                    <li class="nav-item {{ (Request::is('alerts/create') ? 'active' : '') }}"><a class="nav-link" href="{{ route('alerts.create') }}"><span
                                     class="material-icons">add_circle_outline</span>Add Alert</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('notifications.index') }}"><span
+                    <li class="nav-item {{ (Request::is('notifications*') ? 'active' : '') }}"><a class="nav-link" href="{{ route('notifications.index') }}"><span
                                     class="material-icons">view_list</span>Activity</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('alerts.index') }}"><span
+                    <li class="nav-item {{ (Request::is('alerts') ? 'active' : '') }}"><a class="nav-link" href="{{ route('alerts.index') }}"><span
                                     class="material-icons">send</span>Alerts</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('channels') }}"><span
+                    <li class="nav-item {{ (Request::is('channels') ? 'active' : '') }}"><a class="nav-link" href="{{ route('channels') }}"><span
                                     class="material-icons">message</span>Channels</a></li>
                 </ul>
             </div>
