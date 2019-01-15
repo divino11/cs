@@ -19,8 +19,8 @@ Route::group(['middleware' => 'auth'], function(){
             Route::get('/alert/{alert}/toggle', 'Api\ToggleAlertController')->name('alert.toggle');
         }
     );
-    Route::get('user', 'User\ShowProfileController@index')->name('user.account');
-    Route::get('user/support', 'User\ShowProfileController@support')->name('user.support');
+    Route::get('user', 'User\ShowProfileController')->name('user.account');
+    Route::get('user/support', 'User\ShowSupportController')->name('user.support');
     Route::get('channels', 'Channels\ShowChannelsController')->name('channels');
     Route::post('channels/email', 'Channels\NotificationEmailController@store')->name('channels.email');
     Route::resource('alerts', 'AlertController')->middleware('verified');

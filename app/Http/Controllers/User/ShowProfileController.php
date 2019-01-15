@@ -14,15 +14,10 @@ class ShowProfileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function __invoke()
     {
         $user = Auth::user();
 
         return view('user.account', ['user' => $user]);
-    }
-
-    public function support()
-    {
-        return view('user.support');
     }
 }
