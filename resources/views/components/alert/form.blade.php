@@ -20,6 +20,9 @@
     </select>
 </div>
 @include("alert.conditions.{$alert->type_key}")
+<div class="form-group currency_price_group" style="display: none">
+    <p class="font-weight-bold">BUY PRICE: <span id="currencyPrice"></span></p>
+</div>
 <div class="form-group">
     <label for="">How should we notify you of this alert?</label>
     <div class="form-row" id="notificationChannels">
@@ -69,6 +72,18 @@
                         $('#markets').val(value.id).change();
                     }
                 });
+                $('#markets').trigger('chosen:updated');
+            });
+            $('#markets').change(function() {
+                var selectedPlatform = $('#exchange option:selected').val();
+                var selectedCurrency = $('#markets option:selected').val();
+                var data = {selectedPlatform: selectedPlatform, selectedCurrency: selectedCurrency};
+                $.get('/alerts/currencyPrice', data, function (response) {
+                    if (response) {
+                        $('.currency_price_group').show();
+                        $('#currencyPrice').text(response);
+                    }
+                }, 'json');
             });
             $('#markets').change(function() {
                 var selected = $('#markets option:selected');
@@ -83,6 +98,9 @@
                     requiredCheckboxes.attr('required', 'required');
                 }
             });
+        });
+        $(document).ready(function(){
+            $('#exchange, #markets').chosen();
         });
     </script>
 @endpush

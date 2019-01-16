@@ -7,7 +7,9 @@
     <title>@yield('title')</title>
     <link rel="stylesheet" href="/css/app.css" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
     <script src="/js/app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
 </head>
 <body>
 <header>
