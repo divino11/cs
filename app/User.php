@@ -59,6 +59,21 @@ class User extends Authenticatable implements MustVerifyEmail
         return (bool) isset($this->telegram_verified_at);
     }
 
+    public function getNotificationPhone()
+    {
+        return $this->hasNotificationPhone() ? $this->notification_phone : $this->phone;
+    }
+
+    private function hasNotificationPhone()
+    {
+        return isset($this->notification_phone);
+    }
+
+    public function hasNotificationPhoneVerified()
+    {
+        return (bool) ($this->hasNotificationPhone() ? $this->phone_verified_at : $this->phone_verified_at);
+    }
+
     public function hasPhoneVerified()
     {
         return (bool) isset($this->phone_verified_at);
@@ -77,6 +92,13 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->forceFill([
             'notification_email_verified_at' => $this->freshTimestamp(),
+        ])->save();
+    }
+
+    public function markNotificationPhoneAsVerified()
+    {
+        $this->forceFill([
+            'phone_verified_at' => $this->freshTimestamp(),
         ])->save();
     }
 
