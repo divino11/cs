@@ -4,7 +4,7 @@ namespace App\Http\Requests\Channels;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class NotificationPhoneChangeRequest extends FormRequest
+class PhoneVerifyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,14 @@ class NotificationPhoneChangeRequest extends FormRequest
     public function rules()
     {
         return [
-            'notification_phone' => 'numeric|min:11'
+            'phoneVerify' => 'required|size:4|exists:users,phone_verification_code'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'exists:users,phone_verification_code' => 'Verification number is incorrect'
         ];
     }
 }

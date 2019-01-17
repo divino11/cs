@@ -50,20 +50,7 @@ class ProcessAlert implements ShouldQueue
             return;
         }
 
-        foreach ($this->alert->notificationChannels as $channel) {
-            switch ($channel->notification_channel) {
-                case '1':
-                    $this->alert->user->notify(new AlertTriggered($this->alert, $this->ticker));
-                    break;
-                case '2':
-                    Nexmo::message()->send([
-                        'to' => $this->alert->user->phone,
-                        'from' => 'CoinSpy',
-                        'text' => view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . '. The ' . AlertMetric::getDescription((int)$this->alert->conditions['metric'])
-                    ]);
-            }
-        }
-
+        $this->alert->user->notify(new AlertTriggered($this->alert, $this->ticker));
 
         $this->alert->trigger();
     }

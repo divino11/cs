@@ -4,10 +4,7 @@ namespace App\Http\Controllers\Channels;
 
 use App\Http\Requests\Channels\NotificationPhoneChangeRequest;
 use App\Http\Controllers\Controller;
-use App\Mail\ChangeEmailConfirmation;
-use App\Notifications\SetPhoneNumber;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Nexmo\Laravel\Facade\Nexmo;
 
 class NotificationPhoneController extends Controller
@@ -27,25 +24,23 @@ class NotificationPhoneController extends Controller
 
         $user->forceFill([
             'phone' => $request->notification_phone,
-            'phoneVerifyNumber' => $phoneVerifyNumber,
+            'phone_verification_code' => $phoneVerifyNumber,
             'phone_verified_at' => null
         ])->save();
 
         $this->sendMessage($request->notification_phone, $phoneVerifyNumber);
 
-        $user->notify(new SetPhoneNumber($user->email));
-
         return redirect()->route('channels')->with('status', 'Please check your phone for a verification text message.');
     }
 
-    public function resendCode()
+    public function update()
     {
         $user = Auth::user();
 
         $phoneVerifyNumber = rand(1000, 9999);
 
         $user->forceFill([
-            'phoneVerifyNumber' => $phoneVerifyNumber,
+            'phone_verification_code' => $phoneVerifyNumber,
             'phone_verified_at' => null
         ])->save();
 
@@ -59,29 +54,16 @@ class NotificationPhoneController extends Controller
         $user = Auth::user();
         $user->forceFill([
             'phone' => null,
-            'phoneVerifyNumber' => null,
+            'phone_verification_code' => null,
             'phone_verified_at' => null
         ])->save();
 
         return redirect()->route('channels')->with('status', 'Phone was removed');
     }
 
-    public function verifyPhoneNumber(NotificationPhoneChangeRequest $request)
+    private function sendMessage($phone, $phoneVerifyNumber)
     {
-        $user = Auth::user();
-
-        if ($request->phoneVerify != $user->phoneVerifyNumber) {
-            return redirect()->route('channels')->with('status', 'Verification number is incorrect');
-        }
-
-        $user->markNotificationPhoneAsVerified();
-
-        return redirect()->route('channels')->with('status', 'Your phone number has been verified.');
-    }
-
-    public function sendMessage($phone, $phoneVerifyNumber)
-    {
-        Nexmo::message()->send([
+        return Nexmo::message()->send([
             'to' => $phone,
             'from' => 'CoinSpy',
             'text' => 'CoinSpy - your verification code is: ' . $phoneVerifyNumber

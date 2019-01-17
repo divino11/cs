@@ -22,10 +22,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('user', 'User\ShowProfileController')->name('user.account');
     Route::get('channels', 'Channels\ShowChannelsController')->name('channels');
     Route::post('channels/email', 'Channels\NotificationEmailController@store')->name('channels.email');
-    Route::post('channels/phone', 'Channels\NotificationPhoneController@store')->name('channels.phone');
-    Route::post('channels/phone/verify', 'Channels\NotificationPhoneController@verifyPhoneNumber')->name('channels.verifyPhoneNumber');
-    Route::post('channels/phone/remove', 'Channels\NotificationPhoneController@destroy')->name('channels.destroy');
-    Route::post('channels/phone/resendCode', 'Channels\NotificationPhoneController@resendCode')->name('channels.resendCode');
+    Route::resource('channels/phone', 'Channels\NotificationPhoneController')->only(['store', 'update', 'destroy']);
+    Route::post('channels/phone/verify', 'Channels\VerificationPhoneController')->name('phone.verify');
     Route::resource('alerts', 'AlertController')->middleware('verified');
     Route::post('alerts/{alert}/duplicate', 'Alerts\DuplicateAlertController')->name('alerts.duplicate');
     Route::resource('alerts/price_point', 'Alerts\PricePointAlertController')->only(['create', 'store', 'update'])->parameters(['price_point' => 'alert']);

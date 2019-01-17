@@ -6,6 +6,7 @@ use App\Alert;
 use App\Enums\AlertMetric;
 use App\Mail\AlertMail;
 use App\Ticker;
+use App\User;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\BroadcastMessage;
@@ -45,6 +46,8 @@ class AlertTriggered extends Notification
         $available = [];
         if ($notifiable->hasNotificationEmailVerified()) {
             $available[] = 'mail';
+        } elseif ($notifiable->hasNotificationPhoneVerified()) {
+            $available[] = 'sms';
         }
 
         $channels = $this->alert->notificationChannels->pluck('notification_channel_name')->toArray();
@@ -55,6 +58,18 @@ class AlertTriggered extends Notification
     public function toMail($notifiable)
     {
         return new AlertMail($notifiable, $this->alert, $this->ticker);
+    }
+
+    /**
+     * Get the Nexmo / SMS representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return NexmoMessage
+     */
+    public function toNexmo($notifiable)
+    {
+        return (new NexmoMessage)
+            ->content(view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . AlertMetric::getDescription((int)$this->alert->conditions['metric']));
     }
 
     /**
