@@ -106,4 +106,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->notification_email_verified_at ? $this->notification_email : $this->email;
     }
+
+    public function routeNotificationForNexmo()
+    {
+        return $this->phone_verified_at ? $this->phone : '';
+    }
 }

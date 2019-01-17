@@ -31,7 +31,7 @@
         @endif
         @if(request()->user()->hasPhoneVerified())
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="sms_notification" value="{{ \App\Enums\NotificationChannel::Sms }}" name="notification_channels[][notification_channel]" required @if(old('notification_channels', $alert->notification_channels) && in_array(['notification_channel' => \App\Enums\NotificationChannel::Sms], old('notification_channels', $alert->notification_channels->toArray()))) checked @endif>
+                <input class="form-check-input" type="checkbox" id="sms_notification" value="{{ \App\Enums\NotificationChannel::Nexmo }}" name="notification_channels[][notification_channel]" required @if(old('notification_channels', $alert->notification_channels) && in_array(['notification_channel' => \App\Enums\NotificationChannel::Nexmo], old('notification_channels', $alert->notification_channels->toArray()))) checked @endif>
                 <label class="form-check-label" for="sms_notification">SMS</label>
             </div>
         @endif
