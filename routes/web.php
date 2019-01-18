@@ -25,6 +25,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('user/post_password', 'User\ChangePasswordController@update')
         ->name('user.changePassword_update');
     Route::get('user/faq', 'User\ShowFaqController')->name('user.faq');
+    Route::get('user/support', 'User\ShowSupportController')->name('user.support');
     Route::get('channels', 'Channels\ShowChannelsController')->name('channels');
     Route::post('channels/email', 'Channels\NotificationEmailController@store')->name('channels.email');
     Route::resource('channels/phone', 'Channels\NotificationPhoneController')->only(['store', 'update', 'destroy']);
