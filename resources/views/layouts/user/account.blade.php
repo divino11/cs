@@ -8,7 +8,7 @@
             @tabitem(['route' => 'login'])Plan @endtabitem
             @tabitem(['route' => 'login'])Billing @endtabitem
             @tabitem(['route' => 'login'])Support @endtabitem
-            @tabitem(['route' => 'login'])FAQ @endtabitem
+            @tabitem(['route' => 'user.faq'])FAQ @endtabitem
         </ul>
         <div class="tab-content pt-3">
             @yield('tabcontent')
