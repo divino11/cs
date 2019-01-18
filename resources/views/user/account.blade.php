@@ -33,26 +33,6 @@
             <div class="detail">Last login:</div>
             <div class="detail">{{ now() }}</div>
         </div>
-        {{--<div class="row">
-            <div class="col-sm-2 text-right">SMS credits:</div>
-            <div class="col-sm-3">0</div>
-        </div>
-        <div class="row">
-            <div class="col-sm-2 text-right">Active channels:</div>
-            <div class="col-sm-3">0</div>
-        </div>
-        <div class="row">
-            <div class="col-sm-2 text-right">Alert count:</div>
-            <div class="col-sm-3">0</div>
-        </div>
-        <div class="row">
-            <div class="col-sm-2 text-right">Notification count:</div>
-            <div class="col-sm-3">0</div>
-        </div>
-        <div class="row">
-            <div class="col-sm-2 text-right">Last login:</div>
-            <div class="col-sm-3">{{ now() }}</div>
-        </div>--}}
     </div>
     <hr>
     <h3>Subscription Details</h3>
@@ -85,7 +65,7 @@
             <div class="detail">0 out of 5</div>
         </div>
         <div class="details-item">
-            <div class="detail"><a href="#">Change password</a></div>
+            <div class="detail"><a href="{{ route('user.changePassword') }}">Change password</a></div>
         </div>
     </div>
 @endsection
