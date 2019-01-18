@@ -33,14 +33,62 @@
                     SMS
                 </div>
                 <div class="card-text">
-                    <p>Please enter your full phone number with the country code. You must purchase SMS credits as well to get alerts.</p>
-                    <form class="form form-inline">
-                        <div class="input-group">
-                            <input class="form-control" type="phone" placeholder="Phone number" />
-                            &nbsp;
-                            <input class="btn btn-primary" type="submit" value="Save">
-                        </div>
-                    </form>
+                    @if ($user->getNotificationPhone())
+                        <p>
+                            {{ $user->getNotificationPhone() }} -
+                            <span class="badge badge-{{ $user->hasNotificationPhoneVerified() ? 'success' : 'danger' }}">
+                            {{ $user->hasNotificationPhoneVerified() ? 'Verified' : 'Not verified' }}
+                        </span>
+                        </p>
+                    @endif
+                    @if (!$user->getNotificationPhone())
+                        <p>Please enter your full phone number with the country code. You must purchase SMS credits as
+                            well to get alerts.</p>
+                        <form class="form form-inline" method="post" action="{{route('phone.store')}}">
+                            @csrf
+                            <div class="input-group">
+                                <input class="form-control" type="tel" name="notification_phone" placeholder="Phone number"/>
+                                &nbsp;
+                                <input class="btn btn-primary" type="submit" value="Save">
+                            </div>
+                        </form>
+                    @else
+                        @if (!$user->hasNotificationPhoneVerified())
+                            <form class="form d-inline-block" method="post" action="{{route('phone.verify')}}">
+                                @csrf
+                                <div class="input-group">
+                                    <input class="form-control" type="text" name="phoneVerify" placeholder="Enter verification code"/>
+                                    &nbsp;
+                                    <input class="btn btn-primary text-uppercase ml-1" type="submit" value="Verify">
+                                </div>
+                            </form>
+                            <form class="form d-inline-block" method="post" action="{{route('phone.destroy', $user->id)}}">
+                                @csrf
+                                @method('delete')
+                                <div class="input-group">
+                                    <input class="btn btn-default text-uppercase ml-1" type="submit"
+                                           value="Use another mobile number">
+                                </div>
+                            </form>
+                            <form class="form d-inline-block" method="post" action="{{route('phone.update', $user)}}">
+                                @csrf
+                                @method('put')
+                                <div class="input-group">
+                                    <input class="btn btn-default text-uppercase ml-1" type="submit"
+                                           value="Resend code">
+                                </div>
+                            </form>
+                        @else
+                            <form class="form d-inline-block" method="post" action="{{route('phone.destroy', $user->id)}}">
+                                @csrf
+                                @method('delete')
+                                <div class="input-group">
+                                    <input class="btn btn-default text-uppercase ml-1" type="submit"
+                                           value="Use another mobile number">
+                                </div>
+                            </form>
+                        @endif
+                    @endif
                 </div>
             </div>
         </div>

@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Alert;
 use App\AlertContext;
+use App\Enums\AlertMetric;
 use App\Notifications\AlertTriggered;
 use App\Ticker;
 use Illuminate\Bus\Queueable;
@@ -11,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Nexmo\Laravel\Facade\Nexmo;
 
 class ProcessAlert implements ShouldQueue
 {
@@ -49,6 +51,7 @@ class ProcessAlert implements ShouldQueue
         }
 
         $this->alert->user->notify(new AlertTriggered($this->alert, $this->ticker));
+
         $this->alert->trigger();
     }
 }
