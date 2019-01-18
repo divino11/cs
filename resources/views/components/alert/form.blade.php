@@ -21,7 +21,7 @@
 </div>
 @include("alert.conditions.{$alert->type_key}")
 <div class="form-group currency_price_group" style="display: none">
-    <p class="font-weight-bold">BUY PRICE: <span id="currencyPrice"></span></p>
+    <span class="font-weight-bold text-uppercase"></span><span id="currencyPrice"></span>
 </div>
 <div class="form-group">
     <label for="">How should we notify you of this alert?</label>
@@ -51,11 +51,14 @@
     <input class="form-control" name="triggerings_limit" id="triggerings_limit" type="number" max="100" min="1" value="{{ old('triggerings_limit', $alert->triggerings_limit) }}" required>
 </div>
 
-
 @push('scripts')
     <script>
         const exchanges = @json($exchanges->keyBy('id'));
         $(document).ready(function(){
+            var metricVal;
+            var metricText;
+            var selectedPlatform;
+            var selectedCurrency;
             $('#exchange').change(function() {
                 $('.market_name').text('');
                 $('#quoteCurrency').text('');
@@ -73,17 +76,26 @@
                     }
                 });
                 $('#markets').trigger('chosen:updated');
-            });
-            $('#markets').change(function() {
-                var selectedPlatform = $('#exchange option:selected').val();
-                var selectedCurrency = $('#markets option:selected').val();
-                var data = {selectedPlatform: selectedPlatform, selectedCurrency: selectedCurrency};
-                $.get('/alerts/currencyPrice', data, function (response) {
-                    if (response) {
-                        $('.currency_price_group').show();
-                        $('#currencyPrice').text(response);
-                    }
-                }, 'json');
+            }).change();
+            $('#markets').change(function () {
+                selectedPlatform = $('#exchange option:selected').val();
+                selectedCurrency = $('#markets option:selected').val();
+                $("select[name='conditions[metric]']").change(function () {
+                    metricVal = $("select[name='conditions[metric]']").val();
+                    metricText = $("select[name='conditions[metric]'] option:selected").text();
+                    var data = {
+                        selectedPlatform: selectedPlatform,
+                        selectedCurrency: selectedCurrency,
+                        selectedMetric: metricVal
+                    };
+                    $.get('/alerts/currencyPrice', data, function (response) {
+                        if (response) {
+                            $('.currency_price_group').show();
+                            $('.currency_price_group span').text(metricText + ': ');
+                            $('#currencyPrice').text(response);
+                        }
+                    }, 'json');
+                }).change();
             });
             $('#markets').change(function() {
                 var selected = $('#markets option:selected');
