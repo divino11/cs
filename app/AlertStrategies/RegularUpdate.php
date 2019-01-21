@@ -14,9 +14,14 @@ class RegularUpdate implements AlertStrategy
 {
     public function process(Alert $alert, Ticker $ticker) : bool
     {
-        $fromDate = Carbon::now()->sub(CarbonInterval::make($alert->conditions['interval']));
-        $toDate = $ticker->created_at->sub(new CarbonInterval(0,0,0,0,0,0,1));
+        if (isset($alert->triggered_at))  {
+            $fromDate = Carbon::now()->sub(CarbonInterval::make($alert->conditions['interval']));
 
-        return $toDate == $fromDate;
+            $toDate = $alert->triggered_at;
+
+            return $fromDate == $toDate;
+        }
+
+        $alert->triggered_at = Carbon::now();
     }
 }
