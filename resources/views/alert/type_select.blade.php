@@ -22,7 +22,7 @@
                 Example: "Alert me if BTC/USD buy price increases by 10% within 5 minutes on Bitfinex"
             </p>
         </a>
-        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start p-4">
+        <a href="{{ route('regular_update.create') }}" class="list-group-item list-group-item-action flex-column align-items-start p-4">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">REGULAR UPDATE</h5>
                 <span class="material-icons chevron-right">chevron_right</span>

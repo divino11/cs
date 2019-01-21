@@ -4,6 +4,7 @@ namespace App;
 
 use App\AlertStrategies\Percentage;
 use App\AlertStrategies\PricePoint;
+use App\AlertStrategies\RegularUpdate;
 use App\Contracts\AlertStrategy;
 use App\Enums\AlertType;
 use Carbon\Carbon;
@@ -49,6 +50,9 @@ class Alert extends Model
                     break;
                 case AlertType::Percentage:
                     $this->strategy = new Percentage();
+                    break;
+                case AlertType::Regular_Update:
+                    $this->strategy = new RegularUpdate();
             }
         }
 
