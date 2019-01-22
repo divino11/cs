@@ -59,6 +59,7 @@
             var metricText;
             var selectedPlatform;
             var selectedCurrency;
+            var currencyPrice;
             $('#exchange').change(function() {
                 $('.market_name').text('');
                 $('#quoteCurrency').text('');
@@ -85,14 +86,30 @@
                     metricText = $("select[name='conditions[metric]'] option:selected").text();
                     var data = {
                         selectedPlatform: selectedPlatform,
-                        selectedCurrency: selectedCurrency,
-                        selectedMetric: metricVal
+                        selectedCurrency: selectedCurrency
                     };
-                    $.get('/alerts/' + metric(metricVal), data, function (response) {
+                    $.get('/alerts/metricPrice', data, function (response) {
                         if (response) {
+                            switch (metricVal) {
+                                case '0':
+                                    currencyPrice = response.data.bid;
+                                    break;
+                                case '1':
+                                    currencyPrice = response.data.ask;
+                                    break;
+                                case '2':
+                                    currencyPrice = response.data.high_price;
+                                    break;
+                                case '3':
+                                    currencyPrice = response.data.low_price;
+                                    break;
+                                case '4':
+                                    currencyPrice = response.data.volume;
+                                    break;
+                            }
                             $('.currency_price_group').show();
                             $('.currency_price_group span').text(metricText + ': ');
-                            $('#currencyPrice').text(response);
+                            $('#currencyPrice').text(currencyPrice);
                         }
                     }, 'json');
                 }).change();
@@ -114,17 +131,5 @@
         $(document).ready(function(){
             $('#exchange, #markets').chosen();
         });
-        function metric(metricVal) {
-            switch (metricVal) {
-                case '0':
-                case '1':
-                case '4':
-                    return 'metricPrice';
-                case '2':
-                    return 'highPrice';
-                case '3':
-                    return 'lowPrice';
-            }
-        }
     </script>
 @endpush
