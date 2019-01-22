@@ -88,7 +88,7 @@
                         selectedCurrency: selectedCurrency,
                         selectedMetric: metricVal
                     };
-                    $.get('/alerts/currencyPrice', data, function (response) {
+                    $.get('/alerts/' + metric(metricVal), data, function (response) {
                         if (response) {
                             $('.currency_price_group').show();
                             $('.currency_price_group span').text(metricText + ': ');
@@ -114,5 +114,17 @@
         $(document).ready(function(){
             $('#exchange, #markets').chosen();
         });
+        function metric(metricVal) {
+            switch (metricVal) {
+                case '0':
+                case '1':
+                case '4':
+                    return 'metricPrice';
+                case '2':
+                    return 'highPrice';
+                case '3':
+                    return 'lowPrice';
+            }
+        }
     </script>
 @endpush

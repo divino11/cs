@@ -14,27 +14,23 @@ class CurrencyPriceController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request)
+    public function metricPrice(Request $request)
     {
-        if ($request->selectedMetric != '2' && $request->selectedMetric != '3') {
-            return Ticker::where('exchange_id', $request->selectedPlatform)
-                ->where('market_id', $request->selectedCurrency)
-                ->select($this->getMetric($request->selectedMetric))
-                ->pluck($this->getMetric($request->selectedMetric))
-                ->first();
-        }
-        if ($request->selectedMetric == '2') {
-            return Ticker::where('exchange_id', $request->selectedPlatform)
-                ->where('market_id', $request->selectedCurrency)
-                ->latest()
-                ->max('bid');
-        }
-        if ($request->selectedMetric == '3') {
-            return Ticker::where('exchange_id', $request->selectedPlatform)
-                ->where('market_id', $request->selectedCurrency)
-                ->latest()
-                ->min('bid');
-        }
+        return Ticker::where('exchange_id', $request->selectedPlatform)
+            ->where('market_id', $request->selectedCurrency)
+            ->select($this->getMetric($request->selectedMetric))
+            ->pluck($this->getMetric($request->selectedMetric))
+            ->first();
+    }
+
+    public function highPrice(Ticker $ticker)
+    {
+        return $ticker->high_price;
+    }
+
+    public function lowPrice(Ticker $ticker)
+    {
+        return $ticker->low_price;
     }
 
     private function getMetric($metric = 0)

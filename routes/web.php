@@ -17,7 +17,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::group(['as' => 'api.'],function(){
             Route::get('/tickers', 'Api\LatestTickerController')->name('tickers');
             Route::get('/alert/{alert}/toggle', 'Api\ToggleAlertController')->name('alert.toggle');
-            Route::get('/alerts/currencyPrice', 'Api\CurrencyPriceController')->name('alerts.price');
+            Route::get('/alerts/metricPrice', 'Api\CurrencyPriceController@metricPrice')->name('alerts.metric_price');
+            Route::get('/alerts/highPrice', 'Api\CurrencyPriceController@highPrice')->name('alerts.high_price');
+            Route::get('/alerts/lowPrice', 'Api\CurrencyPriceController@lowPrice')->name('alerts.low_price');
     }
     );
     Route::get('user', 'User\ShowProfileController')->name('user.account');
