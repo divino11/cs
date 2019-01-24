@@ -47,9 +47,10 @@ class AlertTriggered extends Notification
      */
     public function via($notifiable)
     {
-        $channels = NotificationChannel::getDescription($this->alert->notificationChannels[0]->notification_channel);
-
-        return array_merge(['database'], [$channels]);
+        return $this->alert->notificationChannels
+            ->filter(function ($channel) use ($notifiable) {
+                return $notifiable->routeNotificationFor($channel->notification_channel_name);
+            })->pluck('notification_channel_description')->push('database')->toArray();
     }
 
     public function toMail($notifiable)

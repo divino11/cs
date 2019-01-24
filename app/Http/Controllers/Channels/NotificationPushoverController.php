@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Channels;
 
-use App\Enums\NotificationChannel;
-use App\Http\Requests\Channels\NotificationPhoneChangeRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Notifications\ConfirmNotificationChannel;
 use Illuminate\Support\Facades\Auth;
 use NotificationChannels\Pushover\PushoverChannel;
@@ -17,7 +16,7 @@ class NotificationPushoverController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(NotificationPhoneChangeRequest $request)
+    public function store(Request $request)
     {
         $user = Auth::user();
 
