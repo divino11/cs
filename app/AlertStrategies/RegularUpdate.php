@@ -14,9 +14,6 @@ class RegularUpdate implements AlertStrategy
 {
     public function process(Alert $alert, Ticker $ticker) : bool
     {
-        if (isset($alert->triggered_at))  {
-            return Carbon::now()->sub(CarbonInterval::make($alert->conditions['interval'])) >= $alert->triggered_at;
-        }
-        return true;
+        return Carbon::now()->sub(CarbonInterval::make($alert->conditions['interval'])) >= $alert->triggered_at;
     }
 }
