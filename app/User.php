@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use NotificationChannels\Pushover\PushoverReceiver;
 
 /**
  * App\User
@@ -79,6 +80,26 @@ class User extends Authenticatable implements MustVerifyEmail
         return (bool) isset($this->phone_verified_at);
     }
 
+    public function getNotificationPushover()
+    {
+        return $this->hasNotificationPushover() ? $this->notification_pushover : $this->pushover;
+    }
+
+    private function hasNotificationPushover()
+    {
+        return isset($this->notification_pushover);
+    }
+
+    public function hasNotificationPushoverVerified()
+    {
+        return (bool) ($this->hasNotificationPushover() ? $this->pushover_verified_at : $this->pushover_verified_at);
+    }
+
+    public function hasPushoverVerified()
+    {
+        return (bool) isset($this->pushover_verified_at);
+    }
+
     public function markEmailAsVerified()
     {
         parent::markEmailAsVerified();
@@ -102,6 +123,13 @@ class User extends Authenticatable implements MustVerifyEmail
         ])->save();
     }
 
+    public function markNotificationPushoverAsVerified()
+    {
+        $this->forceFill([
+            'pushover_verified_at' => $this->freshTimestamp(),
+        ])->save();
+    }
+
     public function routeNotificationForMail()
     {
         return $this->notification_email_verified_at ? $this->notification_email : $this->email;
@@ -110,5 +138,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function routeNotificationForNexmo()
     {
         return $this->phone_verified_at ? $this->phone : '';
+    }
+
+    public function routeNotificationForPushover()
+    {
+        return PushoverReceiver::withUserKey($this->pushover);
     }
 }

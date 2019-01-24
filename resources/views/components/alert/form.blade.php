@@ -41,6 +41,12 @@
                 <label class="form-check-label" for="telegram_notification">Telegram</label>
             </div>
         @endif
+            @if(request()->user()->hasPushoverVerified())
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="pushover_notification" value="{{ \App\Enums\NotificationChannel::Pushover }}" name="notification_channels[][notification_channel]" required @if(old('notification_channels', $alert->notification_channels) && in_array(['notification_channel' => \App\Enums\NotificationChannel::Pushover], old('notification_channels', $alert->notification_channels->toArray()))) checked @endif>
+                    <label class="form-check-label" for="pushover_notification">Pushover</label>
+                </div>
+            @endif
     </div>
 </div>
 <div class="form-group">

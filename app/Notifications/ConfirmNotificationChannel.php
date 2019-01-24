@@ -9,21 +9,26 @@ use Illuminate\Notifications\Messages\NexmoMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use NotificationChannels\Pushover\PushoverMessage;
 
 class ConfirmNotificationChannel extends Notification
 {
     use Queueable;
 
+    private $verifyCode;
 
     private $channel;
+
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param $channel
+     * @param null $verifyCode
      */
-    public function __construct(UserNotificationChannel $channel)
+    public function __construct($channel, $verifyCode = null)
     {
         $this->channel = $channel;
+        $this->verifyCode = $verifyCode;
     }
 
     /**
@@ -34,7 +39,7 @@ class ConfirmNotificationChannel extends Notification
      */
     public function via($notifiable)
     {
-        return [$this->channel->notificationChannel->driver];
+        return [$this->channel];
     }
 
     public function toMail($notifiable)
@@ -44,6 +49,12 @@ class ConfirmNotificationChannel extends Notification
 
     public function toNexmo($notifiable)
     {
-        return (new NexmoMessage())->content('Coinspy confirmation code: '. $this->channel->confirmation_code);
+        return (new NexmoMessage())->content('CoinSpy - your verification code is: ' . $this->verifyCode);
+    }
+
+    public function toPushover($notifiable)
+    {
+        return PushoverMessage::create('CoinSpy - your verification code is: ' . $this->verifyCode)
+            ->title('CoinSpy');
     }
 }

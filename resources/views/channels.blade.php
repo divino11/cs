@@ -98,14 +98,66 @@
                     Pushover
                 </div>
                 <div class="card-text">
-                    <p><a href="http://pushover.net">What's Pushover?</a></p>
-                    <form class="form form-inline">
-                        <div class="input-group">
-                            <input class="form-control" type="text" placeholder="Pushover key" />
-                            &nbsp;
-                            <input class="btn btn-primary" type="submit" value="Save">
-                        </div>
-                    </form>
+                    @if ($user->getNotificationPushover())
+                        <p>
+                            {{ $user->getNotificationPushover() }} -
+                            <span class="badge badge-{{ $user->hasNotificationPushoverVerified() ? 'success' : 'danger' }}">
+                            {{ $user->hasNotificationPushoverVerified() ? 'Verified' : 'Not verified' }}
+                        </span>
+                        </p>
+                    @endif
+                    @if (!$user->getNotificationPushover())
+                        <p><a href="http://pushover.net">What's Pushover?</a></p>
+                        <form class="form d-inline-block" action="{{ route('pushover.store') }}" method="post">
+                            @csrf
+                            <div class="input-group">
+                                <input class="form-control" type="text" name="notification_pushover"
+                                       placeholder="Pushover key"/>
+                                &nbsp;
+                                <input class="btn btn-primary text-uppercase" type="submit" value="Save">
+                            </div>
+                        </form>
+                    @else
+                        @if (!$user->hasNotificationPushoverVerified())
+                            <form class="form d-inline-block" method="post" action="{{route('pushover.verify')}}">
+                                @csrf
+                                <div class="input-group">
+                                    <input class="form-control" type="text" name="pushoverVerify"
+                                           placeholder="Enter verification code"/>
+                                    &nbsp;
+                                    <input class="btn btn-primary text-uppercase ml-1" type="submit" value="Verify">
+                                </div>
+                            </form>
+                            <form class="form d-inline-block" method="post"
+                                  action="{{route('pushover.destroy', $user->id)}}">
+                                @csrf
+                                @method('delete')
+                                <div class="input-group">
+                                    <input class="btn btn-default text-uppercase ml-1" type="submit"
+                                           value="Change pushover key">
+                                </div>
+                            </form>
+                            <form class="form d-inline-block" method="post"
+                                  action="{{route('pushover.update', $user)}}">
+                                @csrf
+                                @method('put')
+                                <div class="input-group">
+                                    <input class="btn btn-default text-uppercase ml-1" type="submit"
+                                           value="Resend code">
+                                </div>
+                            </form>
+                        @else
+                            <form class="form d-inline-block" method="post"
+                                  action="{{route('pushover.destroy', $user->id)}}">
+                                @csrf
+                                @method('delete')
+                                <div class="input-group">
+                                    <input class="btn btn-default text-uppercase ml-1" type="submit"
+                                           value="Change pushover key">
+                                </div>
+                            </form>
+                        @endif
+                    @endif
                 </div>
             </div>
         </div>

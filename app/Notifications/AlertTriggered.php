@@ -4,9 +4,11 @@ namespace App\Notifications;
 
 use App\Alert;
 use App\Enums\AlertMetric;
+use App\Enums\NotificationChannel;
 use App\Mail\AlertMail;
 use App\Ticker;
 use App\User;
+use BenSampo\Enum\Enum;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\NexmoMessage;
@@ -14,6 +16,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use NotificationChannels\Pushover\PushoverChannel;
+use NotificationChannels\Pushover\PushoverMessage;
+use NotificationChannels\Telegram\TelegramChannel;
 
 class AlertTriggered extends Notification
 {
@@ -42,17 +47,9 @@ class AlertTriggered extends Notification
      */
     public function via($notifiable)
     {
-        $available = [];
-        if ($notifiable->hasNotificationEmailVerified()) {
-            $available[] = 'mail';
-        }
-        if ($notifiable->hasNotificationPhoneVerified()) {
-            $available[] = 'nexmo';
-        }
+        $channels = NotificationChannel::getDescription($this->alert->notificationChannels[0]->notification_channel);
 
-        $channels = $this->alert->notificationChannels->pluck('notification_channel_name')->toArray();
-
-        return array_merge(['database'], array_intersect($available, $channels));
+        return array_merge(['database'], [$channels]);
     }
 
     public function toMail($notifiable)
@@ -70,6 +67,12 @@ class AlertTriggered extends Notification
     {
         return (new NexmoMessage)
             ->content(view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . '. The ' . AlertMetric::getDescription((int)$this->alert->conditions['metric']) . ' ' . $this->ticker->getMetric($this->alert->conditions['metric']));
+    }
+
+    public function toPushover($notifiable)
+    {
+        return PushoverMessage::create(view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . '. The ' . AlertMetric::getDescription((int)$this->alert->conditions['metric']) . ' ' . $this->ticker->getMetric($this->alert->conditions['metric']))
+            ->title('CoinSpy');
     }
 
     /**

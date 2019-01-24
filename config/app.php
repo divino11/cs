@@ -159,6 +159,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        NotificationChannels\Telegram\TelegramServiceProvider::class,
+        Telegram\Bot\Laravel\TelegramServiceProvider::class,
+        NotificationChannels\Pushover\PushoverServiceProvider::class,
 
     ],
 
