@@ -66,7 +66,7 @@
                                 @csrf
                                 @method('delete')
                                 <div class="input-group">
-                                    <input class="btn btn-default text-uppercase ml-1" type="submit"
+                                    <input class="btn btn-outline-secondary text-uppercase ml-1" type="submit"
                                            value="Use another mobile number">
                                 </div>
                             </form>
@@ -74,7 +74,7 @@
                                 @csrf
                                 @method('put')
                                 <div class="input-group">
-                                    <input class="btn btn-default text-uppercase ml-1" type="submit"
+                                    <input class="btn btn-outline-secondary text-uppercase ml-1" type="submit"
                                            value="Resend code">
                                 </div>
                             </form>
@@ -83,7 +83,7 @@
                                 @csrf
                                 @method('delete')
                                 <div class="input-group">
-                                    <input class="btn btn-default text-uppercase ml-1" type="submit"
+                                    <input class="btn btn-outline-secondary text-uppercase ml-1" type="submit"
                                            value="Use another mobile number">
                                 </div>
                             </form>
@@ -115,15 +115,38 @@
                     Telegram
                 </div>
                 <div class="card-text">
-                    <p>Your verification code is 224914 - <span class="badge badge-danger">Not Verified</span></p>
-                    <p>You can either click the button below and open Telegram or you can direct message @ourbot then enter:</p>
-                    <form class="form form-inline">
-                        <div class="input-group">
-                            <a class="btn btn-outline-secondary" href="#">Open Telegram</a>
-                            &nbsp;
-                            <input class="btn btn-outline-secondary" type="submit" value="Reset verification code">
-                        </div>
-                    </form>
+                    @if (!$user->hasNotificationTelegramVerified())
+                        <p>Your verification code is {{ $user->telegram_verification_code }} -
+                            <span class="badge badge-{{ $user->hasNotificationTelegramVerified() ? 'success' : 'danger' }}">
+                            {{ $user->hasNotificationTelegramVerified() ? 'Verified' : 'Not verified' }}
+                        </span>
+                        </p>
+                        <p>You can either click the button below and open Telegram or you can direct message @CoinSpy_bot
+                            then enter:</p>
+                        <blockquote>
+                            <p>/start {{ $user->telegram_verification_code }}</p>
+                        </blockquote>
+                        <form class="form d-inline-block">
+                            <div class="input-group">
+                                <a class="btn btn-outline-secondary text-uppercase" target="_blank"
+                                   href="https://telegram.me/CoinSpy_bot?start={{ $user->telegram_verification_code }}">Open Telegram</a>
+                            </div>
+                        </form>
+                        <form action="{{ route('telegram.update') }}" method="post" class="form d-inline-block">
+                            @csrf
+                            <input class="btn btn-outline-secondary text-uppercase" type="submit"
+                                   value="Reset verification code">
+                        </form>
+                    @else
+                        <span class="badge badge-{{ $user->hasNotificationTelegramVerified() ? 'success' : 'danger' }}">
+                            {{ $user->hasNotificationTelegramVerified() ? 'Verified' : 'Not verified' }}
+                        </span>
+                        <br>
+                        <form action="{{ route('telegram.update') }}" method="post" class="form d-inline-block">
+                            @csrf
+                            <input class="btn btn-outline-secondary text-uppercase" type="submit" value="Remove">
+                        </form>
+                    @endif
                 </div>
             </div>
         </div>

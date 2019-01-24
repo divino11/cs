@@ -20,11 +20,13 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('phone')->nullable();
+            $table->string('phone_verification_code')->nullable();
             $table->timestamp('phone_verified_at')->nullable();
             $table->string('notification_email')->nullable();
             $table->timestamp('notification_email_verified_at')->nullable();
             $table->string('pushover')->nullable();
             $table->string('telegram')->nullable();
+            $table->string('telegram_verification_code')->default(rand(100000, 999999));
             $table->timestamp('telegram_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
