@@ -20,6 +20,9 @@
     </select>
 </div>
 @include("alert.conditions.{$alert->type_key}")
+<div class="form-group currency_price_group" style="display: none">
+    <span class="font-weight-bold text-uppercase"></span><span id="currencyPrice"></span>
+</div>
 <div class="form-group">
     <label for="">How should we notify you of this alert?</label>
     <div class="form-row" id="notificationChannels">
@@ -48,11 +51,15 @@
     <input class="form-control" name="triggerings_limit" id="triggerings_limit" type="number" max="100" min="1" value="{{ old('triggerings_limit', $alert->triggerings_limit) }}" required>
 </div>
 
-
 @push('scripts')
     <script>
         const exchanges = @json($exchanges->keyBy('id'));
         $(document).ready(function(){
+            var metricVal;
+            var metricText;
+            var selectedPlatform;
+            var selectedCurrency;
+            var currencyPrice;
             $('#exchange').change(function() {
                 $('.market_name').text('');
                 $('#quoteCurrency').text('');
@@ -69,6 +76,43 @@
                         $('#markets').val(value.id).change();
                     }
                 });
+                $('#markets').trigger('chosen:updated');
+            }).change();
+            $('#markets').change(function () {
+                selectedPlatform = $('#exchange option:selected').val();
+                selectedCurrency = $('#markets option:selected').val();
+                $("select[name='conditions[metric]']").change(function () {
+                    metricVal = $("select[name='conditions[metric]']").val();
+                    metricText = $("select[name='conditions[metric]'] option:selected").text();
+                    var data = {
+                        selectedPlatform: selectedPlatform,
+                        selectedCurrency: selectedCurrency
+                    };
+                    $.get('/alerts/metricPrice', data, function (response) {
+                        if (response) {
+                            switch (metricVal) {
+                                case '0':
+                                    currencyPrice = response.data.bid;
+                                    break;
+                                case '1':
+                                    currencyPrice = response.data.ask;
+                                    break;
+                                case '2':
+                                    currencyPrice = response.data.high_price;
+                                    break;
+                                case '3':
+                                    currencyPrice = response.data.low_price;
+                                    break;
+                                case '4':
+                                    currencyPrice = response.data.volume;
+                                    break;
+                            }
+                            $('.currency_price_group').show();
+                            $('.currency_price_group span').text(metricText + ': ');
+                            $('#currencyPrice').text(currencyPrice);
+                        }
+                    }, 'json');
+                }).change();
             });
             $('#markets').change(function() {
                 var selected = $('#markets option:selected');
@@ -83,6 +127,9 @@
                     requiredCheckboxes.attr('required', 'required');
                 }
             });
+        });
+        $(document).ready(function(){
+            $('#exchange, #markets').chosen();
         });
     </script>
 @endpush
