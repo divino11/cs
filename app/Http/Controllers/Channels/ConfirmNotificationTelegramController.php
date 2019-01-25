@@ -12,13 +12,13 @@ class ConfirmNotificationTelegramController extends Controller
 {
     public function __invoke()
     {
-        $api = new Api(config('telegram.bots.mybot.token'));
-
         $user = Auth::user();
 
-        $chat_id = $api->getWebhookUpdate()->getChat();
-dd($chat_id);
-        $getMessage = $api->getWebhookUpdate()->getMessage();
+        $response = Telegram::getWebhookUpdates();
+
+        $chat_id = $response->getMessage()->getChat()->getId();
+
+        $getMessage = $response->getMessage()->getText();
 
         $getCode = str_replace('/start ', '', $getMessage);
 
