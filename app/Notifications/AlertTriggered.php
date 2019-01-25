@@ -46,19 +46,10 @@ class AlertTriggered extends Notification
      */
     public function via($notifiable)
     {
-        $available = [];
-        if ($notifiable->hasNotificationEmailVerified()) {
-            $available[] = 'mail';
-        }
-        if ($notifiable->hasNotificationPhoneVerified()) {
-            $available[] = 'nexmo';
-        }
-        if ($notifiable->hasNotificationTelegramVerified()) {
-            $available[] = TelegramChannel::class;
-        }
-
-        $channels = $this->alert->notificationChannels->pluck('notification_channel_name')->toArray();
-        return array_merge(['database'], array_intersect($channels, $available));
+        return $this->alert->notificationChannels
+            ->filter(function ($channel) use ($notifiable) {
+                return $notifiable->routeNotificationFor($channel->notification_channel_name);
+            })->pluck('notification_channel_description')->push('database')->toArray();
     }
 
     public function toMail($notifiable)
