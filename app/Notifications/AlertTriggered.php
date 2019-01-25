@@ -14,6 +14,10 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Auth;
+use NotificationChannels\Telegram\TelegramChannel;
+use NotificationChannels\Telegram\TelegramMessage;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 class AlertTriggered extends Notification
 {
@@ -42,17 +46,10 @@ class AlertTriggered extends Notification
      */
     public function via($notifiable)
     {
-        $available = [];
-        if ($notifiable->hasNotificationEmailVerified()) {
-            $available[] = 'mail';
-        }
-        if ($notifiable->hasNotificationPhoneVerified()) {
-            $available[] = 'nexmo';
-        }
-
-        $channels = $this->alert->notificationChannels->pluck('notification_channel_name')->toArray();
-
-        return array_merge(['database'], array_intersect($available, $channels));
+        return $this->alert->notificationChannels
+            ->filter(function ($channel) use ($notifiable) {
+                return $notifiable->routeNotificationFor($channel->notification_channel_name);
+            })->pluck('notification_channel_description')->push('database')->toArray();
     }
 
     public function toMail($notifiable)
@@ -69,6 +66,13 @@ class AlertTriggered extends Notification
     public function toNexmo()
     {
         return (new NexmoMessage)
+            ->content(view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . '. The ' . AlertMetric::getDescription((int)$this->alert->conditions['metric']) . ' ' . $this->ticker->getMetric($this->alert->conditions['metric']));
+    }
+
+    public function toTelegram($notifiable)
+    {
+        return TelegramMessage::create()
+            ->to($this->alert->user->telegram)
             ->content(view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . '. The ' . AlertMetric::getDescription((int)$this->alert->conditions['metric']) . ' ' . $this->ticker->getMetric($this->alert->conditions['metric']));
     }
 

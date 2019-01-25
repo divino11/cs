@@ -74,6 +74,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return (bool) ($this->hasNotificationPhone() ? $this->phone_verified_at : $this->phone_verified_at);
     }
 
+    private function hasNotificationTelegram()
+    {
+        return isset($this->notification_telegram);
+    }
+
+    public function hasNotificationTelegramVerified()
+    {
+        return (bool) ($this->hasNotificationTelegram() ? $this->telegram_verified_at : $this->telegram_verified_at);
+    }
+
     public function hasPhoneVerified()
     {
         return (bool) isset($this->phone_verified_at);
@@ -102,6 +112,13 @@ class User extends Authenticatable implements MustVerifyEmail
         ])->save();
     }
 
+    public function markNotificationTelegramAsVerified()
+    {
+        $this->forceFill([
+            'telegram_verified_at' => $this->freshTimestamp(),
+        ])->save();
+    }
+
     public function routeNotificationForMail()
     {
         return $this->notification_email_verified_at ? $this->notification_email : $this->email;
@@ -110,5 +127,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function routeNotificationForNexmo()
     {
         return $this->phone_verified_at ? $this->phone : '';
+    }
+
+    public function routeNotificationForTelegram()
+    {
+        return $this->telegram;
     }
 }

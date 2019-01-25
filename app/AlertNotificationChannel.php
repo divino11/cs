@@ -23,4 +23,8 @@ class AlertNotificationChannel extends Model
     {
         return strtolower(NotificationChannel::getKey($this->notification_channel));
     }
+
+    public function getNotificationChannelDescriptionAttribute() {
+        return NotificationChannel::getDescription($this->notification_channel);
+    }
 }
