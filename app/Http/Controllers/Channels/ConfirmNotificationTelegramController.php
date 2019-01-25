@@ -5,18 +5,20 @@ namespace App\Http\Controllers\Channels;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use NotificationChannels\Telegram\TelegramChannel;
+use Telegram\Bot\Api;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 class ConfirmNotificationTelegramController extends Controller
 {
     public function __invoke()
     {
+        $api = new Api(config('telegram.bots.mybot.token'));
+
         $user = Auth::user();
 
-        $chat_id = Telegram::getUpdates()[0]['message']['chat']['id'];
-
-        $getMessage = Telegram::getUpdates()[0]['message']['text'];
+        $chat_id = $api->getWebhookUpdate()->getChat();
+dd($chat_id);
+        $getMessage = $api->getWebhookUpdate()->getMessage();
 
         $getCode = str_replace('/start ', '', $getMessage);
 
