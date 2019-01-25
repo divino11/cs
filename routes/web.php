@@ -35,6 +35,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('alerts/{alert}/duplicate', 'Alerts\DuplicateAlertController')->name('alerts.duplicate');
     Route::resource('alerts/price_point', 'Alerts\PricePointAlertController')->only(['create', 'store', 'update'])->parameters(['price_point' => 'alert']);
     Route::resource('alerts/percentage', 'Alerts\PercentageAlertController')->only(['create', 'store', 'update'])->parameters(['percentage' => 'alert']);
+    Route::resource('alerts/regular_update', 'Alerts\RegularUpdateAlertController')->only(['create', 'store', 'update'])->parameters(['regular_update' => 'alert']);
     Route::resource('notifications', 'NotificationController')->only(['index']);
 });
 
