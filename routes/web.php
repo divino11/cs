@@ -14,6 +14,7 @@
 Auth::routes(['verify' => true]);
 Route::get('/', 'HomeController');
 Route::group(['middleware' => 'auth'], function(){
+    Route::get('/braintree', 'Api\Payments\SubscribeBraintreeController')->name('payments.braintree');
     Route::group(['as' => 'api.'],function(){
             Route::get('/tickers', 'Api\LatestTickerController')->name('tickers');
             Route::get('/alert/{alert}/toggle', 'Api\ToggleAlertController')->name('alert.toggle');
@@ -21,6 +22,9 @@ Route::group(['middleware' => 'auth'], function(){
     }
     );
     Route::get('user', 'User\ShowProfileController')->name('user.account');
+    Route::resource('user/subscription', 'User\SubscriptionController')->only(['index','create']);
+    Route::delete('user/subscription', 'User\SubscriptionController@destroy')->name('subscription.destroy');
+    Route::put('user/subscription', 'User\SubscriptionController@update')->name('subscription.update');
     Route::get('user/change-password', 'User\ChangePasswordController@index')
         ->name('user.changePassword');
     Route::post('user/post_password', 'User\ChangePasswordController@update')
@@ -32,11 +36,15 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('channels/phone', 'Channels\NotificationPhoneController')->only(['store', 'update', 'destroy']);
     Route::post('channels/phone/verify', 'Channels\VerificationPhoneController')->name('phone.verify');
     Route::post('channels/telegram', 'Channels\NotificationTelegramController')->name('telegram.update');
-    Route::resource('alerts', 'AlertController')->middleware('verified');
-    Route::post('alerts/{alert}/duplicate', 'Alerts\DuplicateAlertController')->name('alerts.duplicate');
-    Route::resource('alerts/price_point', 'Alerts\PricePointAlertController')->only(['create', 'store', 'update'])->parameters(['price_point' => 'alert']);
-    Route::resource('alerts/percentage', 'Alerts\PercentageAlertController')->only(['create', 'store', 'update'])->parameters(['percentage' => 'alert']);
-    Route::resource('alerts/regular_update', 'Alerts\RegularUpdateAlertController')->only(['create', 'store', 'update'])->parameters(['regular_update' => 'alert']);
+    Route::middleware('verified')->group(function(){
+        Route::resource('alerts', 'AlertController')->middleware('verified');
+        Route::post('alerts/{alert}/duplicate', 'Alerts\DuplicateAlertController')->name('alerts.duplicate');
+        Route::group(['middleware' => 'subscribed'], function(){
+            Route::resource('alerts/price_point', 'Alerts\PricePointAlertController')->only(['create', 'store', 'update'])->parameters(['price_point' => 'alert']);
+            Route::resource('alerts/percentage', 'Alerts\PercentageAlertController')->only(['create', 'store', 'update'])->parameters(['percentage' => 'alert']);
+            Route::resource('alerts/regular_update', 'Alerts\RegularUpdateAlertController')->only(['create', 'store', 'update'])->parameters(['regular_update' => 'alert']);
+        });
+    });
     Route::resource('notifications', 'NotificationController')->only(['index']);
 });
 

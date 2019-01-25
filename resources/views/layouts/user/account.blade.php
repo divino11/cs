@@ -5,7 +5,7 @@
         <ul class="nav nav-tabs" role="tablist">
             @tabitem(['route' => 'user.account'])Account @endtabitem
             @tabitem(['route' => 'login'])SMS credits @endtabitem
-            @tabitem(['route' => 'login'])Plan @endtabitem
+            @tabitem(['route' => 'subscription.index'])Plan @endtabitem
             @tabitem(['route' => 'login'])Billing @endtabitem
             @tabitem(['route' => 'user.support'])Support @endtabitem
             @tabitem(['route' => 'user.faq'])FAQ @endtabitem

@@ -18,6 +18,6 @@ class ShowProfileController extends Controller
     {
         $user = Auth::user();
 
-        return view('user.account', ['user' => $user]);
+        return view('user.account', ['user' => $user, 'subscription' => $user->subscription('main')]);
     }
 }

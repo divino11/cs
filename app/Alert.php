@@ -84,6 +84,15 @@ class Alert extends Model
         return $query->whereColumn('triggerings_number', '<', 'triggerings_limit')->where('enabled', true);
     }
 
+    public function getAvailableNotificationChannels()
+    {
+        $user = $this->user;
+
+        return $this->notificationChannels->filter(function($value) use ($user){
+            return $user->routeNotificationFor($value->notification_channel_name);
+        });
+    }
+
     public function toggle()
     {
         $this->enabled = !$this->enabled;
