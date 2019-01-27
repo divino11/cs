@@ -5,8 +5,7 @@ namespace App\Http\Controllers\Channels;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Telegram\Bot\Api;
-use Telegram\Bot\Laravel\Facades\Telegram;
+use Telegram;
 
 class ConfirmNotificationTelegramController extends Controller
 {
@@ -14,9 +13,9 @@ class ConfirmNotificationTelegramController extends Controller
     {
         $user = Auth::user();
 
-        $response = Telegram::getWebhookUpdates();
+        $response = Telegram::bot()->getWebhookUpdate();
 
-        $chat_id = $response->getMessage()->getChat()->getId();
+        $chat_id = $response->getMessage()->getFrom()->getId();
 
         $getMessage = $response->getMessage()->getText();
 

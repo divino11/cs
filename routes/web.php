@@ -32,7 +32,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('channels/phone', 'Channels\NotificationPhoneController')->only(['store', 'update', 'destroy']);
     Route::post('channels/phone/verify', 'Channels\VerificationPhoneController')->name('phone.verify');
     Route::post('channels/telegram', 'Channels\NotificationTelegramController')->name('telegram.update');
-    Route::post('channels/telegram/verify', 'Channels\ConfirmNotificationTelegramController');
+    Route::post('channels/telegram/verify/' . env('TELEGRAM_BOT_TOKEN'), 'Channels\ConfirmNotificationTelegramController')->name('telegram.webhook');
     Route::resource('alerts', 'AlertController')->middleware('verified');
     Route::post('alerts/{alert}/duplicate', 'Alerts\DuplicateAlertController')->name('alerts.duplicate');
     Route::resource('alerts/price_point', 'Alerts\PricePointAlertController')->only(['create', 'store', 'update'])->parameters(['price_point' => 'alert']);
