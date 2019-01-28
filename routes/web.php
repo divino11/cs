@@ -50,4 +50,4 @@ Route::group(['middleware' => ['signed']], function() {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::any('channels/telegram/verify/' . env('TELEGRAM_BOT_TOKEN'), 'Channels\ConfirmNotificationTelegramController')->name('telegram.webhook');
+Route::post('channels/telegram/verify/' . env('TELEGRAM_BOT_TOKEN'), 'Channels\ConfirmNotificationTelegramController')->name('telegram.webhook');

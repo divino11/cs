@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Telegram;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 class UpdateTelegramWebhook extends Command
 {

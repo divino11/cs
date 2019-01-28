@@ -2,47 +2,48 @@
 
 namespace App\Http\Controllers\Channels;
 
-use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Telegram\Bot\Api;
-use Telegram;
+use Illuminate\Support\Facades\DB;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 class ConfirmNotificationTelegramController extends Controller
 {
     public function __invoke()
     {
-        $user = Auth::user();
+        $result = Telegram::getWebhookUpdates();
 
-        $result = Telegram::getWebhookUpdates(); //Передаем в переменную $result полную информацию о сообщении пользователя
+        $getMessage = $result["message"]["text"];
+        $chat_id = $result["message"]["chat"]["id"];
 
-        $getMessage = $result["message"]["text"]; //Текст сообщения
-        $chat_id = $result["message"]["chat"]["id"]; //Уникальный идентификатор пользователя
+        if (strpos($getMessage, '/start ')) {
+            $getCode = str_replace('/start ', '', $getMessage);
+            Telegram::sendMessage([
+                'chat_id' => $chat_id,
+                'text' => "Thanks! I've recieved your verification code [" . $getCode . "]. I'm looking up your account now ...",
+            ]);
 
-        $getCode = str_replace('/start ', '', $getMessage);
+            Telegram::sendMessage([
+                'chat_id' => $chat_id,
+                'parse_mode' => 'HTML',
+                'text' => "Congratulations 🙌, I've successfully activated your telegram account as a channel on coinspy.com! 🍾 🎉"
+            ]);
 
-        Telegram::sendMessage([
-            'chat_id' => $chat_id,
-            'text' => "Thanks! I've recieved your verification code [" . $getCode . "]. I'm looking up your account now ...",
-        ]);
+            Telegram::sendMessage([
+                'chat_id' => $chat_id,
+                'parse_mode' => 'HTML',
+                'text' => "You can now enable me on any alerts on coinspy.com! I'll message you whenever an alert triggers."
+            ]);
 
-        $user->forceFill([
-            'telegram' => $chat_id
-        ])->save();
+            DB::table('users')
+                ->where('telegram_verification_code', $getCode)
+                ->update(['telegram' => $chat_id]);
 
-        $user->markNotificationTelegramAsVerified();
+            DB::table('users')
+                ->where('telegram_verification_code', $getCode)
+                ->update(['telegram_verified_at' => Carbon::now()]);
+        }
 
-        Telegram::sendMessage([
-            'chat_id' => $chat_id,
-            'parse_mode' => 'HTML',
-            'text' => "Congratulations 🙌, I've successfully activated your telegram account as a channel on coinspy.com! 🍾 🎉"
-        ]);
-
-        Telegram::sendMessage([
-            'chat_id' => $chat_id,
-            'parse_mode' => 'HTML',
-            'text' => "You can now enable me on any alerts on coinspy.com! I'll message you whenever an alert triggers."
-        ]);
+        return 1;
     }
 }
