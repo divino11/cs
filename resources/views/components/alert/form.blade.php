@@ -42,6 +42,12 @@
             </div>
         @endif
     </div>
+    @if(request()->user()->hasPhoneVerified())
+        @if(!request()->user()->sms)
+            <p class="text-danger">Warning: you have 0 SMS Credits. Your alerts will not be sent to your mobile number
+                until you've <a href="{{ route('user.sms_credits') }}">added credits</a>.</p>
+        @endif
+    @endif
 </div>
 <div class="form-group">
     <label for="triggerings_limit">Maximum notification for this alert</label>

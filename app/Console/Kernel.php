@@ -31,6 +31,8 @@ class Kernel extends ConsoleKernel
         $schedule->call(function(){
             Alert::enabled()->get()->each([ProcessAlert::class, 'dispatch']);
         })->everyFiveMinutes();
+        $schedule->command('coinpayment:transaction-check')
+            ->everyMinute();
     }
 
     /**
