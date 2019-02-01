@@ -65,8 +65,15 @@ class AlertTriggered extends Notification
      */
     public function toNexmo()
     {
-        return (new NexmoMessage)
-            ->content(view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . '. The ' . AlertMetric::getDescription((int)$this->alert->conditions['metric']) . ' ' . $this->ticker->getMetric($this->alert->conditions['metric']));
+        if ($this->alert->user->sms > 0) {
+            User::find($this->alert->user->id)
+                ->decrement('sms', 1);
+            return (new NexmoMessage)
+                ->content(view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . '. The ' . AlertMetric::getDescription((int)$this->alert->conditions['metric']) . ' ' . $this->ticker->getMetric($this->alert->conditions['metric']));
+        } else {
+            return false;
+        }
+
     }
 
     public function toTelegram($notifiable)

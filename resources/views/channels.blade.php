@@ -79,6 +79,13 @@
                                 </div>
                             </form>
                         @else
+                            @if (!isset($user->sms))
+                                    <p>
+                                        <small>You have 0 SMS credits left. <a
+                                                    href="{{ route('user.sms_credits') }}">Purchase some
+                                                now.</a></small>
+                                    </p>
+                                @endif
                             <form class="form d-inline-block" method="post" action="{{route('phone.destroy', $user->id)}}">
                                 @csrf
                                 @method('delete')

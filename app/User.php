@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Hexters\CoinPayment\Entities\CoinPaymentuserRelation;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -15,7 +16,7 @@ use Laravel\Cashier\Billable;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable, Billable;
+    use Notifiable, Billable, CoinPaymentuserRelation;
 
     /**
      * The attributes that are mass assignable.

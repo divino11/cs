@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('phone')->nullable();
             $table->string('phone_verification_code')->nullable();
             $table->timestamp('phone_verified_at')->nullable();
+            $table->integer('sms')->nullable();
             $table->string('notification_email')->nullable();
             $table->timestamp('notification_email_verified_at')->nullable();
             $table->string('pushover')->nullable();

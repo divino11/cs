@@ -33,7 +33,9 @@ class SubscriptionController extends Controller
 
     public function update(ResumeRequest $request)
     {
-        $request->user()->subscription('main')->resume();
+        $request->user()->subscriptions()->update([
+            'ends_at' => null
+        ]);
 
         return redirect()->back()->with('status', 'Your subscription has been restored');
     }

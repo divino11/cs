@@ -16,7 +16,7 @@ class Subscribed
     public function handle($request, Closure $next)
     {
         if ($request->user() && ! $request->user()->subscribed('main')) {
-            return redirect('subscription.index');
+            return redirect('user/subscription');
         }
 
         return $next($request);

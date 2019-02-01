@@ -23,11 +23,7 @@
                         <li class="list-group-item">11,000+ Cryptocurrencies</li>
                         <li class="list-group-item bg-light">
                             @subscribed
-                            <form method="post" action="{{ route('subscription.destroy') }}" onsubmit="return confirm('Downgrade your account at the end of your billing cycle? Warning - we will deactivate any alert that free plan does not support.')">
-                                @csrf
-                                @method('DELETE')
-                                <input type="submit" href="#" id="downgrade-btn" class="btn btn-danger" value="Downgrade">
-                            </form>
+                                <button class="btn btn-outline-info" disabled>You have Pro</button>
                             @else
                                 <button class="btn btn-outline-info" disabled>Current Plan</button>
                             @endsubscribed
@@ -54,7 +50,7 @@
                             @subscribed
                                 <button class="btn btn-outline-success" disabled>Current Plan</button>
                             @else
-                                @if($user->subscription('main')->onGracePeriod())
+                                @if($user->subscription('main'))
                                     <form method="post" action="{{ route('subscription.update') }}" onsubmit="return confirm('Resume your subscription? Your card will be charged for the next billing period')">
                                         @csrf
                                         @method('PUT')
