@@ -11240,3 +11240,7 @@ button:focus {
   outline: none;
 }
 
+#change_time_zone .modal-header {
+  display: block;
+}
+

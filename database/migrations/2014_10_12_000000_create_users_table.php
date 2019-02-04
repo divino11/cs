@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->string('telegram')->nullable();
             $table->string('telegram_verification_code')->default(rand(100000, 999999));
             $table->timestamp('telegram_verified_at')->nullable();
+            $table->string('timezone')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
