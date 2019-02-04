@@ -11244,3 +11244,7 @@ button:focus {
   display: block;
 }
 
+#change_time_zone .modal-header {
+  display: block;
+}
+

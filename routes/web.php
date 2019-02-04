@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('user/faq', 'User\ShowFaqController')->name('user.faq');
     Route::get('user/support', 'User\ShowSupportController')->name('user.support');
     Route::get('user/sms_credits', 'User\ShowSmsCreditsController')->name('user.sms_credits');
+    Route::post('user/timezone', 'User\TimezoneController')->name('user.timezone');
     Route::get('channels', 'Channels\ShowChannelsController')->name('channels');
     Route::post('channels/email', 'Channels\NotificationEmailController@store')->name('channels.email');
     Route::resource('channels/phone', 'Channels\NotificationPhoneController')->only(['store', 'update', 'destroy']);
