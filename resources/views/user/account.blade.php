@@ -15,7 +15,7 @@
         </div>
         <div class="details-item">
             <div class="detail">SMS credits:</div>
-            <div class="detail">{{ $user->sms }}</div>
+            <div class="detail">{{ $user->sms ? $user->sms : '0' }}</div>
         </div>
         <div class="details-item">
             <div class="detail">Active channels:</div>
