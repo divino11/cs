@@ -42,6 +42,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('channels/telegram', 'Channels\NotificationTelegramController')->name('telegram.update');
     Route::resource('channels/pushover', 'Channels\NotificationPushoverController')->only(['store', 'update', 'destroy']);
     Route::post('channels/pushover/verify', 'Channels\ConfirmNotificationPushoverController')->name('pushover.verify');
+    Route::resource('notifications', 'NotificationController')->only(['index']);
     Route::middleware('verified')->group(function(){
         Route::resource('alerts', 'AlertController')->middleware('verified');
         Route::post('alerts/{alert}/duplicate', 'Alerts\DuplicateAlertController')->name('alerts.duplicate');
