@@ -4,9 +4,11 @@ namespace App\Notifications;
 
 use App\Alert;
 use App\Enums\AlertMetric;
+use App\Enums\NotificationChannel;
 use App\Mail\AlertMail;
 use App\Ticker;
 use App\User;
+use BenSampo\Enum\Enum;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\NexmoMessage;
@@ -18,6 +20,8 @@ use Illuminate\Support\Facades\Auth;
 use NotificationChannels\Telegram\TelegramChannel;
 use NotificationChannels\Telegram\TelegramMessage;
 use Telegram\Bot\Laravel\Facades\Telegram;
+use NotificationChannels\Pushover\PushoverChannel;
+use NotificationChannels\Pushover\PushoverMessage;
 
 class AlertTriggered extends Notification
 {
@@ -81,6 +85,12 @@ class AlertTriggered extends Notification
         return TelegramMessage::create()
             ->to($this->alert->user->telegram)
             ->content(view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . '. The ' . AlertMetric::getDescription((int)$this->alert->conditions['metric']) . ' ' . $this->ticker->getMetric($this->alert->conditions['metric']));
+    }
+
+    public function toPushover($notifiable)
+    {
+        return PushoverMessage::create(view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . '. The ' . AlertMetric::getDescription((int)$this->alert->conditions['metric']) . ' ' . $this->ticker->getMetric($this->alert->conditions['metric']))
+            ->title('CoinSpy');
     }
 
     /**

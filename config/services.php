@@ -47,4 +47,7 @@ return [
         'token' => env('TELEGRAM_BOT_TOKEN', '')
     ],
 
+    'pushover' => [
+        'token' => env('PUSHOVER_TOKEN', '')
+    ],
 ];

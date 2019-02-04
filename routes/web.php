@@ -39,6 +39,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('channels/phone', 'Channels\NotificationPhoneController')->only(['store', 'update', 'destroy']);
     Route::post('channels/phone/verify', 'Channels\VerificationPhoneController')->name('phone.verify');
     Route::post('channels/telegram', 'Channels\NotificationTelegramController')->name('telegram.update');
+    Route::resource('channels/pushover', 'Channels\NotificationPushoverController')->only(['store', 'update', 'destroy']);
+    Route::post('channels/pushover/verify', 'Channels\ConfirmNotificationPushoverController')->name('pushover.verify');
     Route::middleware('verified')->group(function(){
         Route::resource('alerts', 'AlertController')->middleware('verified');
         Route::post('alerts/{alert}/duplicate', 'Alerts\DuplicateAlertController')->name('alerts.duplicate');
@@ -48,7 +50,6 @@ Route::group(['middleware' => 'auth'], function(){
             Route::resource('alerts/regular_update', 'Alerts\RegularUpdateAlertController')->only(['create', 'store', 'update'])->parameters(['regular_update' => 'alert']);
         });
     });
-    Route::resource('notifications', 'NotificationController')->only(['index']);
 });
 
 Route::group(['middleware' => ['signed']], function() {

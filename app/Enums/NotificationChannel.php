@@ -3,7 +3,6 @@
 namespace App\Enums;
 
 use BenSampo\Enum\Enum;
-use NotificationChannels\Telegram\TelegramChannel;
 
 final class NotificationChannel extends Enum
 {
@@ -23,6 +22,9 @@ final class NotificationChannel extends Enum
                 break;
             case self::Telegram:
                 return TelegramChannel::class;
+                break;
+            case self::Pushover:
+                return PushoverChannel::class;
                 break;
             default:
                 return self::getKey($value);
