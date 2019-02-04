@@ -3,6 +3,8 @@
 namespace App\Enums;
 
 use BenSampo\Enum\Enum;
+use NotificationChannels\Telegram\TelegramChannel;
+use NotificationChannels\Pushover\PushoverChannel;
 
 final class NotificationChannel extends Enum
 {

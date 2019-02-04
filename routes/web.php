@@ -45,11 +45,11 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('channels/pushover', 'Channels\NotificationPushoverController')->only(['store', 'update', 'destroy']);
     Route::post('channels/pushover/verify', 'Channels\ConfirmNotificationPushoverController')->name('pushover.verify');
     Route::resource('notifications', 'NotificationController')->only(['index']);
+    Route::resource('alerts/price_point', 'Alerts\PricePointAlertController')->only(['create', 'store', 'update'])->parameters(['price_point' => 'alert']);
     Route::middleware('verified')->group(function(){
         Route::resource('alerts', 'AlertController')->middleware('verified');
         Route::post('alerts/{alert}/duplicate', 'Alerts\DuplicateAlertController')->name('alerts.duplicate');
         Route::group(['middleware' => 'subscribed'], function(){
-            Route::resource('alerts/price_point', 'Alerts\PricePointAlertController')->only(['create', 'store', 'update'])->parameters(['price_point' => 'alert']);
             Route::resource('alerts/percentage', 'Alerts\PercentageAlertController')->only(['create', 'store', 'update'])->parameters(['percentage' => 'alert']);
             Route::resource('alerts/regular_update', 'Alerts\RegularUpdateAlertController')->only(['create', 'store', 'update'])->parameters(['regular_update' => 'alert']);
         });

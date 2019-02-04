@@ -13,7 +13,7 @@ class ShowBillingController extends Controller
     {
         return view('user.billing', [
             'transactions' => Transaction::where('user_id', Auth::user()->id)
-                ->orderBy('created_at', 'desc')
+                ->latest()
                 ->paginate(10)
         ]);
     }

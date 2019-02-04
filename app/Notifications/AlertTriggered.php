@@ -73,7 +73,7 @@ class AlertTriggered extends Notification
             User::find($this->alert->user->id)
                 ->decrement('sms', 1);
             return (new NexmoMessage)
-                ->content(view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . '. The ' . AlertMetric::getDescription((int)$this->alert->conditions['metric']) . ' ' . $this->ticker->getMetric($this->alert->conditions['metric']));
+                ->content($this->alert->name . '. ' . view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . '. The ' . AlertMetric::getDescription((int)$this->alert->conditions['metric']) . ' ' . $this->ticker->getMetric($this->alert->conditions['metric']));
         } else {
             return false;
         }
@@ -84,12 +84,12 @@ class AlertTriggered extends Notification
     {
         return TelegramMessage::create()
             ->to($this->alert->user->telegram)
-            ->content(view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . '. The ' . AlertMetric::getDescription((int)$this->alert->conditions['metric']) . ' ' . $this->ticker->getMetric($this->alert->conditions['metric']));
+            ->content($this->alert->name . '. ' . view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . '. The ' . AlertMetric::getDescription((int)$this->alert->conditions['metric']) . ' ' . $this->ticker->getMetric($this->alert->conditions['metric']));
     }
 
     public function toPushover($notifiable)
     {
-        return PushoverMessage::create(view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . '. The ' . AlertMetric::getDescription((int)$this->alert->conditions['metric']) . ' ' . $this->ticker->getMetric($this->alert->conditions['metric']))
+        return PushoverMessage::create($this->alert->name . '. ' . view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . '. The ' . AlertMetric::getDescription((int)$this->alert->conditions['metric']) . ' ' . $this->ticker->getMetric($this->alert->conditions['metric']))
             ->title('CoinSpy');
     }
 
