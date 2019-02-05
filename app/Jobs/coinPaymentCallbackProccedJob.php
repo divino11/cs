@@ -45,8 +45,13 @@ class coinPaymentCallbackProccedJob implements ShouldQueue
                 ]);
             }
             if (isset($this->data['payload']['sms'])) {
-                User::find($this->data['payload']['user_id'])
-                    ->increment('sms', 100);
+                $user = User::find($this->data['payload']['user_id']);
+                if (isset($user->sms)) {
+                    $user->increment('sms', 100);
+                } else {
+                    $user->sms = 100;
+                    $user->save();
+                }
             }
         }
         if ($this->data['status'] == 100 || $this->data['status'] == -1) {

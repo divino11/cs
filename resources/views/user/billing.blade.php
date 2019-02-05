@@ -27,7 +27,7 @@
                                     {{ $transaction->id }}
                                 </td>
                                 <td>
-                                    {{ $transaction->transaction_date }}
+                                    {{ $transaction->created_at }}
                                 </td>
                                 <td>
                                     {{ $transaction->description }}

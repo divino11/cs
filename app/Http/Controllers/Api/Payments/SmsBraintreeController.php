@@ -14,8 +14,13 @@ class SmsBraintreeController extends Controller
     public function __invoke(Request $request)
     {
         if($request->nonce) {
-            User::find($request->user()->id)
-                ->increment('sms', 100);
+            $user = User::find($request->user()->id);
+            if (isset($user->sms)) {
+                $user->increment('sms', 100);
+            } else {
+                $user->sms = 100;
+                $user->save();
+            }
             Transaction::updateOrCreate(['transaction_date' => Carbon::now()], [
                 'user_id' => $request->user()->id,
                 'transaction_date' => Carbon::now(),

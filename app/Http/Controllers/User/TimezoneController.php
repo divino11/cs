@@ -18,9 +18,6 @@ class TimezoneController extends Controller
             'timezone' => $request->time_zone
         ])->save();
 
-        Config::set('app.timezone', $user->timezone);
-        date_default_timezone_set($user->timezone);
-
         return back();
     }
 }

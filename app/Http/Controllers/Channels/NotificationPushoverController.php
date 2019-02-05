@@ -44,7 +44,7 @@ class NotificationPushoverController extends Controller
             'pushover_verified_at' => null
         ])->save();
 
-        $this->sendMessage($user->pushover, $pushoverVerifyNumber);
+        $user->notify(new ConfirmNotificationChannel(PushoverChannel::class, $pushoverVerifyNumber));
 
         return redirect()->route('channels')->with('status', 'Verification code resent. Please check your phone.');
     }

@@ -31,7 +31,7 @@
         </div>
         <div class="details-item">
             <div class="detail">Last login:</div>
-            <div class="detail">{{ now() }}</div>
+            <div class="detail">{{ now()->timezone($user->timezone) }}</div>
         </div>
     </div>
     <hr>

@@ -16,7 +16,6 @@ class ConfirmNotificationTelegramController extends Controller
         $getMessage = $result["message"]["text"];
         $chat_id = $result["message"]["chat"]["id"];
 
-        if (strpos($getMessage, '/start ')) {
             $getCode = str_replace('/start ', '', $getMessage);
             Telegram::sendMessage([
                 'chat_id' => $chat_id,
@@ -42,7 +41,6 @@ class ConfirmNotificationTelegramController extends Controller
             DB::table('users')
                 ->where('telegram_verification_code', $getCode)
                 ->update(['telegram_verified_at' => Carbon::now()]);
-        }
 
         return 1;
     }
