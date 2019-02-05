@@ -19,7 +19,20 @@
         </div>
         <div class="details-item">
             <div class="detail">Active channels:</div>
-            <div class="detail">0</div>
+            <div class="detail">
+                @if ($user->hasNotificationEmailVerified())
+                    <a href="{{ route('notifications.index') }}"><i class="material-icons">email</i></a>
+                @endif
+                @if ($user->hasPhoneVerified())
+                    <a href="{{ route('notifications.index') }}"><i class="material-icons">comment</i></a>
+                @endif
+                @if ($user->hasPushoverVerified())
+                    <a href="{{ route('notifications.index') }}"><i class="material-icons">smartphone</i></a>
+                @endif
+                @if ($user->hasTelegramVerified())
+                    <a href="{{ route('notifications.index') }}"><i class="material-icons">near_me</i></a>
+                @endif
+            </div>
         </div>
         <div class="details-item">
             <div class="detail">Alert count:</div>

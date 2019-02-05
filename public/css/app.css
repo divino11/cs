@@ -11240,11 +11240,19 @@ button:focus {
   outline: none;
 }
 
+#change_time_zone .modal-header {
+  display: block;
+}
+
 .my-modal-base .modal-header {
   display: block;
 }
 
-#change_time_zone .modal-header {
-  display: block;
+.detail i {
+  color: #000000;
+}
+
+.detail i:hover {
+  color: #343a40;
 }
 
