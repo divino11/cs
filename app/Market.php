@@ -15,6 +15,15 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Market enabled()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Market whereExchangesIn($exchanges)
  * @mixin \Eloquent
+ * @property int $id
+ * @property string $base
+ * @property string $quote
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Market newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Market newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Market query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Market whereBase($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Market whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Market whereQuote($value)
  */
 class Market extends Model
 {
