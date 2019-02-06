@@ -10,6 +10,27 @@ use Illuminate\Database\Eloquent\Builder;
  * App\Ticker
  *
  * @mixin \Illuminate\Database\Eloquent\
+ * @property int $id
+ * @property int $exchange_id
+ * @property int $market_id
+ * @property float|null $bid
+ * @property float|null $ask
+ * @property float|null $volume
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property-read mixed $high_price
+ * @property-read mixed $low_price
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Ticker daily()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Ticker marketLatest($exchangeId, $marketId)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Ticker newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Ticker newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Ticker query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Ticker whereAsk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Ticker whereBid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Ticker whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Ticker whereExchangeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Ticker whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Ticker whereMarketId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Ticker whereVolume($value)
  */
 class Ticker extends Model
 {
