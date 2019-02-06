@@ -45,19 +45,12 @@ class coinPaymentCallbackProccedJob implements ShouldQueue
                 ]);
             }
             if (isset($this->data['payload']['sms'])) {
-                $user = User::find($this->data['payload']['user_id']);
-                if (isset($user->sms)) {
-                    $user->increment('sms', 100);
-                } else {
-                    $user->sms = 100;
-                    $user->save();
-                }
+                User::updateSmsCount($this->data['payload']['user_id']);
             }
         }
         if ($this->data['status'] == 100 || $this->data['status'] == -1) {
-            Transaction::updateOrCreate(['transaction_date' => Carbon::createFromTimestamp($this->data['time_created'])->format('Y-m-d H:i:s')], [
+            Transaction::updateOrCreate(['created_at' => Carbon::createFromTimestamp($this->data['time_created'])->format('Y-m-d H:i:s')], [
                 'user_id' => $this->data['payload']['user_id'],
-                'transaction_date' => Carbon::createFromTimestamp($this->data['time_created'])->format('Y-m-d H:i:s'),
                 'description' => $this->data['payload']['description'],
                 'amount' => $this->data['payload']['priceItem'],
                 'service' => $this->data['payload']['service'],

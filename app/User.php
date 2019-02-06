@@ -37,6 +37,16 @@ class User extends Authenticatable implements MustVerifyEmail
         'password', 'remember_token',
     ];
 
+    public static function updateSmsCount($id) {
+        $user = User::find($id);
+        if (isset($user->sms)) {
+            $user->increment('sms', 100);
+        } else {
+            $user->sms = 100;
+            $user->save();
+        }
+    }
+
     public function alerts()
     {
         return $this->hasMany(Alert::class);

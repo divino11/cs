@@ -20,9 +20,8 @@ class SubscribeBraintreeController extends Controller
                 'braintree_plan' => 'premium',
                 'quantity' => '1'
             ]);
-            Transaction::updateOrCreate(['transaction_date' => Carbon::now()], [
+            Transaction::updateOrCreate(['created_at' => Carbon::now()], [
                 'user_id' => $request->user()->id,
-                'transaction_date' => Carbon::now(),
                 'description' => 'Subscription Pro',
                 'amount' => 100,
                 'service' => $request->type,
@@ -30,9 +29,8 @@ class SubscribeBraintreeController extends Controller
             ]);
             return ['success' => true];
         } else {
-            Transaction::updateOrCreate(['transaction_date' => Carbon::now()], [
+            Transaction::updateOrCreate(['created_at' => Carbon::now()], [
                 'user_id' => $request->user()->id,
-                'transaction_date' => Carbon::now(),
                 'description' => 'Subscription Pro',
                 'amount' => 100,
                 'service' => $request->type,

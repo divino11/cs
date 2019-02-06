@@ -27,7 +27,7 @@
                                     {{ $transaction->id }}
                                 </td>
                                 <td>
-                                    {{ $transaction->created_at }}
+                                    {{ $transaction->created_at->timezone(\Illuminate\Support\Facades\Auth::user()->timezone) }}
                                 </td>
                                 <td>
                                     {{ $transaction->description }}

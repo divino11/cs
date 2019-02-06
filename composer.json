@@ -10,13 +10,14 @@
         "bensampo/laravel-enum": "1.16.1",
         "ccxt/ccxt": "^1.17",
         "fideloper/proxy": "^4.0",
-        "hexters/coinpayment": "^1.1",
+        "hexters/coinpayment": "dev-master",
         "irazasyed/telegram-bot-sdk": "^2.0",
         "laravel-notification-channels/pushover": "^1.2",
         "laravel-notification-channels/telegram": "^0.0.5",
         "laravel/cashier-braintree": "^3.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
+        "nexmo/laravel": "^1.1",
         "predis/predis": "^1.1"
     },
     "require-dev": {

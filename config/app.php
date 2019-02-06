@@ -162,6 +162,7 @@ return [
         NotificationChannels\Telegram\TelegramServiceProvider::class,
         Telegram\Bot\Laravel\TelegramServiceProvider::class,
         NotificationChannels\Pushover\PushoverServiceProvider::class,
+        Nexmo\Laravel\NexmoServiceProvider::class,
 
     ],
 

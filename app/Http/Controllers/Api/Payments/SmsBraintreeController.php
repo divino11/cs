@@ -14,16 +14,9 @@ class SmsBraintreeController extends Controller
     public function __invoke(Request $request)
     {
         if($request->nonce) {
-            $user = User::find($request->user()->id);
-            if (isset($user->sms)) {
-                $user->increment('sms', 100);
-            } else {
-                $user->sms = 100;
-                $user->save();
-            }
-            Transaction::updateOrCreate(['transaction_date' => Carbon::now()], [
+            User::updateSmsCount($request->user()->id);
+            Transaction::updateOrCreate(['created_at' => Carbon::now()], [
                 'user_id' => $request->user()->id,
-                'transaction_date' => Carbon::now(),
                 'description' => '100 SMS Credits',
                 'amount' => 2,
                 'service' => $request->type,
@@ -31,9 +24,8 @@ class SmsBraintreeController extends Controller
             ]);
             return ['success' => true];
         } else {
-            Transaction::updateOrCreate(['transaction_date' => Carbon::now()], [
+            Transaction::updateOrCreate(['created_at' => Carbon::now()], [
                 'user_id' => $request->user()->id,
-                'transaction_date' => Carbon::now(),
                 'description' => '100 SMS Credits',
                 'amount' => 2,
                 'service' => $request->type,
