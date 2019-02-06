@@ -39,7 +39,7 @@
                                     {{ $transaction->service }}
                                 </td>
                                 <td>
-                                    {{ $transaction->status }}
+                                    {{ $transaction->status_transaction }}
                                 </td>
                             </tr>
                         @empty

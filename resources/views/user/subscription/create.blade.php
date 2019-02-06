@@ -22,7 +22,7 @@
             <!-- Nav tabs -->
             <ul class="nav nav-pills" id="payments" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="cc-tab" data-toggle="tab" href="#cc" role="tab" aria-controls="cc" aria-selected="true">Credit Card or PayPal</a>
+                    <a class="btn btn-primary" id="cc-tab" data-toggle="tab" href="#cc" role="tab" aria-controls="cc" aria-selected="true">Credit Card or PayPal</a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ $link_transaction }}" class="btn btn-primary ml-2" target="_blank">Pay with Cryptocurrency</a>
@@ -33,7 +33,6 @@
                     <div id="dropin-container"></div>
                     <button class="btn btn-success" id="dropin-button">Pay 100$ annually</button>
                 </div>
-                {{--<div class="tab-pane fade" id="btc" role="tabpanel" aria-labelledby="btc-tab">Not Available Right Now :(</div>--}}
             </div>
             <p>&nbsp;</p>
 

@@ -70,8 +70,8 @@
             <div class="detail">{{ $user->card_brand }} ending on {{ $user->card_last_four }}</div>
         </div>
         @endif
-        <div class="row">
-            <div class="col-sm-2 text-right"><a href="{{ route('subscription.index') }}">Change plan</a></div>
+        <div class="details-item">
+            <div class="detail"><a href="{{ route('subscription.index') }}">Change plan</a></div>
         </div>
     </div>
     <hr>

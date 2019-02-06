@@ -20,7 +20,7 @@ class CreateAlertsTable extends Migration
             $table->unsignedInteger('market_id');
             $table->tinyInteger('type');
             $table->json('conditions');
-            $table->integer('triggerings_number')->default(0);
+            $table->integer('triggerings_number')->default(1);
             $table->integer('triggerings_limit');
             $table->timestamp('triggered_at')->nullable();
             $table->boolean('enabled')->default(true);

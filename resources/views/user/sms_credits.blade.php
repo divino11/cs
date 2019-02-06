@@ -42,11 +42,10 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div id="dropin-container"></div>
-                                <button class="btn btn-success" id="dropin-button">Pay 100$ annually</button>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success" data-dismiss="modal">Done</button>
+                            <button class="btn btn-success" id="dropin-button">Pay 2$</button>
                         </div>
                     </div>
                 </div>

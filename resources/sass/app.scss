@@ -128,7 +128,7 @@ header nav h3 {
   height: 0;
   position: absolute;
   right: 0;
-  top: 35%;
+  top: 25%;
   transform: translate(-50%,-50%);
   @media screen and (max-width: 768px) {
     font-size: 34px !important;
@@ -206,6 +206,7 @@ header nav h3 {
   display: flex;
   flex-wrap: wrap;
   padding: 3px 0;
+  height: 25px;
 }
 
 .detail {
@@ -222,8 +223,8 @@ li.nav-item.active {
 }
 
 .sidebar-links .active {
-  background-color: rgba(0, 0, 0, 0.5);
-  border-bottom: 4px solid #616161;
+  background-color: rgb(52, 58, 64);
+  border-bottom: none;
 }
 
 #alertForm label {
@@ -239,16 +240,6 @@ blockquote {
 
 blockquote p:last-child {
   margin-bottom: 0;
-}
-
-li.nav-item.active {
-  background-color: rgba(0, 0, 0, 0.2);
-  border-left: 4px solid #616161;
-}
-
-.sidebar-links .active {
-  background-color: rgba(0, 0, 0, 0.5);
-  border-bottom: 4px solid #616161;
 }
 
 button:focus {
@@ -267,4 +258,33 @@ button:focus {
 }
 .detail i:hover {
   color: #343a40;
+}
+.ribbon {
+  position: absolute;
+  right: -20px;
+  top: -1px;
+  z-index: 1;
+  overflow: hidden;
+  width: 125px;
+  height: 125px;
+  text-align: right;
+}
+.ribbon span {
+  font-size: 10px;
+  font-weight: bold;
+  color: #FFF;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 30px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  width: 125px;
+  display: block;
+  background: #343a40;
+  position: absolute;
+  top: 20px;
+  right: -10px;
+}
+.overflow-x {
+  overflow-x: hidden;
 }

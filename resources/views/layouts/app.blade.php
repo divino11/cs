@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="/js/app.js"></script>
 </head>
-<body>
+<body class="overflow-x">
 <header>
     <nav class="navbar navbar-dark fixed-top bg-dark p-0 navbar-expand-lg">
         <a href="#" class="navbar-brand">CS</a>
