@@ -73,6 +73,9 @@
             var selectedCurrency;
             var currencyPrice;
             $('#exchange').change(function() {
+                if (!exchanges.hasOwnProperty($('#exchange').val())) {
+                    return;
+                }
                 $('.market_name').text('');
                 $('#quoteCurrency').text('');
                 selectedMarket = $('#markets').val();
@@ -100,6 +103,9 @@
                         selectedPlatform: selectedPlatform,
                         selectedCurrency: selectedCurrency
                     };
+                    if (!selectedPlatform || !selectedCurrency) {
+                        return;
+                    }
                     $.get('/alerts/metricPrice', data, function (response) {
                         if (response) {
                             switch (metricVal) {

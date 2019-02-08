@@ -12,6 +12,6 @@ class VerificationPhoneController extends Controller
     {
         Auth::user()->markNotificationPhoneAsVerified();
 
-        return view('message', ['message' => 'Notification phone number has been updated']);
+        return redirect()->route('channels')->with('status', 'Your phone number has been verified');;
     }
 }
