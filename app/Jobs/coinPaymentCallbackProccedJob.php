@@ -34,28 +34,30 @@ class coinPaymentCallbackProccedJob implements ShouldQueue
      */
     public function handle()
     {
-        if ($this->data['status'] == 100) {
-            if (isset($this->data['payload']['subscription'])) {
-                $user = User::find($this->data['payload']['user_id']);
-                $user->subscriptions()->create([
-                    'name' => 'main',
-                    'braintree_id' => 1,
-                    'braintree_plan' => 'premium',
-                    'quantity' => 1,
+        if (isset($this->data['status'])) {
+            if ($this->data['status'] == 100) {
+                if (isset($this->data['payload']['subscription'])) {
+                    $user = User::find($this->data['payload']['user_id']);
+                    $user->subscriptions()->create([
+                        'name' => 'main',
+                        'braintree_id' => 1,
+                        'braintree_plan' => 'premium',
+                        'quantity' => 1,
+                    ]);
+                }
+                if (isset($this->data['payload']['sms'])) {
+                    User::updateSmsCount($this->data['payload']['user_id']);
+                }
+            }
+            if ($this->data['status'] == 100 || $this->data['status'] == -1) {
+                Transaction::updateOrCreate(['created_at' => Carbon::createFromTimestamp($this->data['time_created'])->format('Y-m-d H:i:s')], [
+                    'user_id' => $this->data['payload']['user_id'],
+                    'description' => $this->data['payload']['description'],
+                    'amount' => $this->data['payload']['priceItem'],
+                    'service' => $this->data['payload']['service'],
+                    'status' => $this->data['status'],
                 ]);
             }
-            if (isset($this->data['payload']['sms'])) {
-                User::updateSmsCount($this->data['payload']['user_id']);
-            }
-        }
-        if ($this->data['status'] == 100 || $this->data['status'] == -1) {
-            Transaction::updateOrCreate(['created_at' => Carbon::createFromTimestamp($this->data['time_created'])->format('Y-m-d H:i:s')], [
-                'user_id' => $this->data['payload']['user_id'],
-                'description' => $this->data['payload']['description'],
-                'amount' => $this->data['payload']['priceItem'],
-                'service' => $this->data['payload']['service'],
-                'status' => $this->data['status'],
-            ]);
         }
     }
 }

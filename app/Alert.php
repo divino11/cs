@@ -130,7 +130,7 @@ class Alert extends Model
     public function scopeEnabled(Builder $query)
     {
         return $query
-            ->where('triggerings_number', '<', 'triggerings_limit')
+            ->where('triggerings_number', '<=', 'triggerings_limit')
             ->where('enabled', true)
             ->whereDate('triggered_at', '<=', Carbon::now()->sub($this->cooldown));
     }

@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Api\Payments;
 
-use App\User;
-use Illuminate\Http\Request;
+use App\Enums\PaymentPrice;
 use App\Http\Controllers\Controller;
 use CoinPayment;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +14,7 @@ class CoinPaymentSmsController extends Controller
         /*
     *   @required true
     */
-        $trx['amountTotal'] = 2; // USD
+        $trx['amountTotal'] = PaymentPrice::Sms; // USD
         $trx['note'] = '100 SMS Credits';
 
         /*
@@ -24,16 +23,16 @@ class CoinPaymentSmsController extends Controller
         */
         $trx['items'][0] = [
             'descriptionItem' => '100 SMS Credits',
-            'priceItem' => 2, // USD
+            'priceItem' => PaymentPrice::Sms, // USD
             'qtyItem' => 1,
-            'subtotalItem' => 2 // USD
+            'subtotalItem' => PaymentPrice::Sms // USD
         ];
 
         $trx['payload'] = [
             // your custom array here
             'sms' => 'sms',
             'description' => '100 Sms Credits',
-            'priceItem' => '2',
+            'priceItem' => PaymentPrice::Sms,
             'service' => 'blockchain',
             'user_id' => Auth::user()->id,
         ];

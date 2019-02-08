@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Api\Payments;
 
-use App\User;
-use Illuminate\Http\Request;
+use App\Enums\PaymentPrice;
 use App\Http\Controllers\Controller;
 use CoinPayment;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +14,7 @@ class CoinPaymentSubscriptionController extends Controller
         /*
     *   @required true
     */
-        $trx['amountTotal'] = 100; // USD
+        $trx['amountTotal'] = PaymentPrice::Subscription; // USD
         $trx['note'] = 'Subscription Pro';
 
         /*
@@ -24,16 +23,16 @@ class CoinPaymentSubscriptionController extends Controller
         */
         $trx['items'][0] = [
             'descriptionItem' => 'Subscription Pro',
-            'priceItem' => 100, // USD
+            'priceItem' => PaymentPrice::Subscription, // USD
             'qtyItem' => 1,
-            'subtotalItem' => 100 // USD
+            'subtotalItem' => PaymentPrice::Subscription // USD
         ];
 
         $trx['payload'] = [
             // your custom array here
             'subscription' => 'subscription',
             'description' => 'Subscription Pro',
-            'priceItem' => '100',
+            'priceItem' => PaymentPrice::Subscription,
             'service' => 'blockchain',
             'user_id' => Auth::user()->id,
         ];

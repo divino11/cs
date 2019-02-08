@@ -10,10 +10,8 @@ class VerificationPhoneController extends Controller
 {
     public function __invoke(PhoneVerifyRequest $request)
     {
-        $user = Auth::user();
+        Auth::user()->markNotificationPhoneAsVerified();
 
-        $user->markNotificationPhoneAsVerified();
-
-        return redirect()->route('channels')->with('status', 'Your phone number has been verified.');
+        return view('message', ['message' => 'Notification phone number has been updated']);
     }
 }

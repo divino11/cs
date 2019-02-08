@@ -10989,6 +10989,19 @@ header .navbar-text {
   }
 }
 
+@media (max-width: 468px) {
+  .navbar {
+    -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+  }
+}
+
+@media (max-width: 468px) {
+  .navbar span.navbar-text {
+    text-align: center;
+  }
+}
+
 .navbar-brand {
   height: 90px;
   padding: auto;
@@ -11113,6 +11126,7 @@ header nav h3 {
 @media screen and (max-width: 768px) {
   .chevron-right {
     font-size: 34px !important;
+    top: 35%;
   }
 }
 
@@ -11277,5 +11291,9 @@ button:focus {
 
 .overflow-x {
   overflow-x: hidden;
+}
+
+.billing-scroll {
+  overflow: auto;
 }
 

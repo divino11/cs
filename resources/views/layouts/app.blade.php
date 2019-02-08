@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ app()->getLocale() }}" class="overflow-x">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="/js/app.js"></script>
 </head>
-<body class="overflow-x">
+<body>
 <header>
     <nav class="navbar navbar-dark fixed-top bg-dark p-0 navbar-expand-lg">
         <a href="#" class="navbar-brand">CS</a>

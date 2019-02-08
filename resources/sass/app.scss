@@ -27,6 +27,17 @@ header .navbar-text  {
   }
 }
 
+.navbar {
+  @media (max-width: 468px) {
+    flex-wrap: nowrap;
+  }
+  & span.navbar-text {
+    @media (max-width: 468px) {
+      text-align: center;
+    }
+  }
+}
+
 .navbar-brand {
   height: 90px;
   padding: auto;
@@ -132,6 +143,7 @@ header nav h3 {
   transform: translate(-50%,-50%);
   @media screen and (max-width: 768px) {
     font-size: 34px !important;
+    top: 35%;
   }
 }
 
@@ -287,4 +299,7 @@ button:focus {
 }
 .overflow-x {
   overflow-x: hidden;
+}
+.billing-scroll {
+  overflow: auto;
 }

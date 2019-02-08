@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api\Payments;
 
+use App\Enums\PaymentPrice;
 use App\Http\Requests\Subscriptions\CreateRequest;
 use App\Transaction;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 
 class SubscribeBraintreeController extends Controller
 {
@@ -23,7 +22,7 @@ class SubscribeBraintreeController extends Controller
             Transaction::updateOrCreate(['created_at' => Carbon::now()], [
                 'user_id' => $request->user()->id,
                 'description' => 'Subscription Pro',
-                'amount' => 100,
+                'amount' => PaymentPrice::Subscription,
                 'service' => $request->type,
                 'status' => 100,
             ]);
@@ -32,7 +31,7 @@ class SubscribeBraintreeController extends Controller
             Transaction::updateOrCreate(['created_at' => Carbon::now()], [
                 'user_id' => $request->user()->id,
                 'description' => 'Subscription Pro',
-                'amount' => 100,
+                'amount' => PaymentPrice::Subscription,
                 'service' => $request->type,
                 'status' => -1,
             ]);
