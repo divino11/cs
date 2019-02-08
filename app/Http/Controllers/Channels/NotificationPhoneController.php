@@ -23,7 +23,7 @@ class NotificationPhoneController extends Controller
         $phoneVerifyNumber = rand(1000, 9999);
 
         $user->forceFill([
-            'phone' => $request->notification_phone,
+            'phone' => preg_replace('/\D/', '', $request->notification_phone),
             'phone_verification_code' => $phoneVerifyNumber,
             'phone_verified_at' => null
         ])->save();
@@ -65,7 +65,7 @@ class NotificationPhoneController extends Controller
     {
         return Nexmo::message()->send([
             'to' => $phone,
-            'from' => 'CoinSpy',
+            'from' => 'Nexmo',
             'text' => 'CoinSpy - your verification code is: ' . $phoneVerifyNumber
         ]);
     }
