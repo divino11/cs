@@ -23,7 +23,7 @@
                 <ul class="navbar-nav flex-column w-100 h-100">
                     <li>
                         <div class="nav sidebar-links">
-                            <a class="border-right border-dark {{ (Request::is('user*') ? 'active' : '') }}" href="{{ route('user.account') }}">Account</a>
+                            <a class="border-right border-dark" href="{{ route('user.account') }}">Account</a>
                             <a href="#" onclick="$('#logoutForm').submit()">Logout</a>
                             <form method="post" action="{{ route('logout') }}" id="logoutForm">@csrf</form>
                         </div>

@@ -193,8 +193,9 @@
                         </form>
                         <form action="{{ route('telegram.update') }}" method="post" class="form d-inline-block">
                             @csrf
-                            <input class="btn btn-outline-secondary text-uppercase" type="submit"
-                                   value="Reset verification code">
+                            <div class="input-group">
+                                <input class="btn btn-outline-secondary text-uppercase" type="submit" value="Reset verification code">
+                            </div>
                         </form>
                     @else
                         <span class="badge badge-{{ $user->hasNotificationTelegramVerified() ? 'success' : 'danger' }}">
