@@ -68,7 +68,7 @@
             submitButton.addEventListener('click', function () {
                 $('#dropin-button').attr('disabled', 'disabled').text('Loading ...');
                 instance.requestPaymentMethod(function (err, payload) {
-                    $.get('{{ route('payments.braintree.sms') }}', payload, function (response) {
+                    $.get('{{ route('api.payments.braintree.sms') }}', payload, function (response) {
                         if (response.success) {
                             $('#dropin-button').remove();
                             window.location.href = '{{ route('user.sms_credits') }}';

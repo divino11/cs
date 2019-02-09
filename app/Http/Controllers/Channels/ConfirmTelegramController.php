@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
-class ConfirmNotificationTelegramController extends Controller
+class ConfirmTelegramController extends Controller
 {
     public function __invoke()
     {

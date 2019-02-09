@@ -34,7 +34,7 @@
                                     class="material-icons">view_list</span>Activity</a></li>
                     <li class="nav-item {{ (Request::is('alerts') ? 'active' : '') }}"><a class="nav-link" href="{{ route('alerts.index') }}"><span
                                     class="material-icons">send</span>Alerts</a></li>
-                    <li class="nav-item {{ (Request::is('channels') ? 'active' : '') }}"><a class="nav-link" href="{{ route('channels') }}"><span
+                    <li class="nav-item {{ (Request::is('channels*') ? 'active' : '') }}"><a class="nav-link" href="{{ route('channels.index') }}"><span
                                     class="material-icons">message</span>Channels</a></li>
                 </ul>
             </div>

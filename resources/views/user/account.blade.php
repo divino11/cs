@@ -71,7 +71,7 @@
         </div>
         @endif
         <div class="details-item">
-            <div class="detail"><a href="{{ route('subscription.index') }}">Change plan</a></div>
+            <div class="detail"><a href="{{ route('user.subscription.index') }}">Change plan</a></div>
         </div>
     </div>
     <hr>
@@ -82,7 +82,7 @@
             <div class="detail">{{ $user->timezone ? $user->timezone : 'none' }} - <a href="#" data-toggle="modal" data-target="#change_time_zone">update</a></div>
         </div>
         <div class="details-item">
-            <div class="detail"><a href="{{ route('user.changePassword') }}">Change password</a></div>
+            <div class="detail"><a href="{{ route('user.password.create') }}">Change password</a></div>
         </div>
     </div>
     <div id="change_time_zone" class="modal fade" role="dialog" style="display: none;" aria-hidden="true">

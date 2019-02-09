@@ -14,56 +14,52 @@
 Auth::routes(['verify' => true]);
 Route::get('/', 'HomeController');
 Route::group(['middleware' => 'auth'], function(){
-    Route::get('/braintree', 'Api\Payments\SubscribeBraintreeController')->name('payments.braintree');
-    Route::get('/braintree/sms', 'Api\Payments\SmsBraintreeController')->name('payments.braintree.sms');
-    Route::group(['as' => 'api.'],function(){
-            Route::get('/tickers', 'Api\LatestTickerController')->name('tickers');
-            Route::get('/alert/{alert}/toggle', 'Api\ToggleAlertController')->name('alert.toggle');
-            Route::get('/alerts/metricPrice/', 'Api\CurrencyPriceController')->name('alert.metric');
-    }
-    );
-    Route::get('user', 'User\ShowProfileController')->name('user.account');
-    Route::resource('user/subscription', 'User\SubscriptionController')->only(['index','create']);
-    Route::delete('user/subscription', 'User\SubscriptionController@destroy')->name('subscription.destroy');
-    Route::put('user/subscription', 'User\SubscriptionController@update')->name('subscription.update');
-    Route::get('user/subscription/create', 'Api\Payments\CoinPaymentSubscriptionController')->name('subscription.create');
-    Route::get('user/change-password', 'User\ChangePasswordController@index')
-        ->name('user.changePassword');
-    Route::post('user/post_password', 'User\ChangePasswordController@update')
-        ->name('user.changePassword_update');
-    Route::get('user/faq', 'User\ShowFaqController')->name('user.faq');
-    Route::get('user/support', 'User\ShowSupportController')->name('user.support');
-    Route::get('user/sms_credits', 'User\ShowSmsCreditsController')->name('user.sms_credits');
-    Route::get('user/sms_credits', 'Api\Payments\CoinPaymentSmsController')->name('user.sms_credits');
-    Route::get('user/billing', 'User\ShowBillingController')->name('user.billing');
-    Route::post('user/timezone', 'User\TimezoneController')->name('user.timezone');
-    Route::get('channels', 'Channels\ShowChannelsController')->name('channels');
-    Route::post('channels/email', 'Channels\NotificationEmailController@store')->name('channels.email');
-    Route::resource('channels/phone', 'Channels\NotificationPhoneController')->only(['store', 'update', 'destroy']);
-    Route::post('channels/phone/verify', 'Channels\VerificationPhoneController')->name('phone.verify');
-    Route::post('channels/telegram', 'Channels\NotificationTelegramController')->name('telegram.update');
-    Route::resource('channels/pushover', 'Channels\NotificationPushoverController')->only(['store', 'update', 'destroy']);
-    Route::post('channels/pushover/verify', 'Channels\ConfirmNotificationPushoverController')->name('pushover.verify');
+    Route::group(['namespace' => 'Api', 'as' => 'api.'], function(){
+        Route::group(['prefix' => 'alert', 'as' => 'alert.'], function(){
+            Route::get('/{alert}/toggle', 'ToggleAlertController')->name('toggle');
+            Route::get('/metricPrice/', 'CurrencyPriceController')->name('metric'); //TODO: rename
+        });
+        Route::group(['prefix' => 'braintree', 'namespace' => 'Payments', 'as' => 'payments.braintree.'], function(){
+            Route::get('/', 'SubscribeBraintreeController')->name('subscribe');
+            Route::get('/sms', 'SmsBraintreeController')->name('sms');
+        });
+    });
+    Route::group(['prefix' => 'user', 'namespace' => 'User', 'as' => 'user.'], function(){
+        Route::get('', 'ShowProfileController')->name('account');
+        Route::resource('subscription', 'SubscriptionController')->only(['index','create', 'update', 'destroy'])->parameters(['subscription' => '?']);
+        Route::resource('password', 'PasswordController');
+        Route::view('faq', 'user.faq')->name('faq');
+        Route::view('support', 'user.support')->name('support');
+        Route::get('sms_credits', 'ShowSmsCreditsController')->name('sms_credits');
+        Route::get('billing', 'ShowBillingController')->name('billing');
+        Route::post('timezone', 'TimezoneController')->name('timezone');
+    });
+    Route::group(['prefix' => 'channels', 'namespace' => 'Channels', 'as' => 'channels.'], function(){
+        Route::get('', 'ShowChannelsController')->name('index');
+        Route::post('email', 'NotificationEmailController@store')->name('email');
+        Route::resource('phone', 'PhoneController')->only(['store', 'destroy'])->parameters(['phone' => '?']);
+        Route::resource('phone/verification', 'PhoneVerificationController')->only(['store', 'update'])->parameters(['verification' => '?']);
+        Route::post('telegram', 'TelegramController')->name('telegram.update');
+        Route::resource('pushover', 'PushoverController')->only(['store', 'update', 'destroy']);
+        Route::post('pushover/verify', 'PushoverVerificationController')->name('pushover.verify');
+
+    });
     Route::resource('notifications', 'NotificationController')->only(['index']);
-    Route::resource('alerts/price_point', 'Alerts\PricePointAlertController')->only(['create', 'store', 'update'])->parameters(['price_point' => 'alert']);
-    Route::middleware('verified')->group(function(){
-        Route::resource('alerts', 'AlertController')->middleware('verified');
-        Route::post('alerts/{alert}/duplicate', 'Alerts\DuplicateAlertController')->name('alerts.duplicate');
+    Route::resource('alerts', 'AlertController')->middleware('verified');
+    Route::group(['middleware' => 'verified', 'prefix' => 'alerts', 'namespace' => 'Alerts'], function(){
+        Route::post('{alert}/duplicate', 'DuplicateAlertController')->name('alerts.duplicate');
+        Route::resource('price_point', 'PricePointAlertController')->only(['create', 'store', 'update'])->parameters(['price_point' => 'alert']);
         Route::group(['middleware' => 'subscribed'], function(){
-            Route::resource('alerts/percentage', 'Alerts\PercentageAlertController')->only(['create', 'store', 'update'])->parameters(['percentage' => 'alert']);
-            Route::resource('alerts/regular_update', 'Alerts\RegularUpdateAlertController')->only(['create', 'store', 'update'])->parameters(['regular_update' => 'alert']);
+            Route::resource('percentage', 'PercentageAlertController')->only(['create', 'store', 'update'])->parameters(['percentage' => 'alert']);
+            Route::resource('regular_update', 'RegularUpdateAlertController')->only(['create', 'store', 'update'])->parameters(['regular_update' => 'alert']);
         });
     });
 });
 
 Route::group(['middleware' => ['signed']], function() {
     Route::get('/alerts/{alert}/disable', 'Alerts\DisableAlertController')->name('alerts.disable');
-    //Route::get('/users/{user}/confirm', 'Auth\RegisterController@confirm')->name('users.confirm');
     Route::get('/users/{user}/email/{email}', 'Channels\ConfirmNotificationEmailController')->name('users.email.change');
-    //Route::get('/channels/{userNotificationChannel}/confirm', 'UserNotificationChannelController@confirm')->name('channels.confirm');
 });
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-Route::post('channels/telegram/verify/' . env('TELEGRAM_BOT_TOKEN'), 'Channels\ConfirmNotificationTelegramController')->name('telegram.webhook');
+Route::post('channels/telegram/verify/' . env('TELEGRAM_BOT_TOKEN'), 'Channels\ConfirmTelegramController')->name('channels.telegram.webhook');

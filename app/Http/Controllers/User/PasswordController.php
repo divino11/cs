@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Requests\User\ChangePasswordRequest;
 use App\Notifications\UpdatePasswordSuccess;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class ChangePasswordController extends Controller
+class PasswordController extends Controller
 {
     /**
      * Show the form for editing the specified resource.
      *
      */
-    public function index()
+    public function create()
     {
         $user = Auth::user();
 
-        return view('user.changePassword', ['user' => $user]);
+        return view('user.change_password', ['user' => $user]);
     }
 
     /**
@@ -26,12 +27,8 @@ class ChangePasswordController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function store(ChangePasswordRequest $request)
     {
-        if ($request->new_password != $request->confirm_new_password) {
-            redirect()->route('user.changePassword')->with('status', 'Password must be similar');
-        }
-
         $request->user()->update([
             'password' => bcrypt($request->new_password),
         ]);

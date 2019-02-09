@@ -11,6 +11,7 @@ class ShowBillingController extends Controller
 {
     public function __invoke()
     {
+        //TODO: переделать на  $user->transactions()
         return view('user.billing', [
             'transactions' => Transaction::where('user_id', Auth::user()->id)
                 ->latest()

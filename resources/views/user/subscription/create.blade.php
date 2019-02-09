@@ -55,10 +55,10 @@
             submitButton.addEventListener('click', function () {
                 $('#dropin-button').attr('disabled', 'disabled').text('Loading ...');
                 instance.requestPaymentMethod(function (err, payload) {
-                    $.get('{{ route('payments.braintree') }}', payload, function (response) {
+                    $.get('{{ route('api.payments.braintree.subscribe') }}', payload, function (response) {
                         if (response.success) {
                             $('#dropin-button').remove();
-                            window.location.href = '{{ route('subscription.index') }}';
+                            window.location.href = '{{ route('user.subscription.index') }}';
                         } else {
                             alert('Payment failed. Please contact us');
                         }

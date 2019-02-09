@@ -28,7 +28,7 @@ class UpdateTelegramWebhook extends Command
      */
     public function handle()
     {
-        $url = str_replace('http://', 'https://', route('telegram.webhook') . '/');
+        $url = str_replace('http://', 'https://', route('channels.telegram.webhook') . '/');
         $result = Telegram::bot()->setWebhook([
             'url' => $url,
         ]);

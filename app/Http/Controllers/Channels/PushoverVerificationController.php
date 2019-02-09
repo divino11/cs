@@ -6,7 +6,7 @@ use App\Http\Requests\Channels\PushoverVerifyRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class ConfirmNotificationPushoverController extends Controller
+class PushoverVerificationController extends Controller
 {
     public function __invoke(PushoverVerifyRequest $request)
     {

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Channels;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class NotificationTelegramController extends Controller
+class TelegramController extends Controller
 {
     public function __invoke()
     {
@@ -17,6 +17,6 @@ class NotificationTelegramController extends Controller
             'telegram_verified_at' => null
         ])->save();
 
-        return redirect()->route('channels')->with('status', 'Verification code change');
+        return redirect()->route('channels.index')->with('status', 'Verification code change');
     }
 }

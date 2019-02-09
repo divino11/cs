@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Nexmo\Laravel\Facade\Nexmo;
 
-class NotificationPhoneController extends Controller
+class PhoneController extends Controller
 {
 
     /**
@@ -30,24 +30,9 @@ class NotificationPhoneController extends Controller
 
         $this->sendMessage($request->notification_phone, $phoneVerifyNumber);
 
-        return redirect()->route('channels')->with('status', 'Please check your phone for a verification text message.');
+        return redirect()->route('channels.index')->with('status', 'Please check your phone for a verification text message.');
     }
 
-    public function update()
-    {
-        $user = Auth::user();
-
-        $phoneVerifyNumber = rand(1000, 9999);
-
-        $user->forceFill([
-            'phone_verification_code' => $phoneVerifyNumber,
-            'phone_verified_at' => null
-        ])->save();
-
-        $this->sendMessage($user->phone, $phoneVerifyNumber);
-
-        return redirect()->route('channels')->with('status', 'Verification code resent. Please check your phone.');
-    }
 
     public function destroy()
     {
@@ -58,7 +43,7 @@ class NotificationPhoneController extends Controller
             'phone_verified_at' => null
         ])->save();
 
-        return redirect()->route('channels')->with('status', 'Phone was removed');
+        return redirect()->route('channels.index')->with('status', 'Phone was removed');
     }
 
     private function sendMessage($phone, $phoneVerifyNumber)

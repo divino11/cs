@@ -27,6 +27,6 @@ class NotificationEmailController extends Controller
 
         Mail::to($user)->send(new ChangeEmailConfirmation($user));
 
-        return redirect()->route('channels')->with('status', 'Email changed');
+        return redirect()->route('channels.index')->with('status', 'Email changed');
     }
 }

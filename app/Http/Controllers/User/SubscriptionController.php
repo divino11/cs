@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\PaymentPrice;
 use App\Http\Requests\Subscriptions\CancelRequest;
 use App\Http\Requests\Subscriptions\CreateRequest;
 use App\Http\Requests\Subscriptions\ResumeRequest;
@@ -28,7 +29,29 @@ class SubscriptionController extends Controller
      */
     public function create(CreateRequest $request)
     {
-        return view('user.subscription.create');
+        $trx = [
+            'amountTotal' => PaymentPrice::Subscription,
+            'note' => 'Subscription Pro',
+            'items' => [
+                [
+                    'descriptionItem' => 'Subscription Pro',
+                    'priceItem' => PaymentPrice::Subscription, // USD
+                    'qtyItem' => 1,
+                    'subtotalItem' => PaymentPrice::Subscription // USD
+                ]
+            ],
+            'payload' => [
+                'subscription' => 'subscription',
+                'description' => 'Subscription Pro',
+                'priceItem' => PaymentPrice::Subscription,
+                'service' => 'blockchain',
+                'user_id' => Auth::user()->id,
+            ]
+        ];
+
+        $link_transaction = CoinPayment::url_payload($trx);
+
+        return view('user.subscription.create', ['link_transaction' => $link_transaction]);
     }
 
     public function update(ResumeRequest $request)
@@ -44,7 +67,7 @@ class SubscriptionController extends Controller
     {
         $request->user()->subscription('main')->cancel();
 
-        return redirect()->route('subscription.index')->with('status', 'Your subscription has been canceled');
+        return redirect()->route('user.subscription.index')->with('status', 'Your subscription has been canceled');
     }
 
 }

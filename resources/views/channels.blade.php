@@ -44,7 +44,7 @@
                     @if (!$user->getNotificationPhone())
                         <p>Please enter your full phone number with the country code. You must purchase SMS credits as
                             well to get alerts.</p>
-                        <form class="form form-inline" method="post" action="{{route('phone.store')}}">
+                        <form class="form form-inline" method="post" action="{{route('channels.phone.store')}}">
                             @csrf
                             <div class="input-group">
                                 <input class="form-control" type="tel" name="notification_phone" placeholder="Phone number"/>
@@ -54,7 +54,7 @@
                         </form>
                     @else
                         @if (!$user->hasNotificationPhoneVerified())
-                            <form class="form d-inline-block" method="post" action="{{route('phone.verify')}}">
+                            <form class="form d-inline-block" method="post" action="{{ route('channels.phone.verification.store') }}">
                                 @csrf
                                 <div class="input-group">
                                     <input class="form-control" type="text" name="phoneVerify" placeholder="Enter verification code"/>
@@ -62,7 +62,7 @@
                                     <input class="btn btn-primary text-uppercase ml-1" type="submit" value="Verify">
                                 </div>
                             </form>
-                            <form class="form d-inline-block" method="post" action="{{route('phone.destroy', $user->id)}}">
+                            <form class="form d-inline-block" method="post" action="{{route('channels.phone.destroy', $user->id)}}">
                                 @csrf
                                 @method('delete')
                                 <div class="input-group">
@@ -70,7 +70,7 @@
                                            value="Use another mobile number">
                                 </div>
                             </form>
-                            <form class="form d-inline-block" method="post" action="{{route('phone.update', $user)}}">
+                            <form class="form d-inline-block" method="post" action="{{ route('channels.phone.verification.update') }}">
                                 @csrf
                                 @method('put')
                                 <div class="input-group">
@@ -86,7 +86,7 @@
                                                 now.</a></small>
                                     </p>
                                 @endif
-                            <form class="form d-inline-block" method="post" action="{{route('phone.destroy', $user->id)}}">
+                            <form class="form d-inline-block" method="post" action="{{route('channels.phone.destroy', $user->id)}}">
                                 @csrf
                                 @method('delete')
                                 <div class="input-group">
@@ -115,7 +115,7 @@
                     @endif
                     @if (!$user->getNotificationPushover())
                         <p><a href="http://pushover.net">What's Pushover?</a></p>
-                        <form class="form d-inline-block" action="{{ route('pushover.store') }}" method="post">
+                        <form class="form d-inline-block" action="{{ route('channels.pushover.store') }}" method="post">
                             @csrf
                             <div class="input-group">
                                 <input class="form-control" type="text" name="notification_pushover"
@@ -126,7 +126,7 @@
                         </form>
                     @else
                         @if (!$user->hasNotificationPushoverVerified())
-                            <form class="form d-inline-block" method="post" action="{{route('pushover.verify')}}">
+                            <form class="form d-inline-block" method="post" action="{{route('channels.pushover.verify')}}">
                                 @csrf
                                 <div class="input-group">
                                     <input class="form-control" type="text" name="pushoverVerify"
@@ -136,7 +136,7 @@
                                 </div>
                             </form>
                             <form class="form d-inline-block" method="post"
-                                  action="{{route('pushover.destroy', $user->id)}}">
+                                  action="{{route('channels.pushover.destroy', $user->id)}}">
                                 @csrf
                                 @method('delete')
                                 <div class="input-group">
@@ -145,7 +145,7 @@
                                 </div>
                             </form>
                             <form class="form d-inline-block" method="post"
-                                  action="{{route('pushover.update', $user)}}">
+                                  action="{{route('channels.pushover.update', $user)}}">
                                 @csrf
                                 @method('put')
                                 <div class="input-group">
@@ -155,7 +155,7 @@
                             </form>
                         @else
                             <form class="form d-inline-block" method="post"
-                                  action="{{route('pushover.destroy', $user->id)}}">
+                                  action="{{route('channels.pushover.destroy', $user->id)}}">
                                 @csrf
                                 @method('delete')
                                 <div class="input-group">
@@ -191,7 +191,7 @@
                                    href="https://telegram.me/CoinSpy_bot?start={{ $user->telegram_verification_code }}">Open Telegram</a>
                             </div>
                         </form>
-                        <form action="{{ route('telegram.update') }}" method="post" class="form d-inline-block">
+                        <form action="{{ route('channels.telegram.update') }}" method="post" class="form d-inline-block">
                             @csrf
                             <div class="input-group">
                                 <input class="btn btn-outline-secondary text-uppercase" type="submit" value="Reset verification code">
@@ -202,7 +202,7 @@
                             {{ $user->hasNotificationTelegramVerified() ? 'Verified' : 'Not verified' }}
                         </span>
                         <br>
-                        <form action="{{ route('telegram.update') }}" method="post" class="form d-inline-block">
+                        <form action="{{ route('channels.telegram.update') }}" method="post" class="form d-inline-block">
                             @csrf
                             <input class="btn btn-outline-secondary text-uppercase" type="submit" value="Remove">
                         </form>

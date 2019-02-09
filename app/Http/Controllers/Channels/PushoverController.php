@@ -8,7 +8,7 @@ use App\Notifications\ConfirmNotificationChannel;
 use Illuminate\Support\Facades\Auth;
 use NotificationChannels\Pushover\PushoverChannel;
 
-class NotificationPushoverController extends Controller
+class PushoverController extends Controller
 {
     /**
      * Store a newly created resource in storage.
@@ -30,7 +30,7 @@ class NotificationPushoverController extends Controller
 
         $user->notify(new ConfirmNotificationChannel(PushoverChannel::class, $pushoverVerifyNumber));
 
-        return redirect()->route('channels')->with('status', 'Please check your phone for a verification text message.');
+        return redirect()->route('channels.index')->with('status', 'Please check your phone for a verification text message.');
     }
 
     public function update()
@@ -46,7 +46,7 @@ class NotificationPushoverController extends Controller
 
         $user->notify(new ConfirmNotificationChannel(PushoverChannel::class, $pushoverVerifyNumber));
 
-        return redirect()->route('channels')->with('status', 'Verification code resent. Please check your phone.');
+        return redirect()->route('channels.index')->with('status', 'Verification code resent. Please check your phone.');
     }
 
     public function destroy()
@@ -59,6 +59,6 @@ class NotificationPushoverController extends Controller
             'pushover_verified_at' => null
         ])->save();
 
-        return redirect()->route('channels')->with('status', 'Key was removed');
+        return redirect()->route('channels.index')->with('status', 'Key was removed');
     }
 }
