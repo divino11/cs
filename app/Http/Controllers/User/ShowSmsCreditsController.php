@@ -6,6 +6,7 @@ use App\Enums\PaymentPrice;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use CoinPayment;
 
 class ShowSmsCreditsController extends Controller
 {

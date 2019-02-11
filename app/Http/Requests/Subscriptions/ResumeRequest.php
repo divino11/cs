@@ -13,7 +13,7 @@ class ResumeRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->subscription('main')->onGracePeriod();
+        return $this->user()->subscription('main');
     }
 
     /**

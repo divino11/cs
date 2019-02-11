@@ -13,12 +13,8 @@ class SubscribeBraintreeController extends Controller
     public function __invoke(CreateRequest $request)
     {
         if ($request->nonce) {
-            $request->user()->subscriptions()->create([
-                'name' => 'main',
-                'braintree_id' => '1',
-                'braintree_plan' => 'premium',
-                'quantity' => '1'
-            ]);
+            $request->user()->newSubscription('main', 'premium')->create($request->nonce);
+
             Transaction::updateOrCreate(['created_at' => Carbon::now()], [
                 'user_id' => $request->user()->id,
                 'description' => 'Subscription Pro',

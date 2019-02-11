@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Channels;
 use App\Http\Requests\Channels\PhoneVerifyRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Nexmo\Laravel\Facade\Nexmo;
 
 class PhoneVerificationController extends Controller
 {
@@ -29,5 +30,14 @@ class PhoneVerificationController extends Controller
         $this->sendMessage($user->phone, $phoneVerifyNumber);
 
         return redirect()->route('channels.index')->with('status', 'Verification code resent. Please check your phone.');
+    }
+
+    private function sendMessage($phone, $phoneVerifyNumber)
+    {
+        return Nexmo::message()->send([
+            'to' => $phone,
+            'from' => 'Nexmo',
+            'text' => 'CoinSpy - your verification code is: ' . $phoneVerifyNumber
+        ]);
     }
 }

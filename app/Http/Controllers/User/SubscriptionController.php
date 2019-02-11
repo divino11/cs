@@ -9,6 +9,7 @@ use App\Http\Requests\Subscriptions\ResumeRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use CoinPayment;
 
 class SubscriptionController extends Controller
 {
@@ -65,7 +66,13 @@ class SubscriptionController extends Controller
 
     public function destroy(CancelRequest $request)
     {
-        $request->user()->subscription('main')->cancel();
+        if($request->user()->subscription('main')->braintree_id != 1) {
+            $request->user()->subscription('main')->cancelNow();
+        } else {
+            $request->user()->subscriptions()->update([
+                'ends_at' => now()->subDay()
+            ]);
+        }
 
         return redirect()->route('user.subscription.index')->with('status', 'Your subscription has been canceled');
     }

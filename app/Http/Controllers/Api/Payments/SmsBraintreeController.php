@@ -14,7 +14,10 @@ class SmsBraintreeController extends Controller
     public function __invoke(Request $request)
     {
         if($request->nonce) {
-            $request->user()->createAsBraintreeCustomer($request->nonce);
+             if (!$request->user()->braintree_id) {
+                $request->user()->createAsBraintreeCustomer($request->nonce);
+             }
+
             $request->user()->charge(PaymentPrice::Sms);
 
             User::updateSmsCount($request->user()->id);
