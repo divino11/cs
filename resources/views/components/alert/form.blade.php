@@ -106,7 +106,7 @@
                     if (!selectedPlatform || !selectedCurrency) {
                         return;
                     }
-                    $.get({{ route('api.alert.metric') }}, data, function (response) {
+                    $.get('{{ route('api.alert.metric') }}', data, function (response) {
                         if (response) {
                             switch (metricVal) {
                                 case '0':
