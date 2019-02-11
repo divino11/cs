@@ -26,7 +26,7 @@ Route::group(['middleware' => 'auth'], function(){
     });
     Route::group(['prefix' => 'user', 'namespace' => 'User', 'as' => 'user.'], function(){
         Route::get('', 'ShowProfileController')->name('account');
-        Route::resource('subscription', 'SubscriptionController')->only(['index','create', 'update', 'destroy'])->parameters(['subscription' => '?']);
+        Route::resource('subscription', 'SubscriptionController')->only(['index','create', 'update', 'destroy']);
         Route::resource('password', 'PasswordController');
         Route::view('faq', 'user.faq')->name('faq');
         Route::view('support', 'user.support')->name('support');
@@ -37,8 +37,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::group(['prefix' => 'channels', 'namespace' => 'Channels', 'as' => 'channels.'], function(){
         Route::get('', 'ShowChannelsController')->name('index');
         Route::post('email', 'NotificationEmailController@store')->name('email');
-        Route::resource('phone', 'PhoneController')->only(['store', 'destroy'])->parameters(['phone' => '?']);
-        Route::resource('phone/verification', 'PhoneVerificationController')->only(['store', 'update'])->parameters(['verification' => '?']);
+        Route::resource('phone', 'PhoneController')->only(['store', 'destroy']);
+        Route::resource('phone/verification', 'PhoneVerificationController')->only(['store', 'update']);
         Route::post('telegram', 'TelegramController')->name('telegram.update');
         Route::resource('pushover', 'PushoverController')->only(['store', 'update', 'destroy']);
         Route::post('pushover/verify', 'PushoverVerificationController')->name('pushover.verify');

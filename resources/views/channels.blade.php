@@ -54,7 +54,7 @@
                         </form>
                     @else
                         @if (!$user->hasNotificationPhoneVerified())
-                            <form class="form d-inline-block" method="post" action="{{ route('channels.phone.verification.store') }}">
+                            <form class="form d-inline-block" method="post" action="{{ route('channels.verification.store') }}">
                                 @csrf
                                 <div class="input-group">
                                     <input class="form-control" type="text" name="phoneVerify" placeholder="Enter verification code"/>
@@ -70,7 +70,7 @@
                                            value="Use another mobile number">
                                 </div>
                             </form>
-                            <form class="form d-inline-block" method="post" action="{{ route('channels.phone.verification.update') }}">
+                            <form class="form d-inline-block" method="post" action="{{ route('channels.verification.update', $user->id) }}">
                                 @csrf
                                 @method('put')
                                 <div class="input-group">
