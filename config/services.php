@@ -50,4 +50,10 @@ return [
     'pushover' => [
         'token' => env('PUSHOVER_TOKEN', '')
     ],
+
+    'nexmo' => [
+        'key' => env('NEXMO_KEY'),
+        'secret' => env('NEXMO_SECRET'),
+        'sms_from' => 'CoinSpy',
+    ],
 ];

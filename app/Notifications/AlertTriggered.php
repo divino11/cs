@@ -63,11 +63,9 @@ class AlertTriggered extends Notification
         if ($this->alert->user->sms > 0) {
             User::find($this->alert->user->id)
                 ->decrement('sms', 1);
-            return Nexmo::message()->send([
-                'to' => $this->alert->user->phone,
-                'from' => 'CoinSpy',
-                'text' => $this->alert->name . '. ' . view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . '. The ' . AlertMetric::getDescription((int)$this->alert->conditions['metric']) . ' ' . $this->ticker->getMetric($this->alert->conditions['metric'])
-            ]);
+            return (new NexmoMessage)
+                ->content($this->alert->name . '. ' . view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . '. The ' . AlertMetric::getDescription((int)$this->alert->conditions['metric']) . ' ' . $this->ticker->getMetric($this->alert->conditions['metric']))
+                ->from('CoinSpy');
         }
     }
 
