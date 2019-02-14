@@ -21,6 +21,13 @@ class AppServiceProvider extends ServiceProvider
             $user = Auth::user();
             return $user->subscribed('main') && !$user->subscription('main')->onGracePeriod();
         });
+        view()->composer('*', function($view)
+        {
+            if (Auth::check()) {
+                $notifRead = Auth::user()->unreadNotifications()->count();
+                $view->with('notificationUnRead', $notifRead);
+            }
+        });
         \Braintree_Configuration::environment(config('services.braintree.environment'));
         \Braintree_Configuration::merchantId(config('services.braintree.merchant_id'));
         \Braintree_Configuration::publicKey(config('services.braintree.public_key'));

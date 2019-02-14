@@ -3,75 +3,87 @@
 @section('title', 'Plan')
 
 @section('tabcontent')
-    <div>
-        <p>Your current plan: @subscribed pro @else free @endsubscribed</p>
-        <div class="row">
-            <div class="col-lg-6 col-xs-12 col-md-6">
-                <div class="card card-primary text-center">
-                    <div class="card-header bg-primary text-white h5">
-                        FREE
-                    </div>
-                    <div class="list-group list-group-flush">
-                        <li class="list-group-item bg-light">
-                            <h1>Free</h1>
-                            <p>Forever</p>
-                        </li>
-                        <li class="list-group-item">5 Active Alerts</li>
-                        <li class="list-group-item bg-light">Price Point </li>
-                        <li class="list-group-item">All Channels</li>
-                        <li class="list-group-item bg-light">30+ Markets</li>
-                        <li class="list-group-item">11,000+ Cryptocurrencies</li>
-                        <li class="list-group-item bg-light">
+    <div class="tab-pane active" id="plan">
+        <div class="settings-plan-section">
+            <p>@subscribed You’re currently using the Pro plan. @else You’re currently using the Basic plan. To upgrade choose the Advanced plan. @endsubscribed</p>
+            <div class="row">
+
+                <!-- col 1 -->
+                <div class="col-md-5 col-sm-6">
+                    <div class="pricing-module">
+                        <!-- content -->
+                        <div class="pricing-module-content">
+                            <h4>Basic plan</h4>
+                            <div class="pricing-module-ttl"><span class="pricing-module-price">$0</span></div>
                             @subscribed
                                 @if($user->subscription('main')->onGracePeriod())
-                                    <button class="btn btn-outline-info" disabled>You have Pro plan</button>
+                                    <button class="btn btn-primary bt-section-out" disabled>You have Pro plan</button>
                                 @else
-                                    <form method="post" action="{{ route('user.subscription.destroy', $user->id) }}" onsubmit="return confirm('Downgrade your account at the end of your billing cycle? Warning - we will deactivate any alert that free plan does not support.')">
+                                    <form method="post" action="{{ route('user.subscription.destroy', $user->id) }}"
+                                          onsubmit="return confirm('Downgrade your account at the end of your billing cycle? Warning - we will deactivate any alert that free plan does not support.')">
                                         @csrf
                                         @method('DELETE')
-                                        <input type="submit" href="#" id="downgrade-btn" class="btn btn-danger" value="Downgrade">
+                                        <button type="submit" id="downgrade-btn" class="btn btn-primary bt-section">Downgrade</button>
                                     </form>
                                 @endif
-
                             @else
-                                <button class="btn btn-outline-info" disabled>Current Plan</button>
+                                <button disabled class="btn btn-primary bt-section-out" role="button">Current plan
+                                </button>
                             @endsubscribed
-                        </li>
+                        </div>
+                        <!-- content -->
+                        <!-- content wh -->
+                        <div class="pricing-module-content-wh">
+                            <ul>
+                                <li><i class="material-icons">check</i> 5 Active Alerts</li>
+                                <li><i class="material-icons">check</i> Price, Volume & More</li>
+                                <li><i class="material-icons">check</i> Email, SMS, & Push</li>
+                                <li><i class="material-icons">check</i> 3,000+ Currencies</li>
+                                <li><i class="material-icons">check</i> 30+ Exchanges</li>
+                            </ul>
+                        </div>
+                        <!-- END content wh -->
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-6 col-xs-12 col-md-6">
-                <div class="card card-primary text-center">
-                    <div class="card-header bg-success text-white h5">
-                        PRO
-                    </div>
-                    <div class="list-group list-group-flush">
-                        <li class="list-group-item bg-light">
-                            <h1>$100/year</h1>
-                            <p>$10/month</p>
-                        </li>
-                        <li class="list-group-item">Unlimited Alerts</li>
-                        <li class="list-group-item bg-light">Pro Alerts </li>
-                        <li class="list-group-item">All Channels</li>
-                        <li class="list-group-item bg-light">30+ Markets</li>
-                        <li class="list-group-item">11,000+ Cryptocurrencies</li>
-                        <li class="list-group-item bg-light">
+                <!-- END col 1 -->
+
+                <!-- col 2 -->
+                <div class="col-md-5 col-sm-6">
+                    <div class="pricing-module">
+                        <!-- content -->
+                        <div class="pricing-module-content">
+                            <h4>Advanced plan</h4>
+                            <div class="pricing-module-ttl"><span class="pricing-module-price">$100</span> <span class="pricing-module-month">/year</span></div>
                             @subscribed
-                                <button class="btn btn-outline-success" disabled>Current Plan</button>
+                                <button disabled class="btn btn-primary bt-section-out" role="button">Current Plan</button>
                             @else
                                 @if($user->subscription('main'))
                                     <form method="post" action="{{ route('user.subscription.update', $user->id) }}" onsubmit="return confirm('Resume your subscription? Your card will be charged for the next billing period')">
                                         @csrf
                                         @method('PUT')
-                                        <input type="submit" href="#" id="downgrade-btn" class="btn btn-success" value="Resume subscription">
+                                        <button type="submit" id="downgrade-btn" class="btn btn-primary bt-section">Resume subscription</button>
                                     </form>
                                 @else
-                                    <a href="{{ route('user.subscription.create') }}" class="btn btn-success">Upgrade</a>
-                                @endif
+                                    <a href="{{ route('user.subscription.create') }}" class="btn btn-primary bt-section">Upgrade</a>
+                            @endif
                             @endsubscribed
-                        </li>
+                        </div>
+                        <!-- content -->
+                        <!-- content wh -->
+                        <div class="pricing-module-content-wh">
+                            <ul>
+                                <li><i class="material-icons">check</i> Unlimited Alerts</li>
+                                <li><i class="material-icons">check</i> Advanced Alerts</li>
+                                <li><i class="material-icons">check</i> Email, SMS & Push</li>
+                                <li><i class="material-icons">check</i> 3,000+ Currencies </li>
+                                <li><i class="material-icons">check</i> 30+ Exchanges</li>
+                            </ul>
+                        </div>
+                        <!-- END content wh -->
                     </div>
                 </div>
+                <!-- END col 2 -->
+
             </div>
         </div>
     </div>

@@ -9,7 +9,7 @@
         <option value="0" @if(old('conditions.direction', $alert->conditions['direction']) == 0) selected @endif>falls by</option>
         <option value="1" @if(old('conditions.direction', $alert->conditions['direction']) == 1) selected @endif>rises by</option>
     </select>
-    <div class="input-group">
+    <div class="input-group pad-0">
         <div class="input-group-append">
             <div class="input-group-text">%</div>
         </div>

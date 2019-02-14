@@ -3,39 +3,61 @@
 @section('title', 'Plan')
 
 @section('tabcontent')
-    <div>
-        <div class="col-lg-12">
-            <h3>Plan details</h3>
-            <p class="text-muted">Current plan: <strong>free</strong></p>
-            <p class="text-muted" style="margin-left: 20px">5 Active Alerts, Price Point, All Channels, 30+ Markets, 11,000+ Cryptocurrencies</p>
-            <p>New plan: <strong class="text-primary">pro</strong></p>
-            <p style="margin-left: 20px">Unlimited Alerts, Price Point, Percent Change, Regular Updates, All Channels, 30+ Markets, 11,000+ Cryptocurrencies</p>
-            <hr>
-            <h3>Terms of Service and Privacy Policy</h3>
-            <ul>
-                <li><a href="/terms" target="_blank">Terms of Service</a></li>
-                <li><a href="/privacy" target="_blank">Privacy Policy</a></li>
-            </ul>
-            <p>By proceeding you confirm that you have read and agree to the Terms of Serivce and Privacy Policy detailed in the links above. <em>NOTE - we do not offer refunds.</em></p>
-            <hr>
-            <h3>Payment options</h3>
-            <!-- Nav tabs -->
-            <ul class="nav nav-pills" id="payments" role="tablist">
-                <li class="nav-item">
-                    <a class="btn btn-primary" id="cc-tab" data-toggle="tab" href="#cc" role="tab" aria-controls="cc" aria-selected="true">Credit Card or PayPal</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ $link_transaction }}" class="btn btn-primary ml-2" target="_blank">Pay with Cryptocurrency</a>
-                </li>
-            </ul>
-            <div class="tab-content" id="paymentsContent">
-                <div class="tab-pane fade show active" id="cc" role="tabpanel" aria-labelledby="cc-tab">
-                    <div id="dropin-container"></div>
-                    <button class="btn btn-success" id="dropin-button">Pay 100$ annually</button>
+    <div class="tab-pane active" id="plan">
+        <div class="settings-plan-section advancedplan-section">
+            <h3>Advanced plan</h3>
+            <p>Please select from our payment options:</p>
+
+            <!-- blurb -->
+            <div class="settings-credits-module advancedplan-module">
+                <div class="row">
+
+                    <div class="col-md-4 col-sm-4">
+                        <h3>Yearly</h3>
+                    </div>
+
+                    <div class="col-md-8 col-sm-8 advancedplan-module-right">
+                        <a href="#" class="btn btn-primary bt-section d-inline-flex" id="bitcoin-button" data-toggle="modal"
+                                data-target="#myModal"><i class="material-icons">credit_card</i>Credit card: $100
+                        </a>
+                        <a href="{{ $link_transaction }}" class="btn btn-primary bt-section d-inline-flex" target="_blank"><i class="material-icons">monetization_on</i> Bitcoin: $100</a>
+                    </div>
+
                 </div>
             </div>
-            <p>&nbsp;</p>
+            <!-- END blurb -->
 
+            <div class="advancedplan-bottom">
+                <a class="btn btn-default bt-section-out" href="{{ route('user.subscription.index') }}" role="button">Back to all plans</a>
+            </div>
+
+        </div>
+    </div>
+    <!-- END plan -->
+    <div class="my-modal-base">
+        <div class="my-modal-cont">
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">×</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Pay with Card</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="dropin-container"></div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary bt-section   " id="dropin-button">Pay 100$</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

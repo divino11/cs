@@ -23,10 +23,10 @@ class Transaction extends Model
     public function getStatusTransactionAttribute() {
         switch ($this->status) {
             case -1:
-                return 'Canceled';
+                return ['Declined' => 'danger'];
                 break;
             case 100:
-                return 'Complete';
+                return ['Approved' => 'success'];
                 break;
         }
     }

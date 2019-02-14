@@ -18,7 +18,7 @@ class PasswordController extends Controller
     {
         $user = Auth::user();
 
-        return view('user.change_password', ['user' => $user]);
+        return view('user.changePassword', ['user' => $user]);
     }
 
     /**

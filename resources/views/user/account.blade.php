@@ -526,7 +526,7 @@
                         </select>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-default">Update</button>
+                        <button type="submit" class="btn btn-primary bt-custom">Update</button>
                     </div>
                 </form>
             </div>
