@@ -74,25 +74,21 @@
 @auth
     <!-- Sidebar LEFT -->
     <nav id="sidebar">
-
-        <!-- top module -->
-        <div class="sidebar-left-top-module">
-            <a href="{{ route('alerts.create') }}">
-                Add new alert
-                <span class="pull-right">
-	<span class="material-icons">add_circle_outline</span>
-	</span>
-            </a>
-        </div>
-        <!-- END top module -->
             <ul class="list-group">
+                <li class="{{ (Request::is('alerts/create') ? 'active' : '') }}">
+                    <a href="{{ route('alerts.create') }}" class="list-group-item list-group-item-left">
+                        Add new alert
+                        <span class="material-icons">add_circle_outline</span>
+                    </a>
+                </li>
+
                 <li class="{{ (Request::is('alerts') ? 'active' : '') }}">
                     <a href="{{ route('alerts.index') }}" class="list-group-item list-group-item-left">
                         Alerts
                     </a>
                 </li>
 
-                <li class="{{ (Request::is('account*') ? 'active' : '') }}">
+                <li class="{{ (Request::is('user*') || Request::is('channels*') ? 'active' : '') }}">
                     <a href="{{ route('user.account') }}" class="list-group-item list-group-item-left">
                         Settings
                     </a>

@@ -15,7 +15,7 @@
         </div>
         <div class="col-md-6 col-sm-6 myaccount-combo-righthalf">
             <!-- combo -->
-            <h5>Value</h5>
+            &nbsp;
             <div class="btn-group special">
                 <select class="form-control" name="conditions[direction]" required>
                     <option value="0" @if(old('conditions.direction', $alert->conditions['direction']) == 0) selected @endif>is less than or equals</option>

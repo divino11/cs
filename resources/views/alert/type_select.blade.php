@@ -33,7 +33,7 @@
             <div class="row">
                 <div class="col-md-11 col-sm-11 col-xs-10">
                     <div class="pull-left">
-                        <img src="{{ asset('images/alerts_ico_percentage.svg') }}" alt=""/>
+                        <img src="{{ asset('images/alerts_ico_regularupdate.svg') }}" alt=""/>
                     </div>
                     <div class="media-body">
                         <h4>Percentage change</h4>
@@ -61,7 +61,7 @@
             <div class="row">
                 <div class="col-md-11 col-sm-11 col-xs-10">
                     <div class="pull-left">
-                        <img src="{{ asset('images/alerts_ico_regularupdate.svg') }}" alt=""/>
+                        <img src="{{ asset('images/alerts_ico_percentage.svg') }}" alt=""/>
                     </div>
                     <div class="media-body">
                         <h4>Regular update</h4>

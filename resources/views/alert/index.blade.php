@@ -14,7 +14,7 @@
 
                 <div class="col-md-8 col-sm-8">
                     <div class="pull-left">
-                        <img src="{{asset('images/alerts_ico_regularupdate.svg')}}" alt=""/>
+                        <img src="{{asset('images/alerts_ico_' . $alert->type . '.svg')}}" alt=""/>
                     </div>
                     <div class="media-body">
                         <h4>{{ $alert->name }}</h4>
