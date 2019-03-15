@@ -54,7 +54,7 @@
             <div class="col-6">
                 <ul>
                     <li>@subscribed pro @else free @endsubscribed</li>
-                    <li>{{ $subscription->ends_at ? $subscription->ends_at : $subscription->updated_at->addYear()}}</li>
+                    <li>@if($subscription){{$subscription->ends_at ? $subscription->ends_at : $subscription->updated_at->addYear()}}@else - @endif</li>
                     <li>{{ $user->alerts()->count() }} @unless($user->subscribed('main')) out of
                         5 @endunless</li>
                     <li>{{ $user->card_brand }} ending on {{ $user->card_last_four }}</li>
@@ -535,5 +535,6 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 @endsection
