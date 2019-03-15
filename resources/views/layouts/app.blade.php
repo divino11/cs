@@ -11,35 +11,6 @@
 </head>
 <body>
 <header>
-    {{--<nav class="navbar navbar-dark fixed-top bg-dark p-0 navbar-expand-lg">
-        <a href="#" class="navbar-brand">CS</a>
-        <span class="col-xs-9 h3 m-0 p-0 navbar-text">@yield('title')</span>
-        <button class="navbar-toggler" type="button" data-target="#mainMenu" data-toggle="collapse"
-                aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        @auth
-            <div class="bg-dark sidebar navbar-collapse collapse" id="mainMenu">
-                <ul class="navbar-nav flex-column w-100 h-100">
-                    <li>
-                        <div class="nav sidebar-links">
-                            <a class="border-right border-dark" href="{{ route('user.account') }}">Account</a>
-                            <a href="#" onclick="$('#logoutForm').submit()">Logout</a>
-                            <form method="post" action="{{ route('logout') }}" id="logoutForm">@csrf</form>
-                        </div>
-                    </li>
-                    <li class="nav-item {{ (Request::is('alerts/create') ? 'active' : '') }}"><a class="nav-link" href="{{ route('alerts.create') }}"><span
-                                    class="material-icons">add_circle_outline</span>Add Alert</a></li>
-                    <li class="nav-item {{ (Request::is('notifications*') ? 'active' : '') }}"><a class="nav-link" href="{{ route('notifications.index') }}"><span
-                                    class="material-icons">view_list</span>Activity @if($notificationUnRead > 0){{$notificationUnRead}}@endif</a></li>
-                    <li class="nav-item {{ (Request::is('alerts') ? 'active' : '') }}"><a class="nav-link" href="{{ route('alerts.index') }}"><span
-                                    class="material-icons">send</span>Alerts</a></li>
-                    <li class="nav-item {{ (Request::is('channels*') ? 'active' : '') }}"><a class="nav-link" href="{{ route('channels.index') }}"><span
-                                    class="material-icons">message</span>Channels</a></li>
-                </ul>
-            </div>
-        @endauth
-    </nav>--}}
     <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-custom">
         <a class="navbar-brand" href="#"><img src="{{asset('images/logo.svg')}}" alt=""/></a>
         @auth

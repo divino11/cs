@@ -65,3 +65,6 @@ Route::group(['middleware' => ['signed']], function() {
 
 Auth::routes();
 Route::post('channels/telegram/verify/' . env('TELEGRAM_BOT_TOKEN'), 'Channels\ConfirmTelegramController')->name('channels.telegram.webhook');
+
+Route::get('login/{provider}', 'Auth\SocialController@redirect');
+Route::get('login/{provider}/callback', 'Auth\SocialController@callback');

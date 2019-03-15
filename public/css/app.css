@@ -12386,3 +12386,235 @@ Settings page
   padding: 0 !important;
 }
 
+.log-content {
+  margin-top: 60px;
+  margin-bottom: 120px;
+}
+
+.log-social {
+  font-size: 24px;
+  padding-top: 20px;
+  padding-bottom: 5px;
+  text-align: center;
+}
+
+.log-social li {
+  padding-right: 40px;
+}
+
+.log-social li:last-child {
+  padding-right: 0;
+}
+
+.log-social a {
+  color: #999;
+}
+
+svg:not(:root).svg-inline--fa {
+  overflow: visible;
+}
+
+.svg-inline--fa.fa-w-9 {
+  width: .5625em;
+}
+
+.svg-inline--fa {
+  display: inline-block;
+  font-size: inherit;
+  height: 1em;
+  overflow: visible;
+  vertical-align: -.125em;
+}
+
+.log-social-fb a:hover {
+  color: #4a7dbc;
+}
+
+.log-social-twitter a:hover {
+  color: #59adeb;
+}
+
+.log-social-google a:hover {
+  color: #da5046;
+}
+
+.log-social-linkedin a:hover {
+  color: #1178b3;
+}
+
+.log-separator {
+  position: relative;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.log-separator hr {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  width: 100%;
+  margin: 0;
+  z-index: -1000;
+}
+
+.log-separator h5 {
+  background-color: #f8fafc;
+  z-index: 1000;
+  display: inline-block;
+  margin: 0 auto;
+  padding: 10px;
+  font-size: 12px;
+  color: #999;
+}
+
+.login-custom .form-control {
+  cursor: text !important;
+  position: relative !important;
+  opacity: 1 !important;
+  width: 100% !important;
+  height: calc(2.19rem + 2px) !important;
+  color: #495057 !important;
+  padding: 25px 15px !important;
+  background-color: transparent !important;
+  border-radius: 0 !important;
+  -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+}
+
+.login-custom input {
+  position: relative !important;
+  opacity: 1 !important;
+  width: auto !important;
+}
+
+.log-content-top {
+  text-align: center;
+}
+
+.log-content-top img {
+  width: 160px;
+  margin-bottom: 40px;
+}
+
+.login-bot {
+  margin-top: -35px;
+}
+
+.login-remember-txt {
+  margin-top: -37px;
+  font-size: 13px;
+  padding-left: 18px;
+}
+
+.login-right {
+  text-align: right;
+  font-size: 13px;
+  padding-top: 15px;
+}
+
+.login-bot a {
+  color: #1f8ce7;
+}
+
+.log-content .nav-tabs .nav-link.active,
+.log-content .nav-tabs .nav-item.show .nav-link {
+  background-color: #f8fafc;
+  border-color: #dee2e6 #dee2e6 #f8fafc;
+}
+
+.forgotpassword {
+  text-align: center;
+}
+
+.forgotpassword h3 {
+  font-family: 'Circular', sans-serif;
+  padding-bottom: 10px;
+}
+
+.login-custom .btn {
+  padding-left: 35px;
+  padding-right: 35px;
+  margin-top: 10px;
+}
+
+.forgotpassword .btn {
+  margin-top: 0;
+}
+
+.settings-generalmodule {
+  margin-top: 40px;
+  margin-bottom: 60px;
+}
+
+.settings-generalmodule h5 {
+  font-weight: 600;
+  color: #082a52;
+  margin-bottom: 10px;
+  font-size: 1.25rem;
+}
+
+.myaccount-list-grey {
+  color: #999;
+}
+
+.myaccount-list li {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.myaccount-list-subscription-bot {
+  color: #1f8ce7;
+}
+
+.myaccount-list {
+  padding-bottom: 40px;
+}
+
+.list-inline {
+  padding-left: 0;
+  list-style: none;
+}
+
+.list-inline-item:not(:last-child) {
+  margin-right: .5rem;
+}
+
+.myaccount-list-subscription-bot li {
+  color: #1f8ce7;
+  border-bottom: none;
+}
+
+.myaccount-list a {
+  color: #1f8ce7;
+}
+
+li.channels-ico {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+}
+
+li.channels-ico i {
+  font-size: 18px;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translate(0, -50%);
+          transform: translate(0, -50%);
+  color: #000;
+}
+
+li.channels-ico a {
+  padding: 11px 0;
+  margin-right: 20px;
+}
+
