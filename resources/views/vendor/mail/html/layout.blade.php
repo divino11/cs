@@ -60,14 +60,15 @@
                     <td>
                         {{ Illuminate\Mail\Markdown::parse($slot) }}
 
-                        <h2 style="font-size: 30px; color: #222; text-align:left; line-height: 30px; font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;">Hello!</h2>
+                        {{--<h2 style="font-size: 30px; color: #222; text-align:left; line-height: 30px; font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;">Hello!</h2>
                         <p style="font-size: 12px; line-height: 22px; color: #333; text-align:left; font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;">Please click the button below to verify your email address:</p>
                         <br>
+                        {{ $button ?? '' }}
                         <br><br>
                         <p style="font-size: 14px; line-height: 22px; color: #333; text-align:left; font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;">
                             If you did not create an account, no further action is required.<br><br>
                             The CoinSpy team
-                        </p>
+                        </p>--}}
                     </td>
                 </tr>
                 </tbody>
@@ -88,10 +89,10 @@
             <table width="100" border="0" align="center" cellpadding="0" cellspacing="0">
                 <tbody>
                 <tr>
-                    <td style="padding-right:10px;"><a href="#" target="_blank"><img src="{{ asset('images/ico_fb.png') }}" height="22" alt=""></a></td>
-                    <td style="padding-right:10px;"><a href="#" target="_blank"><img src="{{ asset('images/ico_twitter.png') }}" height="22" alt=""></a></td>
-                    <td style="padding-right:10px;"><a href="#" target="_blank"><img src="{{ asset('images/ico_google.png') }}" height="22" alt=""></a></td>
-                    <td><a href="#"><img src="{{ asset('images/ico_insta.png') }}" height="22" alt=""></a></td>
+                    <td style="padding-right:10px;"><a href="#" target="_blank"><img src="{{ asset('images/ico_fb.png') }}" height="20" alt=""></a></td>
+                    <td style="padding-right:10px;"><a href="#" target="_blank"><img src="{{ asset('images/ico_twitter.png') }}" height="20" alt=""></a></td>
+                    <td style="padding-right:10px;"><a href="#" target="_blank"><img src="{{ asset('images/ico_google.png') }}" height="20" alt=""></a></td>
+                    <td><a href="#"><img src="{{ asset('images/ico_insta.png') }}" height="20" alt=""></a></td>
                 </tr>
                 </tbody>
             </table>
