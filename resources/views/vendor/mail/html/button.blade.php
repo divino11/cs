@@ -1,0 +1,1 @@
+<a style="background-color:#1f8ce7; padding: 15px 20px; border-radius:60px; color:#fff; text-decoration:none; font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px;" href="{{ $url }}">{{ $slot }}</a>
