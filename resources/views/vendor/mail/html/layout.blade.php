@@ -59,16 +59,6 @@
                 <tr>
                     <td>
                         {{ Illuminate\Mail\Markdown::parse($slot) }}
-
-                        {{--<h2 style="font-size: 30px; color: #222; text-align:left; line-height: 30px; font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;">Hello!</h2>
-                        <p style="font-size: 12px; line-height: 22px; color: #333; text-align:left; font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;">Please click the button below to verify your email address:</p>
-                        <br>
-                        {{ $button ?? '' }}
-                        <br><br>
-                        <p style="font-size: 14px; line-height: 22px; color: #333; text-align:left; font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;">
-                            If you did not create an account, no further action is required.<br><br>
-                            The CoinSpy team
-                        </p>--}}
                     </td>
                 </tr>
                 </tbody>
@@ -107,7 +97,7 @@
 <table width="600" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top: 0;">
     <tbody>
     <tr>
-        <td>
+        <td class="footer-text">
             {{ $subcopy ?? '' }}
 
             {{ $footer ?? '' }}

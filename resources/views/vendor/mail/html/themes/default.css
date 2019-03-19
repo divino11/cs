@@ -288,3 +288,17 @@ img {
     font-size: 15px;
     text-align: center;
 }
+
+.footer-text p {
+    text-align:center !important;
+    font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+    font-size:11px !important;
+    color:#666 !important;
+}
+
+.footer-text a {
+    text-align:center !important;
+    font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+    font-size:11px !important;
+    color:#666 !important;
+}

@@ -9,17 +9,13 @@
     {{-- Body --}}
     {{ $slot }}
 
-    {{-- Subcopy --}}
-    @isset($subcopy)
-        @slot('subcopy')
+    {{-- Footer --}}
+    @slot('footer')
+        @isset($subcopy)
             @component('mail::subcopy')
                 {{ $subcopy }}
             @endcomponent
-        @endslot
-    @endisset
-
-    {{-- Footer --}}
-    @slot('footer')
+        @endisset
         @component('mail::footer')
             <p style="text-align: center">© {{ date('Y') }} {{ config('app.name') }}. @lang('All rights reserved.')</p>
         @endcomponent
