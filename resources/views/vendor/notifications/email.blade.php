@@ -1,21 +1,24 @@
 @component('mail::message')
 {{-- Greeting --}}
+<p style="font-size: 30px; color: #222; text-align:left; line-height: 30px; font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;">
 @if (! empty($greeting))
-# {{ $greeting }}
+{{ $greeting }}
 @else
 @if ($level === 'error')
-# @lang('Whoops!')
+@lang('Whoops!')
 @else
-# @lang('Hello!')
+@lang('Hello!')
 @endif
 @endif
+</p>
 
 {{-- Intro Lines --}}
 @foreach ($introLines as $line)
+<p style="font-size: 14px; line-height: 22px; margin-bottom: 0; color: #333; text-align:left; font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;">
 {{ $line }}
-
+</p>
 @endforeach
-
+<p style="line-height: 10px"><br></p>
 {{-- Action Button --}}
 @isset($actionText)
 <?php
@@ -34,9 +37,11 @@
 @endisset
 
 {{-- Outro Lines --}}
+<p style="line-height: 10px; margin-bottom: 0;"><br></p>
 @foreach ($outroLines as $line)
+<p style="font-size: 14px; line-height: 22px; color: #333; text-align:left; font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;">
 {{ $line }}
-
+</p>
 @endforeach
 
 {{-- Salutation --}}
@@ -60,4 +65,9 @@
 @endcomponent
 @endslot
 @endisset
+@slot('footer')
+    @component('mail::footer')
+
+    @endcomponent
+@endslot
 @endcomponent

@@ -17,9 +17,6 @@
     Disable this alert
 @endcomponent
 <br><br><br>
-<p style="font-size: 14px; line-height: 22px; color: #333; text-align:left; font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;">
-    The CoinSpy team
-</p>
 @slot('subcopy')
 @component('mail::subcopy')
 @lang(
