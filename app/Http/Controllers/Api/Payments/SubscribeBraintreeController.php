@@ -22,7 +22,10 @@ class SubscribeBraintreeController extends Controller
                 'service' => $request->type,
                 'status' => 100,
             ]);
-            return ['success' => true];
+            return response()->json([
+                'status' => back()->with('status', 'You have purchased pro subscription'),
+                'success' => true,
+            ]);
         } else {
             Transaction::updateOrCreate(['created_at' => Carbon::now()], [
                 'user_id' => $request->user()->id,
@@ -31,7 +34,10 @@ class SubscribeBraintreeController extends Controller
                 'service' => $request->type,
                 'status' => -1,
             ]);
-            return ['success' => false];
+            return response()->json([
+                'status' => back()->with('status', 'Data is invalid'),
+                'success' => false,
+            ]);
         }
     }
 }

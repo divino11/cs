@@ -52,7 +52,7 @@ class SubscriptionController extends Controller
 
         $link_transaction = CoinPayment::url_payload($trx);
 
-        return view('user.subscription.create', ['link_transaction' => $link_transaction]);
+        return view('user.subscription.create', ['link_transaction' => $link_transaction])->with('status', 'You have purchased pro subscription');
     }
 
     public function update(ResumeRequest $request)

@@ -40,7 +40,8 @@
                                 <h5>SMS <span
                                             class="badge badge-secondary badge-{{ $user->hasNotificationPhoneVerified() ? 'success' : 'danger' }}">
                             {{ $user->hasNotificationPhoneVerified() ? 'Verified' : 'Not verified' }}
-                                    </span></h5>
+                                    </span>
+                                    <br><span class="entered-channel">{{$user->getNotificationPhone()}}</span></h5>
                             @else
                                 <h5>SMS</h5>
                             @endif

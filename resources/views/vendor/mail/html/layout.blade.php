@@ -81,10 +81,10 @@
             <table width="100" border="0" align="center" cellpadding="0" cellspacing="0">
                 <tbody>
                 <tr>
-                    <td style="padding-right:10px;"><a href="#" target="_blank"><img src="{{ asset('images/ico_fb.png') }}" height="20" alt=""></a></td>
-                    <td style="padding-right:10px;"><a href="#" target="_blank"><img src="{{ asset('images/ico_twitter.png') }}" height="20" alt=""></a></td>
-                    <td style="padding-right:10px;"><a href="#" target="_blank"><img src="{{ asset('images/ico_google.png') }}" height="20" alt=""></a></td>
-                    <td><a href="#"><img src="{{ asset('images/ico_insta.png') }}" height="20" alt=""></a></td>
+                    <td style="padding-right:10px;"><a href="#" target="_blank"><img src="{{ asset('images/ico_fb.png') }}" style="width: 24px;" alt=""></a></td>
+                    <td style="padding-right:10px;"><a href="#" target="_blank"><img src="{{ asset('images/ico_twitter.png') }}" style="width: 25px;" alt=""></a></td>
+                    <td style="padding-right:10px;"><a href="#" target="_blank"><img src="{{ asset('images/ico_google.png') }}" style="width: 28px;" alt=""></a></td>
+                    <td><a href="#"><img src="{{ asset('images/ico_insta.png') }}" style="width: 20px;" alt=""></a></td>
                 </tr>
                 </tbody>
             </table>

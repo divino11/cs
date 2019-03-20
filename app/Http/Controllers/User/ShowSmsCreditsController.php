@@ -34,6 +34,6 @@ class ShowSmsCreditsController extends Controller
 
         $link_transaction = \CoinPayment::url_payload($trx);
 
-        return view('user.sms_credits', ['link_transaction' => $link_transaction]);
+        return view('user.sms_credits', ['link_transaction' => $link_transaction])->with('status', 'You have purchased 100 SMS Credits');
     }
 }
