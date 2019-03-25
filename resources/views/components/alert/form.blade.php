@@ -171,4 +171,26 @@
             $('#exchange, #markets').chosen();
         });
     </script>
+    <script>
+        $(document).ready(function () {
+            $('.chosen-search input').autocomplete({
+                source: function( request, response ) {
+                    $.ajax({
+                        url: '{{ route('api.alert.markets') }}',
+                        dataType: "json",
+                        data: {name: document.getElementsByClassName("chosen-search-input")[1].value, id: $('#exchange').val()},
+                        beforeSend: function(){$('ul.chosen-results').empty();},
+                        success: function( data ) {
+                            $('ul.chosen-results').empty();
+                            response( $.map( data, function( item ) {
+                                item.markets.forEach(function (pair) {
+                                    $('ul.chosen-results').append('<li class="active-result" data-option-array-index="' + pair.id + '">' + pair.base + '/' + pair.quote + '</li>');
+                                });
+                            }));
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 @endpush

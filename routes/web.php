@@ -18,6 +18,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'alert', 'as' => 'alert.'], function () {
             Route::get('/{alert}/toggle', 'ToggleAlertController')->name('toggle');
             Route::get('/metricPrice/', 'CurrencyPriceController')->name('metric'); //TODO: rename
+            Route::get('/markets/', 'MarketController')->name('markets');
         });
         Route::group(['prefix' => 'braintree', 'namespace' => 'Payments', 'as' => 'payments.braintree.'], function () {
             Route::get('/', 'SubscribeBraintreeController')->name('subscribe');

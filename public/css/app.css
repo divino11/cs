@@ -12619,3 +12619,11 @@ li.channels-ico a {
   margin-right: 20px;
 }
 
+.reset-password h3 {
+  text-align: center;
+}
+
+.entered-channel {
+  font-size: 15px;
+}
+
