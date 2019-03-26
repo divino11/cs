@@ -87,14 +87,12 @@
 <!-- combo -->
 <div class="myaccount-combo">
     <div class="form-group">
-        <h5>Frequency:</h5>
-        <div class="slide-buttons">
-            <div class="slide-button">
-                once
-                <input type="radio" @if(old('frequency', $alert->frequency) == 0) checked @endif name="frequency" value="0">
-                every time
-                <input type="radio" @if(old('frequency', $alert->frequency) == 1) checked @endif name="frequency" value="1">
-            </div>
+        <h5>Frequency</h5>
+        <div class="toggle">
+            <input type="radio" name="frequency" value="0" id="once" @if(old('frequency', $alert->frequency) == 0) checked @endif />
+            <label for="once">Once</label>
+            <input type="radio" name="frequency" value="1" id="every_time" @if(old('frequency', $alert->frequency) == 1) checked @endif />
+            <label for="every_time">Every time</label>
         </div>
     </div>
 </div>
@@ -103,13 +101,26 @@
 <!-- combo -->
 <div class="myaccount-combo">
     <div class="form-group">
-        <h5>Cooldown:</h5>
-        <input type="number" placeholder="min 5 minute" value="{{ old('conditions.cooldown_number', $alert->conditions['cooldown_number']) }}" name="conditions[cooldown_number]">
-        <select name="conditions[cooldown_unit]">
-            <option value="M" @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'M') selected @endif>Minutes</option>
-            <option value="H" @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'H') selected @endif>Hours</option>
-            <option value="D" @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'D') selected @endif>Days</option>
-        </select>
+        <h5>Cooldown</h5>
+        <div class="cooldown-group">
+            <input type="number" class="form-control" placeholder="min 5 minute"
+                   value="{{ old('conditions.cooldown_number', $alert->conditions['cooldown_number']) }}"
+                   name="conditions[cooldown_number]">
+            <select name="conditions[cooldown_unit]" class="form-control">
+                <option value="M"
+                        @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'M') selected @endif>
+                    Minutes
+                </option>
+                <option value="H"
+                        @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'H') selected @endif>
+                    Hours
+                </option>
+                <option value="D"
+                        @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'D') selected @endif>
+                    Days
+                </option>
+            </select>
+        </div>
     </div>
 </div>
 <!-- END combo -->
@@ -117,8 +128,8 @@
 <!-- combo -->
 <div class="myaccount-combo">
     <div class="form-group">
-        <h5>Expiration Time:</h5>
-        <input class="expiration" value="{{ old('expiration_date', $alert->expiration_date) }}" name="expiration_date">
+        <h5>Expiration Time</h5>
+        <input class="form-control expiration" value="{{ old('expiration_date', $alert->expiration_date) }}" name="expiration_date">
     </div>
 </div>
 <!-- END combo -->
@@ -142,7 +153,6 @@
                 selectedMarket = $('#markets').val();
                 $('#markets').html('<option value="" disabled>Select market</option>');
                 $.each(exchanges[$('#exchange').val()].markets, function(key, value){
-                    console.log(value.id);
                     $('#markets').append(
                         option = $("<option></option>")
                             .attr("value",value.id)
