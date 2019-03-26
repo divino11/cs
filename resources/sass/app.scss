@@ -1551,7 +1551,6 @@ li.channels-ico a {
   font-size: 15px;
 }
 
-$darkNavy: #213140;
 $teal1: #66B3FB;
 $teal2: #4B9DEA;
 $charcoal: #555555;
@@ -1577,6 +1576,7 @@ $activeShadow: 0 0 10px rgba($teal1, .5);
   input {@include hideInput;}
   input + label {
     cursor: pointer;
+    color: #999;
     margin: 0; padding: 0 2rem; box-sizing: border-box;
     position: relative; display: inline-block;
     border: solid 1px #DDD; background-color: #FFF;
@@ -1589,7 +1589,7 @@ $activeShadow: 0 0 10px rgba($teal1, .5);
     &:first-of-type {border-radius: 6px 0 0 6px; border-right: none;}
     &:last-of-type {border-radius: 0 6px 6px 0; border-left: none;}
   }
-  input:hover + label {border-color: $darkNavy;}
+  input:hover + label {border-color: #828282;}
   input:checked + label {
     background-color: $teal2;
     color: #FFF;
