@@ -73,7 +73,7 @@
 </div>
 <!-- END combo -->
 
-<!-- combo -->
+{{--<!-- combo -->
 <div class="myaccount-combo">
     <div class="form-group">
         <h5>Maximum notifications for this alert:</h5>
@@ -82,7 +82,47 @@
         </div>
     </div>
 </div>
+<!-- END combo -->--}}
+
+<!-- combo -->
+<div class="myaccount-combo">
+    <div class="form-group">
+        <h5>Frequency:</h5>
+        <div class="slide-buttons">
+            <div class="slide-button">
+                once
+                <input type="radio" @if(old('frequency', $alert->frequency) == 0) checked @endif name="frequency" value="0">
+                every time
+                <input type="radio" @if(old('frequency', $alert->frequency) == 1) checked @endif name="frequency" value="1">
+            </div>
+        </div>
+    </div>
+</div>
 <!-- END combo -->
+
+<!-- combo -->
+<div class="myaccount-combo">
+    <div class="form-group">
+        <h5>Cooldown:</h5>
+        <input type="number" placeholder="min 5 minute" value="{{ old('conditions.cooldown_number', $alert->conditions['cooldown_number']) }}" name="conditions[cooldown_number]">
+        <select name="conditions[cooldown_unit]">
+            <option value="M" @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'M') selected @endif>Minutes</option>
+            <option value="H" @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'H') selected @endif>Hours</option>
+            <option value="D" @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'D') selected @endif>Days</option>
+        </select>
+    </div>
+</div>
+<!-- END combo -->
+
+<!-- combo -->
+<div class="myaccount-combo">
+    <div class="form-group">
+        <h5>Expiration Time:</h5>
+        <input class="expiration" value="{{ old('expiration_date', $alert->expiration_date) }}" name="expiration_date">
+    </div>
+</div>
+<!-- END combo -->
+
 
 @push('scripts')
     <script>
@@ -102,6 +142,7 @@
                 selectedMarket = $('#markets').val();
                 $('#markets').html('<option value="" disabled>Select market</option>');
                 $.each(exchanges[$('#exchange').val()].markets, function(key, value){
+                    console.log(value.id);
                     $('#markets').append(
                         option = $("<option></option>")
                             .attr("value",value.id)
@@ -169,6 +210,14 @@
         });
         $(document).ready(function(){
             $('#exchange, #markets').chosen();
+        });
+        $(document).ready(function () {
+           $('.expiration').flatpickr({
+               enableTime: true,
+               dateFormat: "Y-m-d H:i",
+               minDate: "today",
+               maxDate: new Date().fp_incr(30)
+           });
         });
     </script>
 @endpush

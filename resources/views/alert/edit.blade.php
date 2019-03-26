@@ -8,7 +8,7 @@
             @method('PUT')
             @include('components.alert.form')
             <div class="form-group">
-                <button type="submit" class="btn btn-primary text-uppercase">edit this alert</button>
+                <button class="btn btn-default bt-section-out" type="submit" role="button">Edit this alert</button>
             </div>
         </form>
     </div>

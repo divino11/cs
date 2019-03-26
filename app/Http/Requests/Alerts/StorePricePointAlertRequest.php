@@ -35,7 +35,9 @@ class StorePricePointAlertRequest extends FormRequest
             'conditions.value' => 'required|numeric|min:0',
             'notification_channels' => 'required',
             'notification_channels.*.notification_channel' => 'enum_value:' . NotificationChannel::class.',false',
-            'triggerings_limit' => 'required|numeric|between:1,100'
+            'frequency' => 'required|boolean',
+            'cooldown_number' => 'numeric|min:5',
+            'expiration_date' => 'required|date',
         ];
     }
 }

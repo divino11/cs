@@ -22,6 +22,8 @@
     },
     "dependencies": {
         "braintree-web-drop-in": "^1.14.1",
-        "chosen-js": "^1.8.7"
+        "chosen-js": "^1.8.7",
+        "flatpickr": "^4.5.7",
+        "jquery-autocomplete": "^1.2.8"
     }
 }

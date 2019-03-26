@@ -6,6 +6,7 @@
  */
 
 require('./bootstrap');
+const flatpickr = require("flatpickr/dist/flatpickr");
 window.Chosen = require('chosen-js');
 
 window.Vue = require('vue');
