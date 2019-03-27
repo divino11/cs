@@ -6,7 +6,7 @@
  */
 
 require('./bootstrap');
-window.Chosen = require('chosen-js');
+require('select2');
 require('jquery-autocomplete');
 
 window.Vue = require('vue');

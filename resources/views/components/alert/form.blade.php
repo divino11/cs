@@ -20,7 +20,7 @@
         <div class="col-md-6 col-sm-6 myaccount-combo-righthalf">
             <!-- combo -->
             <h5>Market</h5>
-            <select class="form-control" name="market_id" id="markets" required>
+            <select class="form-control js-data-example-ajax" name="market_id" id="markets" required>
                 @if(old('exchange_id', $alert->exchange_id))
                     @foreach($exchanges->where('id', old('exchange_id', $alert->exchange_id))->first()->markets as $market)
                         <option value="{{ $market->id }}" data-quote="{{ $market->quote }}" @if(old('market_id', $alert->market_id) == $market->id) selected @endif>{{ $market->base }}/{{ $market->quote }}</option>
@@ -112,7 +112,6 @@
                         $('#markets').val(value.id).change();
                     }
                 });
-                $('#markets').trigger('chosen:updated');
             }).change();
             $('#markets').change(function () {
                 selectedPlatform = $('#exchange option:selected').val();
@@ -167,28 +166,28 @@
                 }
             });
         });
-        $(document).ready(function(){
-            $('#exchange, #markets').chosen();
-        });
-    </script>
-    <script>
         $(document).ready(function () {
-            $('.chosen-search input').autocomplete({
-                source: function( request, response ) {
-                    $.ajax({
-                        url: '{{ route('api.alert.markets') }}',
-                        dataType: "json",
-                        data: {name: document.getElementsByClassName("chosen-search-input")[1].value, id: $('#exchange').val()},
-                        beforeSend: function(){$('ul.chosen-results').empty();},
-                        success: function( data ) {
-                            $('ul.chosen-results').empty();
-                            response( $.map( data, function( item ) {
-                                item.markets.forEach(function (pair) {
-                                    $('ul.chosen-results').append('<li class="active-result" data-option-array-index="' + pair.id + '">' + pair.base + '/' + pair.quote + '</li>');
-                                });
-                            }));
-                        }
-                    });
+            $('#exchange').select2();
+            $('.js-data-example-ajax').select2({
+                ajax: {
+                    url: '{{ route('api.alert.markets') }}',
+                    data: function (params) {
+                        return {
+                            name: params.term,
+                            id: $('#exchange').val(),
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data[0].markets, function (item) {
+                                console.log(item);
+                                    return {
+                                        id: item.id,
+                                        text: item.base + '/' + item.quote,
+                                    }
+                            })
+                        };
+                    }
                 }
             });
         });
