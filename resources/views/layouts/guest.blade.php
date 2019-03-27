@@ -11,9 +11,9 @@
 </head>
 <body>
 
-<div class="container col-md-6 mt-5 px-0">
+<div class="container">
     <div class="log-content">
-        <div class="col-md-8 offset-md-2 col-sm-8 offset-sm-2 offset-xs-0">
+        <div class="col-md-12">
 
             <div class="log-content-top">
                 <img src="{{ asset('images/logo.svg') }}" alt="">

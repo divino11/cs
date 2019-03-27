@@ -12391,6 +12391,10 @@ Settings page
   margin-bottom: 120px;
 }
 
+.log-content li {
+  color: #999;
+}
+
 .log-social {
   font-size: 24px;
   padding-top: 20px;
@@ -12617,5 +12621,13 @@ li.channels-ico i {
 li.channels-ico a {
   padding: 11px 0;
   margin-right: 20px;
+}
+
+.reset-password h3 {
+  text-align: center;
+}
+
+.entered-channel {
+  font-size: 15px;
 }
 

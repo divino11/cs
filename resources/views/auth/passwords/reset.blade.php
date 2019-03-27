@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+    <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 offset-xs-0">
     <div class="tab-pane login-custom active reset-password show" id="reset">
         <h3>Reset password</h3>
         <form method="POST" action="{{ route('password.update') }}">
@@ -48,5 +49,6 @@
 
             <button type="submit" class="btn btn-default bt-section-out">{{ __('Reset Password') }}</button>
         </form>
+    </div>
     </div>
 @endsection

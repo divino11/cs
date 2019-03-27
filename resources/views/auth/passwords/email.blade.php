@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+    <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 offset-xs-0">
     <div class="tab-pane active login-custom forgotpassword" id="login">
 
         @if (session('status'))
@@ -34,5 +35,6 @@
 
             <button type="submit" class="btn btn-default bt-section-out">Reset password</button>
         </form>
+    </div>
     </div>
 @endsection

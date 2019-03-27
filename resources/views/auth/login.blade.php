@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+    <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 offset-xs-0">
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link active" href="#login" data-toggle="tab">Log in</a>
@@ -209,7 +210,7 @@
                     <div class="checkbox">
                         <label>
                             <input type="checkbox" required>
-                            <p class="login-remember-txt">I have read and agree to the <a href="#">Terms of
+                            <p class="login-remember-txt">I have read and agree to the <a href="{{ route('terms') }}">Terms of
                                     Use</a>
                                 as
                                 well as <a href="#">Privacy Policy</a></p>
@@ -238,4 +239,5 @@
             });
         });
     </script>
+    </div>
 @endsection
