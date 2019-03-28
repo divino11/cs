@@ -66,4 +66,4 @@ Route::post('channels/telegram/verify/' . env('TELEGRAM_BOT_TOKEN'), 'Channels\C
 
 Route::get('login/{provider}', 'Auth\SocialController@redirect');
 Route::get('login/{provider}/callback', 'Auth\SocialController@callback');
-Route::get('privacy_policy', 'PrivacyPolicyController')->name('privacy');
+Route::view('privacy_policy', 'privacy')->name('privacy');
