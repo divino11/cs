@@ -23,6 +23,11 @@ window.Echo = new Echo({
 
 window.Echo.private(`user.${userId}`)
     .notification((data) => {
+        if (data.user.sound_enable) {
+            var audio = new Audio(data.alert_sound);
+            window.focus();
+            audio.play();
+        }
         $.notify({
             message: 'Alert Triggered - ' + data.alert_name + '. The ' + data.alert_type + ' is currently ' + data.value,
         },{

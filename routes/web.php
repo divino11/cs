@@ -42,7 +42,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('telegram', 'TelegramController')->name('telegram.update');
         Route::resource('pushover', 'PushoverController')->only(['store', 'update', 'destroy']);
         Route::post('pushover/verify', 'PushoverVerificationController')->name('pushover.verify');
-
+        Route::get('/{user}/soundEnable', 'SoundController@soundEnable')->name('soundEnable');
+        Route::get('/{user}/sound', 'SoundController@sound')->name('sound');
     });
     Route::resource('notifications', 'NotificationController')->only(['index']);
     Route::resource('alerts', 'AlertController')->middleware('verified');
