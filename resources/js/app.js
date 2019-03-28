@@ -22,7 +22,7 @@ window.Echo = new Echo({
 });
 
 window.Echo.private(`user.${userId}`)
-    .listen('AlertNotification', (data) => {
+    .notification((data) => {
         $.notify({
             message: 'Alert Triggered - ' + data.alert_name + '. The ' + data.alert_type + ' is currently ' + data.value,
         },{
