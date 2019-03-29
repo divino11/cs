@@ -20,7 +20,7 @@
         <div class="col-md-6 col-sm-6 myaccount-combo-righthalf">
             <!-- combo -->
             <h5>Market</h5>
-            <select class="form-control" name="market_id" id="markets" required>
+            <select class="form-control js-data-example-ajax" name="market_id" id="markets" required>
                 @if(old('exchange_id', $alert->exchange_id))
                     @foreach($exchanges->where('id', old('exchange_id', $alert->exchange_id))->first()->markets as $market)
                         <option value="{{ $market->id }}" data-quote="{{ $market->quote }}" @if(old('market_id', $alert->market_id) == $market->id) selected @endif>{{ $market->base }}/{{ $market->quote }}</option>
@@ -163,7 +163,6 @@
                         $('#markets').val(value.id).change();
                     }
                 });
-                $('#markets').trigger('chosen:updated');
             }).change();
             $('#markets').change(function () {
                 selectedPlatform = $('#exchange option:selected').val();
@@ -218,8 +217,30 @@
                 }
             });
         });
-        $(document).ready(function(){
-            $('#exchange, #markets').chosen();
+        $(document).ready(function () {
+            $('#exchange').select2();
+            $('.js-data-example-ajax').select2({
+                ajax: {
+                    url: '{{ route('api.alert.markets') }}',
+                    data: function (params) {
+                        return {
+                            name: params.term,
+                            id: $('#exchange').val(),
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data[0].markets, function (item) {
+                                console.log(item);
+                                    return {
+                                        id: item.id,
+                                        text: item.base + '/' + item.quote,
+                                    }
+                            })
+                        };
+                    }
+                }
+            });
         });
         $(document).ready(function () {
            $('.expiration').flatpickr({

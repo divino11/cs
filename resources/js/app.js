@@ -7,7 +7,8 @@
 
 require('./bootstrap');
 const flatpickr = require("flatpickr/dist/flatpickr");
-window.Chosen = require('chosen-js');
+require('select2');
+require('jquery-autocomplete');
 
 window.Vue = require('vue');
 
