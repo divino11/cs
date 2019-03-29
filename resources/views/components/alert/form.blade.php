@@ -73,7 +73,7 @@
 </div>
 <!-- END combo -->
 
-<!-- combo -->
+{{--<!-- combo -->
 <div class="myaccount-combo">
     <div class="form-group">
         <h5>Maximum notifications for this alert:</h5>
@@ -82,7 +82,58 @@
         </div>
     </div>
 </div>
+<!-- END combo -->--}}
+
+<!-- combo -->
+<div class="myaccount-combo">
+    <div class="form-group">
+        <h5>Frequency</h5>
+        <div class="toggle">
+            <input type="radio" name="frequency" value="0" id="once" @if(old('frequency', $alert->frequency) == 0) checked @endif />
+            <label for="once">Once</label>
+            <input type="radio" name="frequency" value="1" id="every_time" @if(old('frequency', $alert->frequency) == 1) checked @endif />
+            <label for="every_time">Every time</label>
+        </div>
+    </div>
+</div>
 <!-- END combo -->
+
+<!-- combo -->
+<div class="myaccount-combo">
+    <div class="form-group">
+        <h5>Cooldown</h5>
+        <div class="cooldown-group">
+            <input type="number" class="form-control" placeholder="min 5 minute"
+                   value="{{ old('conditions.cooldown_number', $alert->conditions['cooldown_number']) }}"
+                   name="conditions[cooldown_number]">
+            <select name="conditions[cooldown_unit]" class="form-control">
+                <option value="M"
+                        @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'M') selected @endif>
+                    Minutes
+                </option>
+                <option value="H"
+                        @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'H') selected @endif>
+                    Hours
+                </option>
+                <option value="D"
+                        @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'D') selected @endif>
+                    Days
+                </option>
+            </select>
+        </div>
+    </div>
+</div>
+<!-- END combo -->
+
+<!-- combo -->
+<div class="myaccount-combo">
+    <div class="form-group">
+        <h5>Expiration Time</h5>
+        <input class="form-control expiration" value="{{ old('expiration_date', $alert->expiration_date) }}" name="expiration_date">
+    </div>
+</div>
+<!-- END combo -->
+
 
 @push('scripts')
     <script>
@@ -169,6 +220,14 @@
         });
         $(document).ready(function(){
             $('#exchange, #markets').chosen();
+        });
+        $(document).ready(function () {
+           $('.expiration').flatpickr({
+               enableTime: true,
+               dateFormat: "Y-m-d H:i",
+               minDate: "today",
+               maxDate: new Date().fp_incr(30)
+           });
         });
     </script>
 @endpush

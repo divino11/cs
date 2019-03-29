@@ -54,7 +54,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Alert extends Model
 {
-    protected $fillable = ['exchange_id', 'market_id', 'type', 'conditions', 'triggerings_limit', 'enabled'];
+    protected $fillable = ['exchange_id', 'market_id', 'type', 'conditions', 'frequency', 'expiration_date', 'enabled'];
 
     protected $casts = ['conditions' => 'array'];
 
@@ -121,19 +121,19 @@ class Alert extends Model
 
     public function getCooldownAttribute()
     {
-        if ($this->type != AlertType::Price_Point) {
-            return new CarbonInterval($this->conditions['interval']);
+        if ($this->conditions['cooldown_number']) {
+            return new CarbonInterval('P' . $this->conditions['cooldown_number'] . $this->conditions['cooldown_unit']);
         }
-        return new CarbonInterval(0,0,0,0,1);
+        return new CarbonInterval('0', '0', '0', '0', '1');
     }
 
     public function scopeEnabled(Builder $query)
     {
-            return $query
-                ->whereColumn('triggerings_number', '<=', 'triggerings_limit')
-                ->where('enabled', true)
-                ->whereDate('triggered_at', '<=', Carbon::now()->sub($this->cooldown))
-                ->orWhereNull('triggered_at');
+        return $query
+            ->where('enabled', true)
+            ->whereDate('triggered_at', '<=', Carbon::now()->sub($this->cooldown))
+            ->whereDate('expiration_date', '>', Carbon::now())
+            ->orWhereNull('triggered_at');
     }
 
     public function getAvailableNotificationChannels()
@@ -154,6 +154,9 @@ class Alert extends Model
 
     public function trigger()
     {
+        if ($this->frequency == 0) {
+            $this->enabled = 0;
+        }
         $this->triggered_at = Carbon::now();
         $this->triggerings_number++;
         $this->save();
