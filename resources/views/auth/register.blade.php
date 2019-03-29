@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+    <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 offset-xs-0">
     <div class="card bg-light login-card">
         <div class="card-body">
             <form method="POST" action="{{ route('register') }}">
@@ -60,5 +61,6 @@
                 </div>
             </form>
         </div>
+    </div>
     </div>
 @endsection
