@@ -213,7 +213,7 @@
                             <p class="login-remember-txt">I have read and agree to the <a href="{{ route('terms') }}">Terms of
                                     Use</a>
                                 as
-                                well as <a href="#">Privacy Policy</a></p>
+                                well as <a href="{{ route('privacy') }}">Privacy Policy</a></p>
                         </label>
                     </div>
                     <!-- END check -->
