@@ -224,4 +224,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->telegram;
     }
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'user.'.$this->id;
+    }
 }

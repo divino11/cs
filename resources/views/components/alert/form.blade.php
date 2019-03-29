@@ -40,6 +40,10 @@
 <!-- combo -->
 <div class="myaccount-combo newalert-module-checks">
     <h5>Notify me by</h5>
+    <label class="container">Browser Alert
+        <input type="checkbox" id="email_notification" value="{{ \App\Enums\NotificationChannel::Browser_Alert }}" name="notification_channels[][notification_channel]" @if(collect(old('notification_channels', $alert->notificationChannels))->where('notification_channel', \App\Enums\NotificationChannel::Browser_Alert)->isNotEmpty()) checked @endif>
+        <span class="checkmark"></span>
+    </label>
     @if(request()->user()->hasNotificationEmailVerified())
         <label class="container">Email
             <input type="checkbox" id="email_notification" value="{{ \App\Enums\NotificationChannel::Mail }}" name="notification_channels[][notification_channel]" @if(collect(old('notification_channels', $alert->notificationChannels))->where('notification_channel', \App\Enums\NotificationChannel::Mail)->isNotEmpty()) checked @endif>

@@ -8,6 +8,7 @@ use App\Mail\AlertMail;
 use App\Ticker;
 use App\User;
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\NexmoMessage;
 use Illuminate\Notifications\Notification;
 use Nexmo\Laravel\Facade\Nexmo;
@@ -43,7 +44,8 @@ class AlertTriggered extends Notification
     {
         return $this->alert->notificationChannels
             ->filter(function ($channel) use ($notifiable) {
-                return $notifiable->routeNotificationFor($channel->notification_channel_name);
+                return $notifiable->routeNotificationFor($channel->notification_channel_name) or
+                    $notifiable->receivesBroadcastNotificationsOn();
             })->pluck('notification_channel_description')->push('database')->toArray();
     }
 
@@ -80,6 +82,21 @@ class AlertTriggered extends Notification
     {
         return PushoverMessage::create($this->alert->name . '. ' . view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . '. The ' . AlertMetric::getDescription((int)$this->alert->conditions['metric']) . ' ' . $this->ticker->getMetric($this->alert->conditions['metric']))
             ->title('CoinSpy');
+    }
+
+    /**
+     * Get the broadcastable representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'alert_name' => $this->alert->name,
+            'alert_type' => AlertMetric::getDescription((int)$this->alert->conditions['metric']),
+            'value' => $this->ticker->getMetric($this->alert->conditions['metric']),
+        ]);
     }
 
     /**

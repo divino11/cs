@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Alert;
 use App\AlertContext;
 use App\Enums\AlertMetric;
+use App\Events\AlertNotification;
 use App\Notifications\AlertTriggered;
 use App\Ticker;
 use Illuminate\Bus\Queueable;
@@ -51,6 +52,13 @@ class ProcessAlert implements ShouldQueue
         }
 
         $this->alert->user->notify(new AlertTriggered($this->alert, $this->ticker));
+
+        broadcast(new AlertNotification(
+            $this->alert->user,
+            $this->alert->name,
+            AlertMetric::getDescription((int)$this->alert->conditions['metric']),
+            $this->ticker->getMetric($this->alert->conditions['metric'])
+        ));
 
         $this->alert->trigger();
     }

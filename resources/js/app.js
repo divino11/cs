@@ -6,11 +6,45 @@
  */
 
 require('./bootstrap');
+require('bootstrap-notify');
 const flatpickr = require("flatpickr/dist/flatpickr");
 require('select2');
 require('jquery-autocomplete');
 
 window.Vue = require('vue');
+
+import Echo from "laravel-echo"
+
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: '825ad4919731c1c3e402',
+    cluster: 'eu',
+    encrypted: true,
+});
+
+window.Echo.private(`user.${userId}`)
+    .notification((data) => {
+        $.notify({
+            message: 'Alert Triggered - ' + data.alert_name + '. The ' + data.alert_type + ' is currently ' + data.value,
+        },{
+            type: 'success',
+            placement: {
+                from: "bottom",
+                align: "right"
+            },
+            offset: 20,
+            spacing: 10,
+            delay: 0,
+            animate: {
+                enter: 'animated slideInUp',
+                exit: 'animated slideInDown'
+            },
+        });
+    });
+
+//window.Pusher.logToConsole = true;
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

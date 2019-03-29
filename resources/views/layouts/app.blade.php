@@ -8,6 +8,11 @@
     <title>@yield('title')</title>
     <link rel="stylesheet" href="/css/app.css" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    @auth
+        <script>
+            window.userId = {{ \Illuminate\Support\Facades\Auth::user()->id }};
+        </script>
+    @endauth
     <script src="/js/app.js"></script>
 </head>
 <body>
