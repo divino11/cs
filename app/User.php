@@ -71,7 +71,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'email_verified_at', 'provider', 'provider_id', 'password', 'phone', 'sms', 'notification_email', 'pushover', 'telegram'
+        'name', 'email', 'email_verified_at', 'provider', 'provider_id', 'password', 'phone', 'sms', 'notification_email', 'email_to_sms', 'pushover', 'telegram'
     ];
 
     /**
@@ -101,6 +101,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getNotificationEmail()
     {
         return $this->hasNotificationEmail() ? $this->notification_email : $this->email;
+    }
+
+    public function getNotificationEmailToSms()
+    {
+        return $this->email_to_sms ? $this->email_to_sms : '';
     }
 
     private function hasNotificationEmail()
@@ -218,6 +223,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function routeNotificationForPushover()
     {
         return PushoverReceiver::withUserKey($this->pushover);
+    }
+
+    public function routeNotificationForEmailToSms()
+    {
+        //return $this->phone . $this->email_to_sms;  true
     }
 
     public function routeNotificationForTelegram()

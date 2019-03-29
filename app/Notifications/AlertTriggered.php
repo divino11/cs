@@ -82,6 +82,14 @@ class AlertTriggered extends Notification
             ->title('CoinSpy');
     }
 
+    public function toEmailSms($notifiable)
+    {
+        return [
+            'alert' => $this->alert,
+            'ticker' => $this->ticker,
+        ];
+    }
+
     /**
      * Get the array representation of the notification.
      *

@@ -42,6 +42,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('telegram', 'TelegramController')->name('telegram.update');
         Route::resource('pushover', 'PushoverController')->only(['store', 'update', 'destroy']);
         Route::post('pushover/verify', 'PushoverVerificationController')->name('pushover.verify');
+        Route::post('email_to_sms', 'EmailToSmsController')->name('email_to_sms');
 
     });
     Route::resource('notifications', 'NotificationController')->only(['index']);

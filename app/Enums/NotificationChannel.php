@@ -2,6 +2,7 @@
 
 namespace App\Enums;
 
+use App\Notifications\EmailToSmsChannel;
 use BenSampo\Enum\Enum;
 use NotificationChannels\Telegram\TelegramChannel;
 use NotificationChannels\Pushover\PushoverChannel;
@@ -12,6 +13,7 @@ final class NotificationChannel extends Enum
     const Nexmo = 2;
     const Telegram = 3;
     const Pushover = 4;
+    const Email_To_Sms = 6;
 
     public static function getDescription($value): string
     {
@@ -27,6 +29,9 @@ final class NotificationChannel extends Enum
                 break;
             case self::Pushover:
                 return PushoverChannel::class;
+                break;
+            case self::Email_To_Sms:
+                return EmailToSmsChannel::class;
                 break;
             default:
                 return self::getKey($value);

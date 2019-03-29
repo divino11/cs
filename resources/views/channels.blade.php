@@ -36,6 +36,32 @@
                     <!-- combo -->
                     <div class="myaccount-combo channels-combo">
                         <div class="form-group">
+                            <h5>Email-To-SMS <span
+                                        class="badge badge-secondary badge-{{ $user->getNotificationEmailToSms() ? 'success' : 'danger' }}">
+                            {{ $user->getNotificationEmailToSms() ? 'Verified' : 'Not verified' }}
+                                </span></h5>
+                            <p>Enter domain name from this site: <a href="http://smsemailgateway.com/" target="_blank">http://smsemailgateway.com/</a></p>
+                            @if($user->getNotificationEmailToSms())
+                                <input type="email" class="form-control" placeholder="{{ $user->getNotificationEmailToSms() }}"
+                                   disabled>
+                            @endif
+                        </div>
+                        <form class="form" action="{{ route('channels.email_to_sms') }}" method="POST">
+                            @csrf
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="email_to_sms"
+                                       placeholder="@if($user->getNotificationEmailToSms())Use an additional domain @else @tmomail.net @endif">
+                                <span class="input-group-btn">
+    	                        <button class="btn btn-default bt-custom" type="submit">Save</button>
+                            </span>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- END combo -->
+
+                    <!-- combo -->
+                    <div class="myaccount-combo channels-combo">
+                        <div class="form-group">
                             @if ($user->getNotificationPhone())
                                 <h5>SMS <span
                                             class="badge badge-secondary badge-{{ $user->hasNotificationPhoneVerified() ? 'success' : 'danger' }}">
