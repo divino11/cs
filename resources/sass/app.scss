@@ -1,11 +1,10 @@
 // Variables
 @import 'variables';
-@import "~chosen-js/chosen.css";
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 // Flatpickr
 @import "~flatpickr/dist/flatpickr.min.css";
-
+@import "~select2/dist/css/select2.css";
 main {
   padding-top: 90px;
   @media screen and (max-width: 768px) {
@@ -1618,4 +1617,32 @@ $activeShadow: 0 0 10px rgba($teal1, .5);
   & .form-control {
     width: 50%;
   }
+}
+
+span.select2-selection {
+  display: block;
+  width: 100%;
+  padding: 0.575rem 0.75rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  background-color: #fff !important;
+  background-clip: padding-box;
+  border: 1px solid #ced4da !important;
+  -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  border-radius: 0 !important;
+  outline: 0 none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  height: 48px !important;
+}
+
+.select2-selection__rendered {
+  color: #999 !important;
+}
+
+.select2-selection__arrow {
+  top: 50% !important;
+  right: 10px !important;
+  transform: translate(0, -50%);
 }

@@ -231,7 +231,6 @@
                     processResults: function (data) {
                         return {
                             results: $.map(data[0].markets, function (item) {
-                                console.log(item);
                                     return {
                                         id: item.id,
                                         text: item.base + '/' + item.quote,
