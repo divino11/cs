@@ -51,6 +51,26 @@ window.Echo.private(`user.${userId}`)
 
 //window.Pusher.logToConsole = true;
 
+$(document).ready(function () {
+    changeTextarea();
+    if ($('#alert_message').keyup()) {
+        $('#alertForm').change(function () {
+            changeTextarea();
+        });
+        return false;
+    }
+});
+
+function changeTextarea()
+{
+    setTimeout(function () {
+        var market = $('#markets option:selected').text();
+        var type = $("select[name='conditions[metric]'] option:selected").text().toLowerCase();
+        var value = $('#currencyPrice').text();
+        $('#alert_message').text(market + ' ' + type + ' ' + value);
+    }, 1000);
+}
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

@@ -26,9 +26,9 @@
         "braintree-web-drop-in": "^1.14.1",
         "flatpickr": "^4.5.7",
         "jquery-autocomplete": "^1.2.8",
-        "select2": "^4.0.6-rc.1",
         "laravel-echo": "^1.5.3",
         "pusher": "^2.2.0",
-        "pusher-js": "^4.4.0"
+        "pusher-js": "^4.4.0",
+        "select2": "^4.0.6-rc.1"
     }
 }

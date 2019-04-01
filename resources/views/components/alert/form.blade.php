@@ -138,6 +138,15 @@
 </div>
 <!-- END combo -->
 
+<!-- combo -->
+<div class="myaccount-combo">
+    <div class="form-group">
+        <h5>Alert Message</h5>
+        <textarea name="alert_message" class="form-control" id="alert_message" rows="3">{{ old('alert_message', $alert->alert_message) }}</textarea>
+    </div>
+</div>
+<!-- END combo -->
+
 
 @push('scripts')
     <script>
