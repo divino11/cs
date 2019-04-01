@@ -59,8 +59,6 @@
                 <tr>
                     <td>
                         {{ Illuminate\Mail\Markdown::parse($slot) }}
-
-                        <p style="font-size: 14px; line-height: 22px; color: #333; text-align:left; font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;">The CoinSpy Team</p>
                     </td>
                 </tr>
                 </tbody>

@@ -1,30 +1,27 @@
 @component('mail::message')
-<h2 style="font-size: 30px; color: #222; text-align:left; line-height: 30px; font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;">
-    Alert {{ $alert->name }} has been triggered.
+<h2 style="font-size: 30px; color: #222; text-align:center; line-height: 30px; font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+    Your {{ $alert->name }} alert was triggered.
 </h2>
 
-<p style="font-size: 15px; line-height: 22px; color: #333; text-align:left; font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;">
-@include('alert.description.' . $alert->type).
-    <br>
-    The {{ App\Enums\AlertMetric::getDescription((int)$alert->conditions['metric']) }} is currently
-    <strong>{{ $value }}.</strong>
+<p style="font-size: 18px; line-height: 22px; color: #333; text-align:center; font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+{{$alert->alert_message}}
 </p>
-
-<p style="font-size: 12px; line-height: 20px; color: #333; text-align:left; font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;">
-    This alert has been triggered {{ $alert->triggerings_number }} out of {{ $alert->triggerings_limit }} times.
-</p><br>
-@component('mail::button', ['url' => $disableUrl])
-    Disable this alert
+<br>
+<p style="text-align: center;">
+@component('mail::button', ['url' => $editUrl])
+    Modify Your Alert
 @endcomponent
-<br><br><br>
+</p>
 @slot('subcopy')
 @component('mail::subcopy')
 @lang(
-"If you’re having trouble clicking the \":actionText\" button, copy and paste the URL below ".
-"into your web browser:\n\n [:actionURL](:actionURL)",
+"You are receiving this email because you are subscribed to get email notifications from the CoinSpy Alert Service.
+Click the following links to \n [:pauseText](:pauseURL) or [:editText](:editURL)",
 [
-'actionText' => 'Disable this alert',
-'actionURL' => $disableUrl,
+'pauseText' => 'pause',
+'pauseURL' => $disableUrl,
+'editText' => 'modify',
+'editURL' => $editUrl,
 ]
 )
 @endcomponent
