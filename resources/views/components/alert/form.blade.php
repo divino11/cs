@@ -111,16 +111,16 @@
                    value="{{ old('conditions.cooldown_number', $alert->conditions['cooldown_number']) }}"
                    name="conditions[cooldown_number]">
             <select name="conditions[cooldown_unit]" class="form-control">
-                <option value="M"
-                        @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'M') selected @endif>
+                <option value="minutes"
+                        @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'minutes') selected @endif>
                     Minutes
                 </option>
-                <option value="H"
-                        @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'H') selected @endif>
+                <option value="hours"
+                        @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'hours') selected @endif>
                     Hours
                 </option>
-                <option value="D"
-                        @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'D') selected @endif>
+                <option value="days"
+                        @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'days') selected @endif>
                     Days
                 </option>
             </select>

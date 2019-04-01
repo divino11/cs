@@ -122,7 +122,7 @@ class Alert extends Model
     public function getCooldownAttribute()
     {
         if ($this->conditions['cooldown_number']) {
-            return new CarbonInterval('P' . $this->conditions['cooldown_number'] . $this->conditions['cooldown_unit']);
+            return CarbonInterval::fromString($this->conditions['cooldown_number'] . ' ' . $this->conditions['cooldown_unit']);
         }
         return new CarbonInterval('0', '0', '0', '0', '1');
     }
@@ -131,8 +131,8 @@ class Alert extends Model
     {
         return $query
             ->where('enabled', true)
-            ->whereDate('triggered_at', '<=', Carbon::now()->sub($this->cooldown))
-            ->whereDate('expiration_date', '>', Carbon::now())
+            ->whereDate('triggered_at', '<=', Carbon::now()->sub($this->cooldown)->toDateTimeString())
+            ->whereDate('expiration_date', '>', Carbon::now()->toDateTimeString())
             ->orWhereNull('triggered_at');
     }
 
