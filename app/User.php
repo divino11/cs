@@ -71,7 +71,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'email_verified_at', 'provider', 'provider_id', 'password', 'phone', 'sms', 'notification_email', 'pushover', 'telegram'
+        'name', 'email', 'email_verified_at', 'provider', 'provider_id', 'password', 'sound_enable', 'sound', 'phone', 'sms', 'notification_email', 'pushover', 'telegram'
     ];
 
     /**
@@ -91,6 +91,19 @@ class User extends Authenticatable implements MustVerifyEmail
             $user->sms = 100;
             $user->save();
         }
+    }
+
+    public function soundEnableToggle()
+    {
+        $this->sound_enable = !$this->sound_enable;
+
+        if ($this->sound_enable == 0) {
+            $this->forceFill([
+                'sound' => null,
+            ])->save();
+        }
+
+        return $this;
     }
 
     public function alerts()
