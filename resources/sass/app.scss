@@ -1644,6 +1644,12 @@ span.select2-selection {
   transform: translate(0, -50%);
 }
 
+.submit-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
 .timezone .select2.select2-container {
   width: 100% !important;
 }
