@@ -40,7 +40,7 @@
                                         class="badge badge-secondary badge-{{ $user->getNotificationEmailToSms() ? 'success' : 'danger' }}">
                             {{ $user->getNotificationEmailToSms() ? 'Verified' : 'Not verified' }}
                                 </span></h5>
-                            <p>Enter domain name from this site: <a href="http://smsemailgateway.com/" target="_blank">http://smsemailgateway.com/</a></p>
+                            <p>Enter email from this site: <a href="http://smsemailgateway.com/" target="_blank">http://smsemailgateway.com/</a></p>
                             @if($user->getNotificationEmailToSms())
                                 <input type="email" class="form-control" placeholder="{{ $user->getNotificationEmailToSms() }}"
                                    disabled>
@@ -50,7 +50,7 @@
                             @csrf
                             <div class="input-group">
                                 <input type="text" class="form-control" name="email_to_sms"
-                                       placeholder="@if($user->getNotificationEmailToSms())Use an additional domain @else @tmomail.net @endif">
+                                       placeholder="@if($user->getNotificationEmailToSms())Use an additional email @else 123456789@tmomail.net @endif">
                                 <span class="input-group-btn">
     	                        <button class="btn btn-default bt-custom" type="submit">Save</button>
                             </span>

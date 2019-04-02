@@ -22,6 +22,6 @@ class EmailToSmsController extends Controller
             'email_to_sms' => $request->email_to_sms,
         ])->save();
 
-        return redirect()->route('channels.index')->with('status', 'Email domain was save');
+        return redirect()->route('channels.index')->with('status', 'Email was save');
     }
 }

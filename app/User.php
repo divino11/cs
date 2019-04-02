@@ -227,7 +227,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function routeNotificationForEmailToSms()
     {
-        //return $this->phone . $this->email_to_sms;  true
+        return $this->email_to_sms;
     }
 
     public function routeNotificationForTelegram()

@@ -24,7 +24,7 @@ class NotificationEmailToSmsRequest extends FormRequest
     public function rules()
     {
         return [
-            'email_to_sms' => 'required|between:5,100|exists:users,phone'
+            'email_to_sms' => 'required|between:5,100|email'
         ];
     }
 }
