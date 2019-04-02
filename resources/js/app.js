@@ -52,7 +52,7 @@ window.Echo.private(`user.${userId}`)
 //window.Pusher.logToConsole = true;
 
 $(document).ready(function () {
-    $('#alertForm').change(function () {
+    $('#alertForm').bind('change keyup', function () {
         changeTextarea();
     });
 });
@@ -60,14 +60,31 @@ $(document).ready(function () {
 function changeTextarea()
 {
     setTimeout(function () {
-        var market = $('#markets option:selected').text();
-        var type = $("select[name='conditions[metric]'] option:selected").text().toLowerCase();
-        var value = $('#currencyPrice').text();
+        var market = $('#markets option:selected').text() ? $('#markets option:selected').text() : '';
+        var type = $("select[name='conditions[metric]'] option:selected").text().toLowerCase() ? $("select[name='conditions[metric]'] option:selected").text().toLowerCase() : '';
+        var direction = $("select[name='conditions[direction]'] option:selected").text() ? $("select[name='conditions[direction]'] option:selected").text() : '';
+        var value = $("input[name='conditions[value]']").val() ? $("input[name='conditions[value]']").val() : '';
+        var currencyValue = $('#currencyPrice').text() ? $('#currencyPrice').text() : '';
         $('#setMarket').val(market);
         $('#setType').val(type);
+        $('#setDirection').val(direction);
         $('#setValue').val(value);
+        $('#setCurrencyValue').val(currencyValue);
+        var textarea = $('#alert_message').val();
+        var find = ["{market}", "{type}", "{direction}", "{value}", "{price}"];
+        var replace = [market, type, direction, value, currencyValue];
+        textarea = textarea.replaceArray(find, replace);
+        $('.live-preview').text(textarea);
     }, 1000);
 }
+
+String.prototype.replaceArray = function(find, replace) {
+    var replaceString = this;
+    for (var i = 0; i < find.length; i++) {
+        replaceString = replaceString.replace(find[i], replace[i]);
+    }
+    return replaceString;
+};
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

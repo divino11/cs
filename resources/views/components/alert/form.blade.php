@@ -2,7 +2,9 @@
 <input type="hidden" name="type" value="{{ $alert->type }}">
 <input type="hidden" name="hiddenMarket" id="setMarket" value="">
 <input type="hidden" name="hiddenType" id="setType" value="">
+<input type="hidden" name="hiddenDirection" id="setDirection" value="">
 <input type="hidden" name="hiddenValue" id="setValue" value="">
+<input type="hidden" name="hiddenCurrencyValue" id="setCurrencyValue" value="">
 <!-- combo -->
 <div class="myaccount-combo">
 
@@ -145,11 +147,20 @@
 <div class="myaccount-combo">
     <div class="form-group">
         <h5>Alert Message</h5>
-        <textarea name="alert_message" class="form-control" id="alert_message" rows="3">{{ old('alert_message', $alert->alert_message) == null ? '{market} {type} {value}' : ''  }}</textarea>
-        If you want change message use: <code>{market} {type} {value}</code> (with brackets)
+        <textarea name="alert_message" class="form-control" id="alert_message" rows="3">{{ old('alert_message', $alert->alert_message) == null ? '{market} {type} {price} {direction} {value}' : ''  }}</textarea>
+        If you want change message use: <code>{market} {type} {direction} {value} {price}</code> (with brackets)
     </div>
 </div>
 <!-- END combo -->
+
+<div class="myaccount-combo">
+    <div class="form-group">
+        <h5>Alert Preview</h5>
+        <div class="live-preview">
+            <p></p>
+        </div>
+    </div>
+</div>
 
 
 @push('scripts')

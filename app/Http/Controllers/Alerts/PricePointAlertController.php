@@ -34,11 +34,15 @@ class PricePointAlertController extends Controller
         $alert_message = str_replace([
             '{market}',
             '{type}',
+            '{direction}',
             '{value}',
+            '{price}',
         ], [
             $request->hiddenMarket,
             $request->hiddenType,
-            $request->hiddenValue
+            $request->hiddenDirection,
+            $request->hiddenValue,
+            $request->hiddenCurrencyValue
         ], $request->alert_message);
         $request->merge(['alert_message' => $alert_message]);
 
