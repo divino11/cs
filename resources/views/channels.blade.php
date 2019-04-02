@@ -162,7 +162,7 @@
                                     <div class="input-group">
                                         <input class="form-control" type="text" name="notification_pushover"
                                                placeholder="Pushover key"/>
-                                        <button class="btn btn-primary bt-custom text-uppercase" type="submit">Save
+                                        <button class="btn btn-primary bt-custom" type="submit">Save
                                         </button>
                                     </div>
                                 </form>

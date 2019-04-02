@@ -29,5 +29,6 @@
             <h3 class="text-center pt-5">You don't have any notifications</h3>
         @endforelse
         {{$unRead->markAsRead()}}
+        <div class="pull-right">{{$notifications->links()}}</div>
     </div>
 @endsection

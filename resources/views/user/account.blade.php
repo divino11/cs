@@ -98,7 +98,7 @@
                     <form action="{{ route('user.timezone') }}" method="post">
                         @csrf
                         @method('post')
-                        <div class="modal-body">
+                        <div class="modal-body timezone">
                             <select class="form-control" id="timezone" name="time_zone">
                                 <option value="Africa/Abidjan">Africa/Abidjan</option>
                                 <option value="Africa/Accra">Africa/Accra</option>
@@ -537,4 +537,9 @@
         </div>
     </div>
     </div>
+    <script>
+        $(document).ready(function () {
+           $('#timezone').select2();
+        });
+    </script>
 @endsection

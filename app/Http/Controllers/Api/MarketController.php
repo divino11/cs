@@ -21,6 +21,9 @@ class MarketController extends Controller
                 $query->where(
                     DB::raw("CONCAT(base, '', quote)"), 'LIKE', '%' . $name . '%'
                 );
+                $query->orWhere(
+                    DB::raw("CONCAT(quote, '', base)"), 'LIKE', '%' . $name . '%'
+                );
             }])
             ->get();
     }

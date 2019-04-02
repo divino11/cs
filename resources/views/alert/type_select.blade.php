@@ -15,7 +15,7 @@
                     </div>
                     <div class="media-body">
                         <h4>Price point</h4>
-                        <p>Example: Alert me if BTC_USD's buy price increases to $800 on Coinbase.</p>
+                        <p>Example: Alert me if BTC/USD's buy price increases to $800 on Coinbase.</p>
                     </div>
                 </div>
 
@@ -37,7 +37,7 @@
                     </div>
                     <div class="media-body">
                         <h4>Percentage change</h4>
-                        <p>Example: Alert me if BTC_USD's buy price increases by 10% within 5 minutes on Coinbase.</p>
+                        <p>Example: Alert me if BTC/USD's buy price increases by 10% within 5 minutes on Coinbase.</p>
                     </div>
                 </div>
                 @subscribed
@@ -65,7 +65,7 @@
                     </div>
                     <div class="media-body">
                         <h4>Regular update</h4>
-                        <p>Example: Send me a daily alert showing the BTC_USD buy price on Coinbase.</p>
+                        <p>Example: Send me a daily alert showing the BTC/USD buy price on Coinbase.</p>
                     </div>
                 </div>
                 @subscribed
