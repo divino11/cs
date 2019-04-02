@@ -52,13 +52,9 @@ window.Echo.private(`user.${userId}`)
 //window.Pusher.logToConsole = true;
 
 $(document).ready(function () {
-    changeTextarea();
-    if ($('#alert_message').keyup()) {
-        $('#alertForm').change(function () {
-            changeTextarea();
-        });
-        return false;
-    }
+    $('#alertForm').change(function () {
+        changeTextarea();
+    });
 });
 
 function changeTextarea()
@@ -67,7 +63,9 @@ function changeTextarea()
         var market = $('#markets option:selected').text();
         var type = $("select[name='conditions[metric]'] option:selected").text().toLowerCase();
         var value = $('#currencyPrice').text();
-        $('#alert_message').text(market + ' ' + type + ' ' + value);
+        $('#setMarket').val(market);
+        $('#setType').val(type);
+        $('#setValue').val(value);
     }, 1000);
 }
 

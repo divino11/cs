@@ -1,5 +1,8 @@
 @csrf
 <input type="hidden" name="type" value="{{ $alert->type }}">
+<input type="hidden" name="hiddenMarket" id="setMarket" value="">
+<input type="hidden" name="hiddenType" id="setType" value="">
+<input type="hidden" name="hiddenValue" id="setValue" value="">
 <!-- combo -->
 <div class="myaccount-combo">
 
@@ -142,7 +145,8 @@
 <div class="myaccount-combo">
     <div class="form-group">
         <h5>Alert Message</h5>
-        <textarea name="alert_message" class="form-control" id="alert_message" rows="3">{{ old('alert_message', $alert->alert_message) }}</textarea>
+        <textarea name="alert_message" class="form-control" id="alert_message" rows="3">{{ old('alert_message', $alert->alert_message) == null ? '{market} {type} {value}' : ''  }}</textarea>
+        If you want change message use: <code>{market} {type} {value}</code> (with brackets)
     </div>
 </div>
 <!-- END combo -->
