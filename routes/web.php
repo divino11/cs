@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('sms_credits', 'ShowSmsCreditsController')->name('sms_credits');
         Route::get('billing', 'ShowBillingController')->name('billing');
         Route::post('timezone', 'TimezoneController')->name('timezone');
+        Route::delete('delete_user', 'DeleteAccountController')->name('delete_user');
     });
     Route::group(['prefix' => 'channels', 'namespace' => 'Channels', 'as' => 'channels.'], function () {
         Route::get('', 'ShowChannelsController')->name('index');
