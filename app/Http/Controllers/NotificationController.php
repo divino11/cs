@@ -13,18 +13,8 @@ class NotificationController extends Controller
     public function index()
     {
         return view('notifications', [
-            'notifications' => $this->paginate(Auth::user()->notifications, 10),
+            'notifications' => Auth::user()->notifications()->paginate(10),
             'unRead' => Auth::user()->unreadNotifications
-        ]);
-    }
-
-    public function paginate($items, $perPage = 15, $page = null, $options = [])
-    {
-        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-        $items = $items instanceof Collection ? $items : Collection::make($items);
-        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, [
-            'path' => Paginator::resolveCurrentPath(),
-            'pageName' => 'page',
         ]);
     }
 }
