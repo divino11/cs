@@ -95,7 +95,7 @@ class AlertTriggered extends Notification
         return new BroadcastMessage([
             'alert_name' => $this->alert->name,
             'alert_type' => AlertMetric::getDescription((int)$this->alert->conditions['metric']),
-            'alert_sound' => 'storage/sounds/' . $this->alert->user->sound,
+            'alert_sound' => asset('sounds/' . $this->alert->user->sound),
             'value' => $this->ticker->getMetric($this->alert->conditions['metric']),
             'user' => $this->alert->user
         ]);
