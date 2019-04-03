@@ -46,6 +46,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('pushover/verify', 'PushoverVerificationController')->name('pushover.verify');
         Route::get('/{user}/soundEnable', 'SoundController@soundEnable')->name('soundEnable');
         Route::get('/{user}/sound', 'SoundController@sound')->name('sound');
+        Route::post('email_to_sms', 'EmailToSmsController')->name('email_to_sms');
+
     });
     Route::resource('notifications', 'NotificationController')->only(['index']);
     Route::resource('alerts', 'AlertController')->middleware('verified');

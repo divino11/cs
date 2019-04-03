@@ -50,6 +50,12 @@
             <span class="checkmark"></span>
         </label>
     @endif
+    @if(request()->user()->getNotificationEmailToSms())
+        <label class="container">Email-To-Sms
+            <input type="checkbox" id="email_notification" value="{{ \App\Enums\NotificationChannel::Email_To_Sms }}" name="notification_channels[][notification_channel]" @if(collect(old('notification_channels', $alert->notificationChannels))->where('notification_channel', \App\Enums\NotificationChannel::Email_To_Sms)->isNotEmpty()) checked @endif>
+            <span class="checkmark"></span>
+        </label>
+    @endif
     @if(request()->user()->hasPhoneVerified())
         <label class="container">SMS
             <input type="checkbox" id="sms_notification" value="{{ \App\Enums\NotificationChannel::Nexmo }}" name="notification_channels[][notification_channel]" @if(collect(old('notification_channels', $alert->notificationChannels))->where('notification_channel', \App\Enums\NotificationChannel::Nexmo)->isNotEmpty()) checked @endif>
