@@ -11,19 +11,6 @@
         <form method="POST" action="{{ route('password.update') }}">
             @csrf
             <input type="hidden" name="token" value="{{ $token }}">
-            <div class="myaccount-combo">
-                <div class="form-group">
-                    <h5>{{ __('E-Mail Address') }}</h5>
-                    <input placeholder="mark@coinspy.com" id="email" type="email"
-                           class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email"
-                           value="{{ $email ?? old('email') }}" required autofocus>
-                    @if ($errors->has('email'))
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('email') }}</strong>
-                        </span>
-                    @endif
-                </div>
-            </div>
 
             <div class="myaccount-combo">
                 <div class="form-group">
