@@ -10,6 +10,7 @@ require('bootstrap-notify');
 const flatpickr = require("flatpickr/dist/flatpickr");
 require('select2');
 require('jquery-autocomplete');
+window.intlTelInput = require('intl-tel-input');
 
 window.Vue = require('vue');
 
@@ -48,8 +49,16 @@ window.Echo.private(`user.${userId}`)
             },
         });
     });
-
 //window.Pusher.logToConsole = true;
+$(document).ready(function() {
+    var input = document.querySelector("#phone");
+    var a = window.intlTelInput(input, {
+        separateDialCode: true
+    });
+    $('#phone').keyup(function () {
+        $('#phoneHidden').val(a.selectedCountryData.dialCode + $('#phone').val());
+    });
+});
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

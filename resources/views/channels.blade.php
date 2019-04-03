@@ -91,7 +91,7 @@
                                             class="badge badge-secondary badge-{{ $user->hasNotificationPhoneVerified() ? 'success' : 'danger' }}">
                             {{ $user->hasNotificationPhoneVerified() ? 'Verified' : 'Not verified' }}
                                     </span>
-                                    <br><span class="entered-channel">{{$user->getNotificationPhone()}}</span></h5>
+                                    <br><span class="entered-channel">+{{$user->getNotificationPhone()}}</span></h5>
                             @else
                                 <h5>SMS</h5>
                             @endif
@@ -102,7 +102,8 @@
                                 <form class="form form-inline" method="post" action="{{route('channels.phone.store')}}">
                                     @csrf
                                     <div class="input-group">
-                                        <input class="form-control" type="tel" name="notification_phone"
+                                        <input class="form-control" type="hidden" id="phoneHidden" name="notification_phone"/>
+                                        <input class="form-control" type="tel" id="phone"
                                                placeholder="Phone number"/>
                                         <span class="input-group-btn">
     	                                    <button class="btn btn-default bt-custom" type="submit">Save</button>

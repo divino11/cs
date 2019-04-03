@@ -6,6 +6,8 @@
 @import "~flatpickr/dist/flatpickr.min.css";
 @import "~select2/dist/css/select2.css";
 @import "~animate.css/animate.css";
+@import "~intl-tel-input/src/css/intlTelInput";
+
 main {
   padding-top: 90px;
   @media screen and (max-width: 768px) {
@@ -1652,4 +1654,18 @@ span.select2-selection {
 
 .timezone .select2.select2-container {
   width: 100% !important;
+}
+
+.intl-tel-input {
+  width: 100%;
+}
+
+#channels .input-group {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+}
+
+#channels #phone {
+  width: 100%;
 }
