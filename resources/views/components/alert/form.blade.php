@@ -1,9 +1,23 @@
 @csrf
-<input type="hidden" name="type" value="{{ $alert->type }}">
 <!-- combo -->
 <div class="myaccount-combo">
 
     <div class="row gutter-10">
+        <div class="col-md-6 col-sm-6">
+            <!-- combo -->
+            <h5>Alert Type</h5>
+            <div class="btn-group special">
+                <select class="form-control" name="type" id="type" required>
+                    @foreach(App\Enums\AlertType::getKeys() as $key => $item)
+                        <option value="{{$key}}" @if(old('type', $alert->type) === $key) selected @endif>{{App\Enums\AlertType::getDescription($key)}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <!-- END combo -->
+        </div>
+    </div>
+    <br>
+    <div class="row">
         <div class="col-md-6 col-sm-6">
             <!-- combo -->
             <h5>Exchange</h5>
@@ -33,7 +47,8 @@
 </div>
 <!-- END combo -->
 
-@include("alert.conditions.{$alert->type_key}")
+<div id="type-alert"></div>
+
 <div class="form-group currency_price_group" style="display: none">
     <h5 class="font-weight-bold text-uppercase"></h5><h5 id="currencyPrice"></h5>
 </div>
@@ -228,7 +243,22 @@
             });
         });
         $(document).ready(function () {
+            //load view
+            $('#type').bind('change', function () {
+                var data = {
+                    id: '{{ $alert->id }}',
+                    type: $('#type option:selected').val()
+                };
+                $.get('{{ route('api.alert.type_alert') }}', data, function (response) {
+                    if (response) {
+                        $('#type-alert').html(response.view);
+                        $('#markets').change();
+                    }
+                }, 'json');
+            }).change();
+            //select2
             $('#exchange').select2();
+            $('#type').select2();
             $('.js-data-example-ajax').select2({
                 ajax: {
                     url: '{{ route('api.alert.markets') }}',

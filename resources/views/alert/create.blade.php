@@ -7,7 +7,7 @@
 
     <div class="row">
         <div class="col-md-7 col-sm-12">
-            <form method="post" action="{{ route("{$alert->type_key}.store") }}">
+            <form method="post" action="{{ route("alerts.store") }}">
                 @include('components.alert.form')
                 <button class="btn btn-default bt-section-out" type="submit" role="button">Create alert</button>
             </form>
