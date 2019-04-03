@@ -5,6 +5,7 @@
 <input type="hidden" name="hiddenDirection" id="setDirection" value="">
 <input type="hidden" name="hiddenValue" id="setValue" value="">
 <input type="hidden" name="hiddenCurrencyValue" id="setCurrencyValue" value="">
+<input type="hidden" name="hiddenInterval" id="setInterval" value="">
 <!-- combo -->
 <div class="myaccount-combo">
 
@@ -82,17 +83,6 @@
 </div>
 <!-- END combo -->
 
-{{--<!-- combo -->
-<div class="myaccount-combo">
-    <div class="form-group">
-        <h5>Maximum notifications for this alert:</h5>
-        <div class="btn-group special">
-            <input class="form-control" name="triggerings_limit" id="triggerings_limit" type="number" max="100" min="1" value="{{ old('triggerings_limit', $alert->triggerings_limit) }}" required>
-        </div>
-    </div>
-</div>
-<!-- END combo -->--}}
-
 <!-- combo -->
 <div class="myaccount-combo">
     <div class="form-group">
@@ -147,8 +137,8 @@
 <div class="myaccount-combo">
     <div class="form-group">
         <h5>Alert Message</h5>
-        <textarea name="alert_message" class="form-control" id="alert_message" rows="3">{{ old('alert_message', $alert->alert_message) == null ? '{market} {type} {price} {direction} {value}' : ''  }}</textarea>
-        If you want change message use: <code>{market} {type} {direction} {value} {price}</code> (with brackets)
+        <textarea name="alert_message" class="form-control" id="alert_message" rows="3">{{ old('alert_message', $alert->alert_message) != null ? old('alert_message', $alert->alert_message) : '{market} {type} {price} {direction} {value}' }}</textarea>
+        If you want change message use: <code>{market} {type} @if($alert->type != 2){direction} {value}@endif {price} @if ($alert->type != 0){interval}@endif</code> (with brackets)
     </div>
 </div>
 <!-- END combo -->

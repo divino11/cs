@@ -65,14 +65,16 @@ function changeTextarea()
         var direction = $("select[name='conditions[direction]'] option:selected").text() ? $("select[name='conditions[direction]'] option:selected").text() : '';
         var value = $("input[name='conditions[value]']").val() ? $("input[name='conditions[value]']").val() : '';
         var currencyValue = $('#currencyPrice').text() ? $('#currencyPrice').text() : '';
+        var interval = $("select[name='conditions[interval]'] option:selected").text() ? $("select[name='conditions[interval]'] option:selected").text() : '';
         $('#setMarket').val(market);
         $('#setType').val(type);
         $('#setDirection').val(direction);
         $('#setValue').val(value);
         $('#setCurrencyValue').val(currencyValue);
+        $('#setInterval').val(interval);
         var textarea = $('#alert_message').val();
-        var find = ["{market}", "{type}", "{direction}", "{value}", "{price}"];
-        var replace = [market, type, direction, value, currencyValue];
+        var find = ["{market}", "{type}", "{direction}", "{value}", "{price}", "{interval}"];
+        var replace = [market, type, direction, value, currencyValue, interval];
         textarea = textarea.replaceArray(find, replace);
         $('.live-preview').text(textarea);
     }, 1000);
