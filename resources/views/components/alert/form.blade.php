@@ -174,45 +174,43 @@
                     }
                 });
             }).change();
-            $('#markets').change(function () {
+            $('#alertForm').change(function () {
                 selectedPlatform = $('#exchange option:selected').val();
                 selectedCurrency = $('#markets option:selected').val();
-                $("select[name='conditions[metric]']").change(function () {
-                    metricVal = $("select[name='conditions[metric]']").val();
-                    metricText = $("select[name='conditions[metric]'] option:selected").text();
-                    var data = {
-                        selectedPlatform: selectedPlatform,
-                        selectedCurrency: selectedCurrency
-                    };
-                    if (!selectedPlatform || !selectedCurrency) {
-                        return;
-                    }
-                    $.get('{{ route('api.alert.metric') }}', data, function (response) {
-                        if (response) {
-                            switch (metricVal) {
-                                case '0':
-                                    currencyPrice = response.data.bid;
-                                    break;
-                                case '1':
-                                    currencyPrice = response.data.ask;
-                                    break;
-                                case '2':
-                                    currencyPrice = response.data.high_price;
-                                    break;
-                                case '3':
-                                    currencyPrice = response.data.low_price;
-                                    break;
-                                case '4':
-                                    currencyPrice = response.data.volume;
-                                    break;
-                            }
-                            $('.currency_price_group').show();
-                            $('.currency_price_group h5').text(metricText + ': ');
-                            $('#currencyPrice').text(currencyPrice);
+                metricVal = $("select[name='conditions[metric]']").val();
+                metricText = $("select[name='conditions[metric]'] option:selected").text();
+                var data = {
+                    selectedPlatform: selectedPlatform,
+                    selectedCurrency: selectedCurrency
+                };
+                if (!selectedPlatform || !selectedCurrency) {
+                    return;
+                }
+                $.get('{{ route('api.alert.metric') }}', data, function (response) {
+                    if (response) {
+                        switch (metricVal) {
+                            case '0':
+                                currencyPrice = response.data.bid;
+                                break;
+                            case '1':
+                                currencyPrice = response.data.ask;
+                                break;
+                            case '2':
+                                currencyPrice = response.data.high_price;
+                                break;
+                            case '3':
+                                currencyPrice = response.data.low_price;
+                                break;
+                            case '4':
+                                currencyPrice = response.data.volume;
+                                break;
                         }
-                    }, 'json');
-                }).change();
-            });
+                        $('.currency_price_group').show();
+                        $('.currency_price_group h5').text(metricText + ': ');
+                        $('#currencyPrice').text(currencyPrice);
+                    }
+                }, 'json');
+            }).change();
             $('#markets').change(function() {
                 var selected = $('#markets option:selected');
                 $('.market_name').text(selected.text());

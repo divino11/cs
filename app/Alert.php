@@ -5,6 +5,7 @@ namespace App;
 use App\AlertStrategies\Percentage;
 use App\AlertStrategies\PricePoint;
 use App\AlertStrategies\RegularUpdate;
+use App\AlertStrategies\Volume;
 use App\Contracts\AlertStrategy;
 use App\Enums\AlertType;
 use Carbon\Carbon;
@@ -93,6 +94,9 @@ class Alert extends Model
                     break;
                 case AlertType::Regular_Update:
                     $this->strategy = new RegularUpdate();
+                    break;
+                case AlertType::Volume:
+                    $this->strategy = new Volume();
             }
         }
 
