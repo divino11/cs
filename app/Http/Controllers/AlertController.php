@@ -83,7 +83,7 @@ class AlertController extends Controller
      */
     public function update(Request $request, Alert $alert)
     {
-        $alert->update($request->except(['type', 'notification_channels']));
+        $alert->update($request->except(['notification_channels']));
         $alert->notificationChannels()->update($request->notification_channels[0]);
 
         return redirect()->route('alerts.index')->with('status', 'Alert has been updated');

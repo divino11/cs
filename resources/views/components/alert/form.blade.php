@@ -47,7 +47,15 @@
 </div>
 <!-- END combo -->
 
-<div id="type-alert"></div>
+<div class="price_point tab-type">
+    @include('alert.conditions.price_point')
+</div>
+<div class="percentage tab-type">
+    @include('alert.conditions.percentage')
+</div>
+<div class="regular_update tab-type">
+    @include('alert.conditions.regular_update')
+</div>
 
 <div class="form-group currency_price_group" style="display: none">
     <h5 class="font-weight-bold text-uppercase"></h5><h5 id="currencyPrice"></h5>
@@ -189,45 +197,43 @@
                     }
                 });
             }).change();
-            $('#markets').change(function () {
+            $('#alertForm').change(function () {
                 selectedPlatform = $('#exchange option:selected').val();
                 selectedCurrency = $('#markets option:selected').val();
-                $("select[name='conditions[metric]']").change(function () {
-                    metricVal = $("select[name='conditions[metric]']").val();
-                    metricText = $("select[name='conditions[metric]'] option:selected").text();
-                    var data = {
-                        selectedPlatform: selectedPlatform,
-                        selectedCurrency: selectedCurrency
-                    };
-                    if (!selectedPlatform || !selectedCurrency) {
-                        return;
-                    }
-                    $.get('{{ route('api.alert.metric') }}', data, function (response) {
-                        if (response) {
-                            switch (metricVal) {
-                                case '0':
-                                    currencyPrice = response.data.bid;
-                                    break;
-                                case '1':
-                                    currencyPrice = response.data.ask;
-                                    break;
-                                case '2':
-                                    currencyPrice = response.data.high_price;
-                                    break;
-                                case '3':
-                                    currencyPrice = response.data.low_price;
-                                    break;
-                                case '4':
-                                    currencyPrice = response.data.volume;
-                                    break;
-                            }
-                            $('.currency_price_group').show();
-                            $('.currency_price_group h5').text(metricText + ': ');
-                            $('#currencyPrice').text(currencyPrice);
+                metricVal = $("select[name='conditions[metric]']").val();
+                metricText = $(".price_point select[name='conditions[metric]'] option:selected").text();
+                var data = {
+                    selectedPlatform: selectedPlatform,
+                    selectedCurrency: selectedCurrency
+                };
+                if (!selectedPlatform || !selectedCurrency) {
+                    return;
+                }
+                $.get('{{ route('api.alert.metric') }}', data, function (response) {
+                    if (response) {
+                        switch (metricVal) {
+                            case '0':
+                                currencyPrice = response.data.bid;
+                                break;
+                            case '1':
+                                currencyPrice = response.data.ask;
+                                break;
+                            case '2':
+                                currencyPrice = response.data.high_price;
+                                break;
+                            case '3':
+                                currencyPrice = response.data.low_price;
+                                break;
+                            case '4':
+                                currencyPrice = response.data.volume;
+                                break;
                         }
-                    }, 'json');
-                }).change();
-            });
+                        $('.currency_price_group').show();
+                        $('.currency_price_group h5').text(metricText + ': ');
+                        $('#currencyPrice').text(currencyPrice);
+                    }
+                }, 'json');
+            }).change();
             $('#markets').change(function() {
                 var selected = $('#markets option:selected');
                 $('.market_name').text(selected.text());
@@ -243,18 +249,29 @@
             });
         });
         $(document).ready(function () {
-            //load view
-            $('#type').bind('change', function () {
-                var data = {
-                    id: '{{ $alert->id }}',
-                    type: $('#type option:selected').val()
-                };
-                $.get('{{ route('api.alert.type_alert') }}', data, function (response) {
-                    if (response) {
-                        $('#type-alert').html(response.view);
-                        $('#markets').change();
+            //remove required
+            $('#alertForm button[type="submit"]').click(function(){
+                $('input, textarea, select').filter('[required]:hidden').each(function(){
+                    if (!$(this)[0].checkValidity()) {
+                        $(this).removeAttr('required');
                     }
-                }, 'json');
+                });
+            });
+            //view alerts
+            $('#type').change(function () {
+                var selectedType = $('#type option:selected').val();
+                if (selectedType == '0') {
+                    $('.tab-type').removeClass('active-type');
+                    $('.price_point').addClass('active-type');
+                }
+                if (selectedType == '1') {
+                    $('.tab-type').removeClass('active-type');
+                    $('.percentage').addClass('active-type');
+                }
+                if (selectedType == '2') {
+                    $('.tab-type').removeClass('active-type');
+                    $('.regular_update').addClass('active-type');
+                }
             }).change();
             //select2
             $('#exchange').select2();
