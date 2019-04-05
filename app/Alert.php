@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\AlertStrategies\Crossing;
 use App\AlertStrategies\Percentage;
 use App\AlertStrategies\PricePoint;
 use App\AlertStrategies\RegularUpdate;
@@ -93,6 +94,9 @@ class Alert extends Model
                     break;
                 case AlertType::Regular_Update:
                     $this->strategy = new RegularUpdate();
+                    break;
+                case AlertType::Crossing:
+                    $this->strategy = new Crossing();
             }
         }
 

@@ -57,6 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['middleware' => 'subscribed'], function () {
             Route::resource('percentage', 'PercentageAlertController')->only(['create', 'store', 'update'])->parameters(['percentage' => 'alert']);
             Route::resource('regular_update', 'RegularUpdateAlertController')->only(['create', 'store', 'update'])->parameters(['regular_update' => 'alert']);
+            Route::resource('crossing', 'CrossingAlertController')->only(['create', 'store', 'update'])->parameters(['crossing' => 'alert']);
         });
     });
 });

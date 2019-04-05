@@ -29,6 +29,28 @@
 
     <!-- blurb -->
     <div class="alerts-module">
+        <a href="{{ route('crossing.create') }}">
+            <div class="row">
+                <div class="col-md-11 col-sm-11 col-xs-10">
+                    <div class="pull-left">
+                        <img src="{{ asset('images/alerts_ico_pricepoint.svg') }}" alt=""/>
+                    </div>
+                    <div class="media-body">
+                        <h4>Crossing</h4>
+                        <p>Example: Alert me if BTC/USD's buy price crossing up $320 on Coinbase.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-1 col-sm-1 col-xs-2 newalert-module-right text-right">
+                    <span class="material-icons">chevron_right</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    <!-- END blurb -->
+
+    <!-- blurb -->
+    <div class="alerts-module">
         <a href="{{ route('percentage.create') }}">
             <div class="row">
                 <div class="col-md-11 col-sm-11 col-xs-10">
