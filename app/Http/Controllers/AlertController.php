@@ -29,7 +29,10 @@ class AlertController extends Controller
      */
     public function create()
     {
-        return view('alert.type_select');
+        return view('alert.create', [
+            'exchanges' => Exchange::enabled()->with('markets')->get(),
+            'alert' => new Alert(),
+        ]);
     }
 
     /**
@@ -40,7 +43,10 @@ class AlertController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $alert = Auth::user()->alerts()->create($request->except('notification_channels'));
+        $alert->notificationChannels()->create($request->notification_channels[0]);
+
+        return redirect()->route('alerts.index')->with('status', 'New alert created');
     }
 
     /**
@@ -77,7 +83,10 @@ class AlertController extends Controller
      */
     public function update(Request $request, Alert $alert)
     {
-        //
+        $alert->update($request->except(['notification_channels']));
+        $alert->notificationChannels()->update($request->notification_channels[0]);
+
+        return redirect()->route('alerts.index')->with('status', 'Alert has been updated');
     }
 
     /**

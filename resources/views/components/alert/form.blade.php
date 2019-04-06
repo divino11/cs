@@ -12,6 +12,21 @@
     <div class="row gutter-10">
         <div class="col-md-6 col-sm-6">
             <!-- combo -->
+            <h5>Alert Type</h5>
+            <div class="btn-group special">
+                <select class="form-control" name="type" id="type" required>
+                    @foreach(App\Enums\AlertType::getKeys() as $key => $item)
+                        <option value="{{$key}}" @if(old('type', $alert->type) === $key) selected @endif>{{App\Enums\AlertType::getDescription($key)}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <!-- END combo -->
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <!-- combo -->
             <h5>Exchange</h5>
             <div class="btn-group special">
                 <select class="form-control" name="exchange_id" id="exchange" required>
@@ -39,7 +54,16 @@
 </div>
 <!-- END combo -->
 
-@include("alert.conditions.{$alert->type_key}")
+<div class="price_point tab-type">
+    @include('alert.conditions.price_point')
+</div>
+<div class="percentage tab-type">
+    @include('alert.conditions.percentage')
+</div>
+<div class="regular_update tab-type">
+    @include('alert.conditions.regular_update')
+</div>
+
 <div class="form-group currency_price_group" style="display: none">
     <h5 class="font-weight-bold text-uppercase"></h5><h5 id="currencyPrice"></h5>
 </div>
@@ -192,7 +216,7 @@
                 selectedPlatform = $('#exchange option:selected').val();
                 selectedCurrency = $('#markets option:selected').val();
                 metricVal = $("select[name='conditions[metric]']").val();
-                metricText = $("select[name='conditions[metric]'] option:selected").text();
+                metricText = $(".price_point select[name='conditions[metric]'] option:selected").text();
                 var data = {
                     selectedPlatform: selectedPlatform,
                     selectedCurrency: selectedCurrency
@@ -240,7 +264,33 @@
             });
         });
         $(document).ready(function () {
+            //remove required
+            $('#alertForm button[type="submit"]').click(function(){
+                $('input, textarea, select').filter('[required]:hidden').each(function(){
+                    if (!$(this)[0].checkValidity()) {
+                        $(this).removeAttr('required');
+                    }
+                });
+            });
+            //view alerts
+            $('#type').change(function () {
+                var selectedType = $('#type option:selected').val();
+                if (selectedType == '0') {
+                    $('.tab-type').removeClass('active-type');
+                    $('.price_point').addClass('active-type');
+                }
+                if (selectedType == '1') {
+                    $('.tab-type').removeClass('active-type');
+                    $('.percentage').addClass('active-type');
+                }
+                if (selectedType == '2') {
+                    $('.tab-type').removeClass('active-type');
+                    $('.regular_update').addClass('active-type');
+                }
+            }).change();
+            //select2
             $('#exchange').select2();
+            $('#type').select2();
             $('.js-data-example-ajax').select2({
                 ajax: {
                     url: '{{ route('api.alert.markets') }}',
