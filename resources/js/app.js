@@ -33,7 +33,7 @@ window.Echo.private(`user.${userId}`)
             audio.play();
         }
         $.notify({
-            message: 'Alert Triggered - ' + data.alert_name + '. The ' + data.alert_type + ' is currently ' + data.value,
+            message: data.alert.alert_message,
         },{
             type: 'success',
             placement: {

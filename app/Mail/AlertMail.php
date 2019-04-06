@@ -45,7 +45,7 @@ class AlertMail extends Mailable
     public function build()
     {
         $this->from(config('mail.from.address'),'CoinSpy Alerts');
-        $this->subject("Alert Triggered - {$this->alert->name}");
+        $this->subject("CoinSpy Alert: {$this->alert->alert_message}");
         $this->to($this->user->routeNotificationForMail());
         $url = URL::signedRoute('alerts.disable', ['alert' => $this->alert->id]);
         $editUrl = url()->route('alerts.edit', ['alert' => $this->alert->id]);

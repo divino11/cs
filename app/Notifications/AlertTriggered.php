@@ -66,7 +66,7 @@ class AlertTriggered extends Notification
             User::find($this->alert->user->id)
                 ->decrement('sms', 1);
             return (new NexmoMessage)
-                ->content($this->alert->name . '. ' . view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . '. The ' . AlertMetric::getDescription((int)$this->alert->conditions['metric']) . ' ' . $this->ticker->getMetric($this->alert->conditions['metric']))
+                ->content($this->alert->alert_message)
                 ->from('CoinSpy');
         }
     }
@@ -75,12 +75,12 @@ class AlertTriggered extends Notification
     {
         return TelegramMessage::create()
             ->to($this->alert->user->telegram)
-            ->content($this->alert->name . '. ' . view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . '. The ' . AlertMetric::getDescription((int)$this->alert->conditions['metric']) . ' ' . $this->ticker->getMetric($this->alert->conditions['metric']));
+            ->content($this->alert->alert_message);
     }
 
     public function toPushover($notifiable)
     {
-        return PushoverMessage::create($this->alert->name . '. ' . view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render() . '. The ' . AlertMetric::getDescription((int)$this->alert->conditions['metric']) . ' ' . $this->ticker->getMetric($this->alert->conditions['metric']))
+        return PushoverMessage::create($this->alert->alert_message)
             ->title('CoinSpy');
     }
 
@@ -101,10 +101,8 @@ class AlertTriggered extends Notification
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-            'alert_name' => $this->alert->name,
-            'alert_type' => AlertMetric::getDescription((int)$this->alert->conditions['metric']),
-            'alert_sound' => asset('sounds/' . $this->alert->user->sound),
-            'value' => $this->ticker->getMetric($this->alert->conditions['metric']),
+            'alert' => $this->alert,
+            'alert_sound' => 'storage/sounds/' . $this->alert->user->sound,
             'user' => $this->alert->user
         ]);
     }
