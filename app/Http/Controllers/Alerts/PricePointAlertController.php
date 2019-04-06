@@ -31,6 +31,21 @@ class PricePointAlertController extends Controller
 
     public function store(StorePricePointAlertRequest $request)
     {
+        $alert_message = str_replace([
+            '{market}',
+            '{type}',
+            '{direction}',
+            '{value}',
+            '{price}',
+        ], [
+            $request->hiddenMarket,
+            $request->hiddenType,
+            $request->hiddenDirection,
+            $request->hiddenValue,
+            $request->hiddenCurrencyValue
+        ], $request->alert_message);
+        $request->merge(['alert_message' => $alert_message]);
+
         $alert = Auth::user()->alerts()->create($request->except('notification_channels'));
         $alert->notificationChannels()->create($request->notification_channels[0]);
 

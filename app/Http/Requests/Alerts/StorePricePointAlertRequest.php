@@ -38,6 +38,7 @@ class StorePricePointAlertRequest extends FormRequest
             'frequency' => 'required|boolean',
             'cooldown_number' => 'numeric|min:5',
             'expiration_date' => 'required|date',
+            'alert_message' => 'required',
         ];
     }
 }

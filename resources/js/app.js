@@ -60,6 +60,43 @@ $(document).ready(function() {
     });
 });
 
+$(document).ready(function () {
+    $('#alertForm').bind('change keyup', function () {
+        changeTextarea();
+    });
+});
+
+function changeTextarea()
+{
+    setTimeout(function () {
+        var market = $('#markets option:selected').text() ? $('#markets option:selected').text() : '';
+        var type = $("select[name='conditions[metric]'] option:selected").text().toLowerCase() ? $("select[name='conditions[metric]'] option:selected").text().toLowerCase() : '';
+        var direction = $("select[name='conditions[direction]'] option:selected").text() ? $("select[name='conditions[direction]'] option:selected").text() : '';
+        var value = $("input[name='conditions[value]']").val() ? $("input[name='conditions[value]']").val() : '';
+        var currencyValue = $('#currencyPrice').text() ? $('#currencyPrice').text() : '';
+        var interval = $("select[name='conditions[interval]'] option:selected").text() ? $("select[name='conditions[interval]'] option:selected").text() : '';
+        $('#setMarket').val(market);
+        $('#setType').val(type);
+        $('#setDirection').val(direction);
+        $('#setValue').val(value);
+        $('#setCurrencyValue').val(currencyValue);
+        $('#setInterval').val(interval);
+        var textarea = $('#alert_message').val();
+        var find = ["{market}", "{type}", "{direction}", "{value}", "{price}", "{interval}"];
+        var replace = [market, type, direction, value, currencyValue, interval];
+        textarea = textarea.replaceArray(find, replace);
+        $('.live-preview').text(textarea);
+    }, 1000);
+}
+
+String.prototype.replaceArray = function(find, replace) {
+    var replaceString = this;
+    for (var i = 0; i < find.length; i++) {
+        replaceString = replaceString.replace(find[i], replace[i]);
+    }
+    return replaceString;
+};
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
