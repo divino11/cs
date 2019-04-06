@@ -18,8 +18,9 @@
             &nbsp;
             <div class="btn-group special">
                 <select class="form-control" name="conditions[direction]" required>
-                    <option value="0" @if(old('conditions.direction', $alert->conditions['direction']) == 0) selected @endif>crossing up</option>
-                    <option value="1" @if(old('conditions.direction', $alert->conditions['direction']) == 1) selected @endif>crossing down</option>
+                    <option value="0" @if(old('conditions.direction', $alert->conditions['direction']) == 0) selected @endif>crossing</option>
+                    <option value="1" @if(old('conditions.direction', $alert->conditions['direction']) == 1) selected @endif>crossing up</option>
+                    <option value="2" @if(old('conditions.direction', $alert->conditions['direction']) == 2) selected @endif>crossing down</option>
                 </select>
             </div>
             <!-- END combo -->

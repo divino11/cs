@@ -63,6 +63,13 @@
 <div class="regular_update tab-type">
     @include('alert.conditions.regular_update')
 </div>
+<div class="volume tab-type">
+    @include('alert.conditions.volume')
+</div>
+<div class="crossing tab-type">
+    @include('alert.conditions.crossing')
+</div>
+
 
 <div class="form-group currency_price_group" style="display: none">
     <h5 class="font-weight-bold text-uppercase"></h5><h5 id="currencyPrice"></h5>
@@ -286,6 +293,14 @@
                 if (selectedType == '2') {
                     $('.tab-type').removeClass('active-type');
                     $('.regular_update').addClass('active-type');
+                }
+                if (selectedType == '3') {
+                    $('.tab-type').removeClass('active-type');
+                    $('.volume').addClass('active-type');
+                }
+                if (selectedType == '4') {
+                    $('.tab-type').removeClass('active-type');
+                    $('.crossing').addClass('active-type');
                 }
             }).change();
             //select2
