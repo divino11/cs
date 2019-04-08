@@ -174,8 +174,8 @@
 <div class="myaccount-combo">
     <div class="form-group">
         <h5>Alert Message</h5>
-        <textarea name="alert_message" class="form-control" id="alert_message" rows="3">{{ old('alert_message', $alert->alert_message) != null ? old('alert_message', $alert->alert_message) : '{market} {type} {price} {direction} {value}' }}</textarea>
-        If you want change message use: <code>{market} {type} @if($alert->type != 2){direction} {value}@endif {price} @if ($alert->type != 0){interval}@endif</code> (with brackets)
+        <textarea name="alert_message" class="form-control" id="alert_message" rows="3">{{ old('alert_message', $alert->alert_message) != null ? old('alert_message', $alert->alert_message) : '{market} {type} {price} {direction} {value} {interval}' }}</textarea>
+        If you want change message use: <code>{market} {type} {direction} {value} {price} {interval}</code> (with brackets)
     </div>
 </div>
 <!-- END combo -->
@@ -204,7 +204,7 @@
                     return;
                 }
                 $('.market_name').text('');
-                $('#quoteCurrency').text('');
+                //$('#quoteCurrency').text('');
                 selectedMarket = $('#markets').val();
                 $('#markets').html('<option value="" disabled>Select market</option>');
                 $.each(exchanges[$('#exchange').val()].markets, function(key, value){
@@ -271,6 +271,7 @@
             });
         });
         $(document).ready(function () {
+            var currentType;
             //remove required
             $('#alertForm button[type="submit"]').click(function(){
                 $('input, textarea, select').filter('[required]:hidden').each(function(){
@@ -280,8 +281,11 @@
                 });
             });
             //view alerts
-            $('#type').change(function () {
+            $('#alertForm').bind('change keyup', function () {
                 var selectedType = $('#type option:selected').val();
+                var selected = $('#markets option:selected');
+                currentType = $('.tab-type')[selectedType].classList[0];
+                $('.' + currentType + ' #quoteCurrency').text(selected.data('quote'));
                 if (selectedType == '0') {
                     $('.tab-type').removeClass('active-type');
                     $('.price_point').addClass('active-type');
@@ -302,6 +306,8 @@
                     $('.tab-type').removeClass('active-type');
                     $('.crossing').addClass('active-type');
                 }
+
+                changeTextarea();
             }).change();
             //select2
             $('#exchange').select2();
@@ -327,6 +333,38 @@
                     }
                 }
             });
+
+            function changeTextarea()
+            {
+                setTimeout(function () {
+                    var market = $('.' + currentType + ' .market_name').text() ? $('.' + currentType + ' .market_name').text() : '';
+                    var type = $('.' + currentType + " select[name='conditions[metric]'] option:selected").text().toLowerCase() ? $('.' + currentType + " select[name='conditions[metric]'] option:selected").text().toLowerCase() : '';
+                    var direction = $('.' + currentType + " select[name='conditions[direction]'] option:selected").text() ? $('.' + currentType + " select[name='conditions[direction]'] option:selected").text() : '';
+                    var value = $('.' + currentType + " input[name='conditions[value]']").val() ? $('.' + currentType + " input[name='conditions[value]']").val() : '';
+                    var currencyValue = $('#currencyPrice').text() ? $('#currencyPrice').text() : '';
+                    var interval = $('.' + currentType + " select[name='conditions[interval]'] option:selected").text() ? $('.' + currentType + " select[name='conditions[interval]'] option:selected").text() : '';
+                    $('#setMarket').val(market);
+                    $('#setType').val(type);
+                    $('#setDirection').val(direction);
+                    $('#setValue').val(value);
+                    $('#setCurrencyValue').val(currencyValue);
+                    $('#setInterval').val(interval);
+                    var textarea = $('#alert_message').val();
+                    var find = ["{market}", "{type}", "{direction}", "{value}", "{price}", "{interval}"];
+                    var replace = [market, type, direction, value, currencyValue, interval];
+                    textarea = textarea.replaceArray(find, replace);
+                    $('.live-preview').text(textarea);
+                }, 1000);
+            }
+
+            String.prototype.replaceArray = function(find, replace) {
+                var replaceString = this;
+                for (var i = 0; i < find.length; i++) {
+                    replaceString = replaceString.replace(find[i], replace[i]);
+                }
+                return replaceString;
+            };
+
         });
         $(document).ready(function () {
            $('.expiration').flatpickr({
