@@ -3,6 +3,7 @@
 namespace App;
 
 use Hexters\CoinPayment\Entities\CoinPaymentuserRelation;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -63,7 +64,7 @@ use Laravel\Cashier\Billable;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable, Billable, CoinPaymentuserRelation;
+    use Notifiable, Billable, CoinPaymentuserRelation, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
