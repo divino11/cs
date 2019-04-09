@@ -74,3 +74,4 @@ Route::get('login/{provider}', 'Auth\SocialController@redirect');
 Route::get('login/{provider}/callback', 'Auth\SocialController@callback');
 Route::view('terms', 'terms')->name('terms');
 Route::view('privacy_policy', 'privacy')->name('privacy');
+Route::get('/password/reset/{token}/{email}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
