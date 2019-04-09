@@ -77,7 +77,7 @@
 
                 <div class="myaccount-list-subscription-bot">
                     <ul class="list-inline">
-                        <li class="list-inline-item"><a href="{{ route('user.password.create') }}">Change password</a></li>
+                        <li class="list-inline-item"><a href="{{ route('user.password.index') }}">Change password</a></li>
                     </ul>
                 </div>
 

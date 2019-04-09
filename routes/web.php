@@ -28,7 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'user', 'namespace' => 'User', 'as' => 'user.'], function () {
         Route::get('', 'ShowProfileController')->name('account');
         Route::resource('subscription', 'SubscriptionController')->only(['index', 'create', 'update', 'destroy']);
-        Route::resource('password', 'PasswordController');
+        Route::resource('password', 'PasswordController')->only(['index', 'update']);
         Route::view('faq', 'user.faq')->name('faq');
         Route::view('support', 'user.support')->name('support');
         Route::get('sms_credits', 'ShowSmsCreditsController')->name('sms_credits');
