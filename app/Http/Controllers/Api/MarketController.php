@@ -15,7 +15,7 @@ class MarketController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $name = preg_replace('/[^a-zA-Z]/', '', $request->name);
+        $name = preg_replace('/[^a-zA-Z\\/]/', '', $request->name);
         return Exchange::where('id', $request->id)
             ->with(['markets' => function ($query) use ($name) {
                 $query->where(
@@ -23,6 +23,9 @@ class MarketController extends Controller
                 );
                 $query->orWhere(
                     DB::raw("CONCAT(quote, '', base)"), 'LIKE', '%' . $name . '%'
+                );
+                $query->orWhere(
+                    DB::raw("CONCAT(base, '/', quote)"), 'LIKE', '%' . $name . '%'
                 );
             }])
             ->get();
