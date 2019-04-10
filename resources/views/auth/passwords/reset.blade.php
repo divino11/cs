@@ -11,11 +11,13 @@
         <form method="POST" action="{{ route('password.update') }}">
             @csrf
             <input type="hidden" name="token" value="{{ $token }}">
+            <input type="hidden" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email"
+                   value="{{ $email ?? old('email') }}" required>
 
             <div class="myaccount-combo">
                 <div class="form-group">
                     <h5>{{ __('Password') }}</h5>
-                    <input placeholder="Password" id="password" type="password"
+                    <input placeholder="Password" autofocus id="password" type="password"
                            class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
                            name="password" required>
                     @if ($errors->has('password'))

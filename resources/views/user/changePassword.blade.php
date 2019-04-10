@@ -5,8 +5,9 @@
 @section('content')
     <div class="change-password">
         <div class="container w-50">
-            <form method="post" action="{{ route('user.password.store') }}">
+            <form method="post" action="{{ route('user.password.update', ['user' => \Illuminate\Support\Facades\Auth::user()]) }}">
                 @csrf
+                @method('PUT')
                 <div class="form-group">
                     <label for="new_password">New Password</label>
                     <input class="form-control" name="new_password" autocomplete="off" id="new_password" type="password"
@@ -18,7 +19,7 @@
                            id="new_password_confirmation" type="password" required>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary bt-custom text-uppercase">Update password</button>
+                    <button type="submit" class="btn btn-default bt-section-out">Update password</button>
                 </div>
             </form>
         </div>
