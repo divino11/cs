@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Alert;
 use App\Enums\AlertType;
 use App\Exchange;
+use App\Http\Requests\Alerts\StoreAlertRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,11 +39,28 @@ class AlertController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param StoreAlertRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAlertRequest $request)
     {
+        $expirationDate = $request->expiration_date . ' ' . $request->expiration_time;
+        $alert_message = str_replace([
+            '{market}',
+            '{type}',
+            '{direction}',
+            '{value}',
+            '{price}',
+            '{interval}'
+        ], [
+            $request->hiddenMarket,
+            $request->hiddenType,
+            $request->hiddenDirection,
+            $request->hiddenValue,
+            $request->hiddenCurrencyValue,
+            $request->hiddenInterval,
+        ], $request->alert_message);
+        $request->merge(['expiration_date' => $expirationDate, 'alert_message' => $alert_message]);
         $alert = Auth::user()->alerts()->create($request->except('notification_channels'));
         $alert->notificationChannels()->create($request->notification_channels[0]);
 
@@ -77,12 +95,30 @@ class AlertController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Alert  $alert
+     * @param StoreAlertRequest $request
+     * @param  \App\Alert $alert
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Alert $alert)
+    public function update(StoreAlertRequest $request, Alert $alert)
     {
+        $expirationDate = $request->expiration_date . ' ' . $request->expiration_time;
+        $alert_message = str_replace([
+            '{market}',
+            '{type}',
+            '{direction}',
+            '{value}',
+            '{price}',
+            '{interval}'
+        ], [
+            $request->hiddenMarket,
+            $request->hiddenType,
+            $request->hiddenDirection,
+            $request->hiddenValue,
+            $request->hiddenCurrencyValue,
+            $request->hiddenInterval,
+        ], $request->alert_message);
+        $request->merge(['expiration_date' => $expirationDate, 'alert_message' => $alert_message]);
+
         $alert->update($request->except(['notification_channels']));
         $alert->notificationChannels()->update($request->notification_channels[0]);
 

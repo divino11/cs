@@ -123,7 +123,7 @@
 <!-- combo -->
 <div class="myaccount-combo">
     <div class="form-group">
-        <h5>Frequency</h5>
+        <h5>With frequency</h5>
         <div class="toggle">
             <input type="radio" name="frequency" value="0" id="once" @if(old('frequency', $alert->frequency) == 0) checked @endif />
             <label for="once">Once</label>
@@ -137,11 +137,11 @@
 <!-- combo -->
 <div class="myaccount-combo">
     <div class="form-group">
-        <h5>Cooldown</h5>
+        <h5>Per interval of</h5>
         <div class="cooldown-group">
-            <input type="number" class="form-control" placeholder="min 5 minute"
-                   value="{{ old('conditions.cooldown_number', $alert->conditions['cooldown_number']) }}"
-                   name="conditions[cooldown_number]">
+            <select type="number" class="form-control" name="conditions[cooldown_number]">
+
+            </select>
             <select name="conditions[cooldown_unit]" class="form-control">
                 <option value="minutes"
                         @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'minutes') selected @endif>
@@ -164,18 +164,42 @@
 <!-- combo -->
 <div class="myaccount-combo">
     <div class="form-group">
-        <h5>Expiration Time</h5>
-        <input class="form-control expiration" value="{{ old('expiration_date', $alert->expiration_date) }}" name="expiration_date">
+        <h5>Expiring on</h5>
+        <div class="calendar-group">
+            <div class="expiration">
+            <input class="form-control" data-input type="text" autocomplete="off" value="{{ old('expiration_date', $alert->expiration_date) }}"
+                   name="expiration_date">
+            <span class="input-group-addon" title="toggle" data-toggle>
+        <i class="material-icons">calendar_today</i>
+    </span>
+            </div>
+            <div class="clockpicker">
+                <input type="text" class="form-control expiration-time" autocomplete="off" name="expiration_time">
+                <span class="input-group-addon">
+        <i class="material-icons">access_time</i>
+    </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="myaccount-combo">
+    <div class="form-group">
+        <label class="container">Open-ended
+            <input type="checkbox" id="open_ended" value="@if(old('open_ended', $alert->open_ended)) 0 @else 1 @endif" name="open_ended" @if(old('open_ended', $alert->open_ended)) checked @endif>
+            <span class="checkmark"></span>
+        </label>
     </div>
 </div>
 <!-- END combo -->
 
 <!-- combo -->
+
 <div class="myaccount-combo">
     <div class="form-group">
         <h5>Alert Message</h5>
         <textarea name="alert_message" class="form-control" id="alert_message" rows="3">{{ old('alert_message', $alert->alert_message) != null ? old('alert_message', $alert->alert_message) : '{market} {type} {price} {direction} {value} {interval}' }}</textarea>
-        If you want change message use: <code>{market} {type} {direction} {value} {price} {interval}</code> (with brackets)
+        <p class="small-description">If you want change message use: <code>{market} {type} {direction} {value} {price} {interval}</code> (with brackets)</p>
     </div>
 </div>
 <!-- END combo -->
@@ -274,9 +298,9 @@
             var currentType;
             //remove required
             $('#alertForm button[type="submit"]').click(function(){
-                $('input, textarea, select').filter('[required]:hidden').each(function(){
+                $('input, textarea, select').filter('[required]:not(:visible)').each(function(){
                     if (!$(this)[0].checkValidity()) {
-                        $(this).removeAttr('required');
+                        $(this).remove();
                     }
                 });
             });
@@ -308,6 +332,7 @@
                 }
 
                 changeTextarea();
+                //change options interval
             }).change();
             //select2
             $('#exchange').select2();
@@ -368,11 +393,56 @@
         });
         $(document).ready(function () {
            $('.expiration').flatpickr({
-               enableTime: true,
-               dateFormat: "Y-m-d H:i",
+               dateFormat: "Y-m-d",
                minDate: "today",
+               wrap: true,
                maxDate: new Date().fp_incr(30)
            });
+
+            $('.clockpicker').clockpicker({
+                default: 'now',
+                autoclose: true,
+            });
+
+            $("select[name='conditions[cooldown_unit]']").change(function () {
+                var newOptions;
+                var interval_unit = $("select[name='conditions[cooldown_unit]']").val();
+                if (interval_unit == 'minutes') {
+                    newOptions = {
+                        "5": "5",
+                        "15": "15",
+                        "30": "30",
+                        "40": "40",
+                        "60": "60",
+                        "90": "90"
+                    };
+                } else if (interval_unit == 'hours') {
+                    newOptions = {
+                        "1": "1",
+                        "2": "2",
+                        "3": "3",
+                        "4": "4",
+                        "6": "6",
+                        "12": "12",
+                        "24": "24"
+                    };
+                } else if (interval_unit == 'days') {
+                    newOptions = {
+                        "1": "1",
+                        "2": "2",
+                        "3": "3",
+                        "4": "4",
+                        "7": "7",
+                        "30": "30"
+                    };
+                }
+                var $el = $("select[name='conditions[cooldown_number]']");
+                $el.empty();
+                $.each(newOptions, function(key,value) {
+                    $el.append($("<option></option>")
+                        .attr("value", value).text(key));
+                });
+            }).change();
         });
     </script>
 @endpush

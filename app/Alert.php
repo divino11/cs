@@ -56,7 +56,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Alert extends Model
 {
-    protected $fillable = ['exchange_id', 'market_id', 'type', 'conditions', 'alert_message', 'frequency', 'expiration_date', 'enabled'];
+    protected $fillable = ['exchange_id', 'market_id', 'type', 'conditions', 'alert_message', 'open_ended', 'frequency', 'expiration_date', 'enabled'];
 
     protected $casts = ['conditions' => 'array'];
 
@@ -141,7 +141,8 @@ class Alert extends Model
             ->where('enabled', true)
             ->whereDate('triggered_at', '<=', Carbon::now()->sub($this->cooldown)->toDateTimeString())
             ->whereDate('expiration_date', '>', Carbon::now()->toDateTimeString())
-            ->orWhereNull('triggered_at');
+            ->orWhereNull('triggered_at')
+            ->orWhere('open_ended', '=', 1);
     }
 
     public function getAvailableNotificationChannels()

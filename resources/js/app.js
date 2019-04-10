@@ -11,6 +11,7 @@ const flatpickr = require("flatpickr/dist/flatpickr");
 require('select2');
 require('jquery-autocomplete');
 window.intlTelInput = require('intl-tel-input');
+require('clockpicker/src/clockpicker');
 
 window.Vue = require('vue');
 
