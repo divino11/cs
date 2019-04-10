@@ -46,24 +46,24 @@
             <div class="col-6 myaccount-list-grey">
                 <ul>
                     <li>Plan:</li>
-                    <li>Billing cycle:</li>
+                    <li>Billing Cycle:</li>
                     <li>Alerts:</li>
-                    <li>Credit card on file:</li>
+                    <li>Credit Card on File:</li>
                 </ul>
             </div>
             <div class="col-6">
                 <ul>
-                    <li>@subscribed pro @else free @endsubscribed</li>
+                    <li>@subscribed Pro @else Free @endsubscribed</li>
                     <li>@if($subscription){{$subscription->ends_at ? $subscription->ends_at : $subscription->updated_at->addYear()}}@else - @endif</li>
                     <li>{{ $user->alerts()->count() }} @unless($user->subscribed('main')) out of
                         5 @endunless</li>
-                    <li>{{ $user->card_brand }} ending on {{ $user->card_last_four }}</li>
+                    <li>{{ $user->card_brand }} Ending on {{ $user->card_last_four }}</li>
                 </ul>
             </div>
 
             <div class="myaccount-list-subscription-bot">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="{{ route('user.subscription.index') }}">Change plan</a></li>
+                    <li class="list-inline-item"><a href="{{ route('user.subscription.index') }}">Change Plan</a></li>
                 </ul>
             </div>
 
@@ -84,7 +84,7 @@
             </div>
             <div class="col-6">
                 <ul>
-                    <li>{{ $user->timezone ? $user->timezone : 'none' }} <a href="#" data-toggle="modal" data-target="#change_time_zone">update</a></li>
+                    <li>{{ $user->timezone ? $user->timezone : 'None' }} <a href="#" data-toggle="modal" data-target="#change_time_zone">Update</a></li>
                 </ul>
             </div>
         </div>

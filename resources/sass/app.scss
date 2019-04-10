@@ -1721,3 +1721,8 @@ span.select2-selection {
 .clockpicker {
   display: flex;
 }
+
+#select2-type-results,
+#select2-type-container {
+  text-transform: capitalize;
+}
