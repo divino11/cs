@@ -210,6 +210,8 @@
 @push('scripts')
     <script>
         const exchanges = @json($exchanges->keyBy('id'));
+        var currentType;
+        var selectedType;
         $(document).ready(function(){
             var metricVal;
             var metricText;
@@ -237,10 +239,15 @@
                 });
             }).change();
             $('#alertForm').change(function () {
+                selectedType = $('#type option:selected').val();
+                currentType = $('.tab-type')[selectedType].classList[0];
                 selectedPlatform = $('#exchange option:selected').val();
                 selectedCurrency = $('#markets option:selected').val();
                 metricVal = $("select[name='conditions[metric]']").val();
-                metricText = $(".price_point select[name='conditions[metric]'] option:selected").text();
+                if (currentType == 'volume') {
+                    metricVal = '4';
+                }
+                metricText = $("." + currentType + " select[name='conditions[metric]'] option:selected").text();
                 var data = {
                     selectedPlatform: selectedPlatform,
                     selectedCurrency: selectedCurrency
@@ -288,7 +295,6 @@
             });
         });
         $(document).ready(function () {
-            var currentType;
             //remove required
             $('#alertForm button[type="submit"]').click(function(){
                 $('input, textarea, select').filter('[required]:not(:visible)').each(function(){
@@ -300,9 +306,7 @@
 
             //view alerts
             $('#alertForm').bind('change keyup', function () {
-                var selectedType = $('#type option:selected').val();
                 var selected = $('#markets option:selected');
-                currentType = $('.tab-type')[selectedType].classList[0];
                 $('.' + currentType + ' #quoteCurrency').text(selected.data('quote'));
                 if (selectedType == '0') {
                     $('.tab-type').removeClass('active-type');
@@ -325,6 +329,13 @@
                     $('.crossing').addClass('active-type');
                 }
             }).change();
+            //update value
+            $("select[name='conditions[metric]'], #type").change(function () {
+                setTimeout(function () {
+                    $('.' + currentType + ' input[name=\'conditions[value]\']').val($('#currencyPrice').text());
+                }, 950);
+            }).change();
+
             //select2
             $('#exchange').select2();
             $('#type').select2();
@@ -367,12 +378,15 @@
                     var market = $('#markets option:selected').text();
                     var type = $('.' + currentType + " select[name='conditions[metric]'] option:selected").text().toLowerCase() ? $('.' + currentType + " select[name='conditions[metric]'] option:selected").text().toLowerCase() : '';
                     var direction = $('.' + currentType + " select[name='conditions[direction]'] option:selected").text() ? $('.' + currentType + " select[name='conditions[direction]'] option:selected").text() : '';
-                    var value = $('#currencyPrice').text();
+                    var value = $('.' + currentType + " input[name='conditions[value]']").val() ? $('.' + currentType + " input[name='conditions[value]']").val() : '';
                     if (currentType == 'percentage') {
                         value = $('.' + currentType + " input[name='conditions[value]']").val() ? $('.' + currentType + " input[name='conditions[value]']").val() + '%' : '';
                     }
+                    if (currentType == 'volume') {
+                        value = $('.' + currentType + " select[name='conditions[interval]'] option:selected").text() ? $('.' + currentType + " select[name='conditions[interval]'] option:selected").text() : '';
+                    }
                     $('#alert_message').text(market + ' ' + type + ' ' + direction + ' ' + value);
-                }, 800);
+                }, 1100);
             }
         });
 
@@ -381,7 +395,7 @@
                 setTimeout(function () {
                     var textarea = $('#alert_message').val();
                     $('.live-preview').text(textarea);
-                }, 900);
+                }, 1150);
             }).change();
         });
 
