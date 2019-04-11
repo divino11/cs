@@ -365,8 +365,12 @@
                 setTimeout(function () {
                     var market = $('#markets option:selected').text();
                     var type = $('.' + currentType + " select[name='conditions[metric]'] option:selected").text().toLowerCase() ? $('.' + currentType + " select[name='conditions[metric]'] option:selected").text().toLowerCase() : '';
+                    var direction = $('.' + currentType + " select[name='conditions[direction]'] option:selected").text() ? $('.' + currentType + " select[name='conditions[direction]'] option:selected").text() : '';
                     var value = $('#currencyPrice').text();
-                    $('#alert_message').text(market + ' ' + type + ' ' + value);
+                    if (currentType == 'percentage') {
+                        value = $('.' + currentType + " input[name='conditions[value]']").val() ? $('.' + currentType + " input[name='conditions[value]']").val() + '%' : '';
+                    }
+                    $('#alert_message').text(market + ' ' + type + ' ' + direction + ' ' + value);
                 }, 800);
             }
         });
