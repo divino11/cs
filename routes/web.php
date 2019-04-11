@@ -61,6 +61,14 @@ Route::group(['middleware' => 'auth'], function () {
             Route::resource('crossing', 'CrossingAlertController')->only(['create', 'store', 'update'])->parameters(['crossing' => 'alert']);
         });
     });
+    Route::group(['prefix' => 'preview', 'namespace' => 'Preview', 'as' => 'preview.'], function () {
+        Route::get('mails', 'PreviewMailController')->name('mails');
+        Route::get('triggered', 'TriggeredController')->name('triggered');
+        Route::get('channel_confirm', 'ChannelConfirmController')->name('channel_confirm');
+        Route::get('change_email', 'ChangeEmailController')->name('change_email');
+        Route::get('change_password', 'ChangePasswordController')->name('change_password');
+        Route::get('registration', 'RegistrationController')->name('registration');
+    });
 });
 
 Route::group(['middleware' => ['signed']], function() {
