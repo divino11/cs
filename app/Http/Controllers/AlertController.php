@@ -6,6 +6,7 @@ use App\Alert;
 use App\Enums\AlertType;
 use App\Exchange;
 use App\Http\Requests\Alerts\StoreAlertRequest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -89,6 +90,7 @@ class AlertController extends Controller
         return view('alert.edit', [
             'exchanges' => Exchange::enabled()->with('markets')->get(),
             'alert' => $alert,
+            'expiration_time' => Carbon::parse($alert->expiration_date)->format('H:i'),
         ]);
     }
 

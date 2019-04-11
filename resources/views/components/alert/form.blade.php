@@ -167,7 +167,7 @@
     </span>
             </div>
             <div class="clockpicker">
-                <input type="text" class="form-control expiration-time" autocomplete="off" name="expiration_time">
+                <input type="text" class="form-control expiration-time" value="{{ old('expiration_time', $expiration_time) }}" autocomplete="off" name="expiration_time">
                 <span class="input-group-addon">
         <i class="material-icons">access_time</i>
     </span>
@@ -179,7 +179,8 @@
 <div class="myaccount-combo">
     <div class="form-group">
         <label class="container">Open-ended
-            <input type="checkbox" id="open_ended" value="@if(old('open_ended', $alert->open_ended)) 0 @else 1 @endif" name="open_ended" @if(old('open_ended', $alert->open_ended)) checked @endif>
+            <input type="hidden" id="open_ended" value="0" name="open_ended">
+            <input type="checkbox" id="open_ended" value="1" name="open_ended" @if(old('open_ended', $alert->open_ended)) checked @endif>
             <span class="checkmark"></span>
         </label>
     </div>
