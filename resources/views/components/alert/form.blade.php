@@ -167,7 +167,7 @@
     </span>
             </div>
             <div class="clockpicker">
-                <input type="text" class="form-control expiration-time" value="{{ old('expiration_time', $expiration_time) }}" autocomplete="off" name="expiration_time">
+                <input type="text" class="form-control expiration-time" value="{{ old('expiration_time', $expiration_time ?? '') }}" autocomplete="off" name="expiration_time">
                 <span class="input-group-addon">
         <i class="material-icons">access_time</i>
     </span>
