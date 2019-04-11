@@ -18,11 +18,10 @@ class RegistrationController extends Controller
             'url' => 'https://example.com/',
             'user' => User::latest()->first(),
             'level' => 'primary',
-            'introLines' => ['test' => 'test'],
-            'outroLines' => ['test' => 'test'],
-            'actionText' => 'test',
+            'introLines' => ['test' => 'Please click the button below to verify your email address.'],
+            'outroLines' => ['test' => 'If you did not create an account, no further action is required.'],
+            'actionText' => 'Verify Email Address',
             'actionUrl' => 'http://example.com/',
-
         ]);
     }
 }
