@@ -14,7 +14,7 @@
         </div>
         <div class="col-md-6 col-sm-6 myaccount-combo-righthalf">
             <!-- combo -->
-            &nbsp;
+            <h5>&nbsp;</h5>
             <div class="d-flex">
                 <select name="conditions[metric]" style="display: none">
                     <option value="{{ App\Enums\AlertMetric::Volume }}">{{ App\Enums\AlertMetric::getDescription(App\Enums\AlertMetric::Volume) }}</option>

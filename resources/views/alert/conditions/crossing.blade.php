@@ -15,7 +15,7 @@
         </div>
         <div class="col-md-6 col-sm-6 myaccount-combo-righthalf">
             <!-- combo -->
-            &nbsp;
+            <h5>&nbsp;</h5>
             <div class="btn-group special">
                 <select class="form-control" name="conditions[direction]" required>
                     <option value="0" @if(old('conditions.direction', $alert->conditions['direction']) == 0) selected @endif>crossing</option>
