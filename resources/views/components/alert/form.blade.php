@@ -333,7 +333,7 @@
             $("select[name='conditions[metric]'], #type").change(function () {
                 setTimeout(function () {
                     $('.' + currentType + ' input[name=\'conditions[value]\']').val($('#currencyPrice').text());
-                }, 950);
+                }, 500);
             }).change();
 
             //select2
@@ -382,11 +382,11 @@
                     if (currentType == 'percentage') {
                         value = $('.' + currentType + " input[name='conditions[value]']").val() ? $('.' + currentType + " input[name='conditions[value]']").val() + '%' : '';
                     }
-                    if (currentType == 'volume') {
+                    if (currentType == 'regular_update') {
                         value = $('.' + currentType + " select[name='conditions[interval]'] option:selected").text() ? $('.' + currentType + " select[name='conditions[interval]'] option:selected").text() : '';
                     }
                     $('#alert_message').text(market + ' ' + type + ' ' + direction + ' ' + value);
-                }, 1100);
+                }, 1150);
             }
         });
 
@@ -395,7 +395,7 @@
                 setTimeout(function () {
                     var textarea = $('#alert_message').val();
                     $('.live-preview').text(textarea);
-                }, 1150);
+                }, 1200);
             }).change();
         });
 
