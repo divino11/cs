@@ -15,11 +15,12 @@
         </div>
         <div class="col-md-6 col-sm-6 myaccount-combo-righthalf">
             <!-- combo -->
-            <h5>&nbsp;</h5>
+            <h5>Has</h5>
             <div class="btn-group special">
-                <select class="form-control" name="conditions[direction]" required>
-                    <option value="0" @if(old('conditions.direction', $alert->conditions['direction']) == 0) selected @endif>is less than or equals</option>
-                    <option value="1" @if(old('conditions.direction', $alert->conditions['direction']) == 1) selected @endif>is greater than or equals</option>
+                <select class="form-control" name="type" id="type" required>
+                    @foreach(App\Enums\AlertType::getKeys() as $key => $item)
+                        <option value="{{$key}}" @if(old('type', $alert->type) === $key) selected @endif>{{App\Enums\AlertType::getDescription($key)}}</option>
+                    @endforeach
                 </select>
             </div>
             <!-- END combo -->

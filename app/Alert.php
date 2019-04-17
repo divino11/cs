@@ -3,8 +3,11 @@
 namespace App;
 
 use App\AlertStrategies\Crossing;
+use App\AlertStrategies\CrossingDown;
+use App\AlertStrategies\CrossingUp;
+use App\AlertStrategies\GreaterThan;
+use App\AlertStrategies\LessThan;
 use App\AlertStrategies\Percentage;
-use App\AlertStrategies\PricePoint;
 use App\AlertStrategies\RegularUpdate;
 use App\AlertStrategies\Volume;
 use App\Contracts\AlertStrategy;
@@ -83,24 +86,28 @@ class Alert extends Model
         return $this->belongsTo(User::class);
     }
 
-    private function getStrategy() : AlertStrategy
+    private function getStrategy()
     {
         if (empty($this->strategy)) {
             switch($this->type){
-                case AlertType::Price_Point:
-                    $this->strategy = new PricePoint();
+                case AlertType::Crossing:
+                    $this->strategy = new Crossing();
                     break;
-                case AlertType::Percentage:
-                    $this->strategy = new Percentage();
+                case AlertType::Crossing_Up:
+                    $this->strategy = new CrossingUp();
                     break;
-                case AlertType::Regular_Update:
-                    $this->strategy = new RegularUpdate();
+                case AlertType::Crossing_Down:
+                    $this->strategy = new CrossingDown();
+                    break;
+                case AlertType::Greater_Than:
+                    $this->strategy = new GreaterThan();
+                    break;
+                case AlertType::Less_Than:
+                    $this->strategy = new LessThan();
                     break;
                 case AlertType::Volume:
                     $this->strategy = new Volume();
                     break;
-                case AlertType::Crossing:
-                    $this->strategy = new Crossing();
             }
         }
 

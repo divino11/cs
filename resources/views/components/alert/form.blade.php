@@ -2,21 +2,6 @@
 <!-- combo -->
 <div class="myaccount-combo">
 
-    <div class="row gutter-10">
-        <div class="col-md-6 col-sm-6">
-            <!-- combo -->
-            <h5>Alert Type</h5>
-            <div class="btn-group special">
-                <select class="form-control" name="type" id="type" required>
-                    @foreach(App\Enums\AlertType::getKeys() as $key => $item)
-                        <option value="{{$key}}" @if(old('type', $alert->type) === $key) selected @endif>{{App\Enums\AlertType::getDescription($key)}}</option>
-                    @endforeach
-                </select>
-            </div>
-            <!-- END combo -->
-        </div>
-    </div>
-    <br>
     <div class="row">
         <div class="col-md-6 col-sm-6">
             <!-- combo -->
@@ -45,6 +30,35 @@
         </div>
     </div>
 </div>
+<div class="myaccount-combo">
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <!-- combo -->
+            <h5>Alert me when <span class="market_name"></span></h5>
+            <div class="btn-group special">
+                <select class="form-control" name="conditions[metric]" required>
+                    @foreach(App\Enums\AlertMetric::toSelectArray() as $key => $value)
+                        <option value="{{ $key }}" @if(old('conditions.metric', $alert->conditions['metric']) == $key) selected @endif>{{ $value }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <!-- END combo -->
+        </div>
+        <div class="col-md-6 col-sm-6 myaccount-combo-righthalf">
+            <!-- combo -->
+            <h5>Has</h5>
+            <div class="btn-group special">
+                <select class="form-control" name="type" id="type" required>
+                    @foreach(App\Enums\AlertType::getKeys() as $key => $item)
+                        <option value="{{$key}}" @if(old('type', $alert->type) === $key) selected @endif>{{App\Enums\AlertType::getDescription($key)}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <!-- END combo -->
+        </div>
+    </div>
+</div>
+
 <!-- END combo -->
 
 <div class="price_point tab-type">
@@ -308,23 +322,23 @@
             $('#alertForm').bind('change keyup', function () {
                 var selected = $('#markets option:selected');
                 $('.' + currentType + ' #quoteCurrency').text(selected.data('quote'));
-                if (selectedType == '0') {
+                /*if (selectedType == '3' || selectedType == '4') {
                     $('.tab-type').removeClass('active-type');
                     $('.price_point').addClass('active-type');
-                }
-                if (selectedType == '1') {
+                }*/
+                if (selectedType == '5') {
                     $('.tab-type').removeClass('active-type');
                     $('.percentage').addClass('active-type');
                 }
-                if (selectedType == '2') {
+                if (selectedType == '6') {
                     $('.tab-type').removeClass('active-type');
                     $('.regular_update').addClass('active-type');
                 }
-                if (selectedType == '3') {
+                if (selectedType == '7') {
                     $('.tab-type').removeClass('active-type');
                     $('.volume').addClass('active-type');
                 }
-                if (selectedType == '4') {
+                if (selectedType == '0' || selectedType == '1' || selectedType == '2' || selectedType == '3' || selectedType == '4') {
                     $('.tab-type').removeClass('active-type');
                     $('.crossing').addClass('active-type');
                 }

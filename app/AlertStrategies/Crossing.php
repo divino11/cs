@@ -1,29 +1,22 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: HP440G1
+ * Date: 4/17/2019
+ * Time: 12:13 PM
+ */
 
 namespace App\AlertStrategies;
-
 use App\Alert;
-use App\Contracts\AlertStrategy;
 use App\Ticker;
 
-class Crossing implements AlertStrategy
+class Crossing extends AbstractCrossing
 {
-    public function process(Alert $alert, Ticker $ticker) : bool
+    public function process(Alert $alert, Ticker $ticker): bool
     {
-        $tickers = Ticker::marketLatest($alert->exchange_id, $alert->market_id)->latest()->take(2)->get();
+        $tickers = parent::process($alert, $ticker);
 
-        $currentTicker = $tickers[0]->getMetric($alert->conditions['metric']);
-        $previousTicker = $tickers[1]->getMetric($alert->conditions['metric']);
-
-        if ($alert->conditions['direction'] == 1) {
-            return $currentTicker >= $alert->conditions['value'] && $previousTicker <= $alert->conditions['value'];
-        }
-
-        if ($alert->conditions['direction'] == 2) {
-            return $currentTicker <= $alert->conditions['value'] && $previousTicker >= $alert->conditions['value'];
-        }
-
-        return ($currentTicker >= $alert->conditions['value'] && $previousTicker <= $alert->conditions['value']) ||
-                ($currentTicker <= $alert->conditions['value'] && $previousTicker >= $alert->conditions['value']);
+        return ($tickers[0] >= $alert->conditions['value'] && $tickers[1] <= $alert->conditions['value']) ||
+            ($tickers[0] <= $alert->conditions['value'] && $tickers[1] >= $alert->conditions['value']);
     }
 }
