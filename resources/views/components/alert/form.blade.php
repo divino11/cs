@@ -61,17 +61,14 @@
 
 <!-- END combo -->
 
-<div class="price_point tab-type">
+{{--<div class="price_point tab-type">
     @include('alert.conditions.price_point')
-</div>
+</div>--}}
 <div class="percentage tab-type">
     @include('alert.conditions.percentage')
 </div>
 <div class="regular_update tab-type">
     @include('alert.conditions.regular_update')
-</div>
-<div class="volume tab-type">
-    @include('alert.conditions.volume')
 </div>
 <div class="crossing tab-type">
     @include('alert.conditions.crossing')
@@ -79,7 +76,7 @@
 
 
 <div class="form-group currency_price_group" style="display: none">
-    <h5 class="font-weight-bold text-uppercase"></h5><h5 id="currencyPrice"></h5>
+    <h4></h4><h4 id="currencyPrice"></h4>
 </div>
 <!-- combo -->
 <div class="myaccount-combo newalert-module-checks">
@@ -130,12 +127,12 @@
 <!-- combo -->
 <div class="myaccount-combo">
     <div class="form-group">
-        <h5>With frequency</h5>
+        <h5>Frequency</h5>
         <div class="toggle">
             <input type="radio" name="frequency" value="0" id="once" @if(old('frequency', $alert->frequency) == 0) checked @endif />
-            <label for="once">Once</label>
+            <label for="once">Only Once</label>
             <input type="radio" name="frequency" value="1" id="every_time" @if(old('frequency', $alert->frequency) == 1) checked @endif />
-            <label for="every_time">Every time</label>
+            <label for="every_time">Every Time</label>
         </div>
     </div>
 </div>
@@ -143,12 +140,13 @@
 
 <!-- combo -->
 <div class="myaccount-combo">
-    <div class="form-group">
-        <h5>Per interval of</h5>
-        <div class="cooldown-group">
-            <select type="number" class="form-control" name="conditions[cooldown_number]">
-
-            </select>
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <h5>Per interval of</h5>
+            <select type="number" class="form-control" name="conditions[cooldown_number]"></select>
+        </div>
+        <div class="col-md-6 col-sm-6 myaccount-combo-righthalf">
+            <h5>&nbsp;</h5>
             <select name="conditions[cooldown_unit]" class="form-control">
                 <option value="minutes"
                         @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'minutes') selected @endif>
@@ -170,18 +168,26 @@
 
 <!-- combo -->
 <div class="myaccount-combo">
-    <div class="form-group">
-        <h5>Expiring on</h5>
-        <div class="calendar-group">
-            <div class="expiration">
-            <input class="form-control" data-input type="text" autocomplete="off" value="{{ old('expiration_date', $alert->expiration_date) }}"
-                   name="expiration_date">
-            <span class="input-group-addon" title="toggle" data-toggle>
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <h5>Expiring On</h5>
+            <div class="calendar-group">
+                <div class="expiration">
+                    <input class="form-control" data-input type="text" autocomplete="off"
+                           value="{{ old('expiration_date', $alert->expiration_date) }}"
+                           name="expiration_date">
+                    <span class="input-group-addon" title="toggle" data-toggle>
         <i class="material-icons">calendar_today</i>
     </span>
+                </div>
             </div>
+        </div>
+        <div class="col-md-6 col-sm-6 myaccount-combo-righthalf">
+            <h5>&nbsp;</h5>
             <div class="clockpicker">
-                <input type="text" class="form-control expiration-time" value="{{ old('expiration_time', $expiration_time ?? '') }}" autocomplete="off" name="expiration_time">
+                <input type="text" class="form-control expiration-time"
+                       value="{{ old('expiration_time', $expiration_time ?? '') }}" autocomplete="off"
+                       name="expiration_time">
                 <span class="input-group-addon">
         <i class="material-icons">access_time</i>
     </span>
@@ -254,14 +260,25 @@
             }).change();
             $('#alertForm').change(function () {
                 selectedType = $('#type option:selected').val();
-                currentType = $('.tab-type')[selectedType].classList[0];
+                switch (selectedType) {
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                        currentType = 'crossing';
+                        break;
+                    case 5:
+                    case 6:
+                        currentType = 'percentage';
+                        break;
+                    case 7:
+                        currentType = 'regular_update';
+                }
                 selectedPlatform = $('#exchange option:selected').val();
                 selectedCurrency = $('#markets option:selected').val();
                 metricVal = $("select[name='conditions[metric]']").val();
-                if (currentType == 'volume') {
-                    metricVal = '4';
-                }
-                metricText = $("." + currentType + " select[name='conditions[metric]'] option:selected").text();
+                metricText = $("select[name='conditions[metric]'] option:selected").text();
                 var data = {
                     selectedPlatform: selectedPlatform,
                     selectedCurrency: selectedCurrency
@@ -289,7 +306,7 @@
                                 break;
                         }
                         $('.currency_price_group').show();
-                        $('.currency_price_group h5').text(metricText + ': ');
+                        $('.currency_price_group h4').text(metricText + ': ');
                         $('#currencyPrice').text(currencyPrice);
                     }
                 }, 'json');
@@ -321,22 +338,14 @@
             //view alerts
             $('#alertForm').bind('change keyup', function () {
                 var selected = $('#markets option:selected');
-                $('.' + currentType + ' #quoteCurrency').text(selected.data('quote'));
-                /*if (selectedType == '3' || selectedType == '4') {
-                    $('.tab-type').removeClass('active-type');
-                    $('.price_point').addClass('active-type');
-                }*/
-                if (selectedType == '5') {
+                $('#quoteCurrency').text(selected.data('quote'));
+                if (selectedType == '5' || selectedType == '6') {
                     $('.tab-type').removeClass('active-type');
                     $('.percentage').addClass('active-type');
                 }
-                if (selectedType == '6') {
-                    $('.tab-type').removeClass('active-type');
-                    $('.regular_update').addClass('active-type');
-                }
                 if (selectedType == '7') {
                     $('.tab-type').removeClass('active-type');
-                    $('.volume').addClass('active-type');
+                    $('.regular_update').addClass('active-type');
                 }
                 if (selectedType == '0' || selectedType == '1' || selectedType == '2' || selectedType == '3' || selectedType == '4') {
                     $('.tab-type').removeClass('active-type');
@@ -390,16 +399,13 @@
             {
                 setTimeout(function () {
                     var market = $('#markets option:selected').text();
-                    var type = $('.' + currentType + " select[name='conditions[metric]'] option:selected").text().toLowerCase() ? $('.' + currentType + " select[name='conditions[metric]'] option:selected").text().toLowerCase() : '';
-                    var direction = $('.' + currentType + " select[name='conditions[direction]'] option:selected").text() ? $('.' + currentType + " select[name='conditions[direction]'] option:selected").text() : '';
-                    var value = $('.' + currentType + " input[name='conditions[value]']").val() ? $('.' + currentType + " input[name='conditions[value]']").val() : '';
-                    if (currentType == 'percentage') {
-                        value = $('.' + currentType + " input[name='conditions[value]']").val() ? $('.' + currentType + " input[name='conditions[value]']").val() + '%' : '';
+                    var metric = $("select[name='conditions[metric]'] option:selected").text().toLowerCase() ? $("select[name='conditions[metric]'] option:selected").text().toLowerCase() : '';
+                    var type = $("#type option:selected").text().toLowerCase() ? $("#type option:selected").text().toLowerCase() : '';
+                    var value = $("input[name='conditions[value]']:visible").val() ? $("input[name='conditions[value]']:visible").val() : '';
+                    if (selectedType == 7) {
+                        value = $("select[name='conditions[interval]']:visible option:selected").text() ? $("select[name='conditions[interval]']:visible option:selected").text() : '';
                     }
-                    if (currentType == 'regular_update') {
-                        value = $('.' + currentType + " select[name='conditions[interval]'] option:selected").text() ? $('.' + currentType + " select[name='conditions[interval]'] option:selected").text() : '';
-                    }
-                    $('#alert_message').text(market + ' ' + type + ' ' + direction + ' ' + value);
+                    $('#alert_message').text(market + ' ' + metric + ' ' + type + ' ' + value);
                 }, 1150);
             }
         });

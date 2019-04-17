@@ -11,7 +11,7 @@ final class AlertType extends Enum
     const Crossing_Down = 2;
     const Greater_Than = 3;
     const Less_Than = 4;
-    const Percentage = 5;
-    const Regular_Update = 6;
-    const Volume = 7;
+    const Increased_By = 5;
+    const Falls_By = 6;
+    const Regular_Update = 7;
 }

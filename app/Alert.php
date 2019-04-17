@@ -5,11 +5,16 @@ namespace App;
 use App\AlertStrategies\Crossing;
 use App\AlertStrategies\CrossingDown;
 use App\AlertStrategies\CrossingUp;
+use App\AlertStrategies\FallsBy;
 use App\AlertStrategies\GreaterThan;
+use App\AlertStrategies\IncreasedBy;
 use App\AlertStrategies\LessThan;
 use App\AlertStrategies\Percentage;
+use App\AlertStrategies\AbstractRegularUpdate;
+use App\AlertStrategies\AbstractVolume;
 use App\AlertStrategies\RegularUpdate;
-use App\AlertStrategies\Volume;
+use App\AlertStrategies\VolumeGreaterThan;
+use App\AlertStrategies\VolumeLessThan;
 use App\Contracts\AlertStrategy;
 use App\Enums\AlertType;
 use Carbon\Carbon;
@@ -105,8 +110,14 @@ class Alert extends Model
                 case AlertType::Less_Than:
                     $this->strategy = new LessThan();
                     break;
-                case AlertType::Volume:
-                    $this->strategy = new Volume();
+                case AlertType::Increased_By:
+                    $this->strategy = new IncreasedBy();
+                    break;
+                case AlertType::Falls_By:
+                    $this->strategy = new FallsBy();
+                    break;
+                case AlertType::Regular_Update:
+                    $this->strategy = new RegularUpdate();
                     break;
             }
         }

@@ -1,3 +1,3 @@
 Alert me when the {{ strtolower(\App\Enums\AlertMetric::getDescription((int) $alert->conditions['metric'])) }}
-is {{ $alert->conditions['direction'] ? 'greater' : 'lower' }}
+is
 than {{ $alert->conditions['value'] }}

@@ -1,14 +1,4 @@
 <div class="form-group">
-    <label>Alert me when <span class="market_name"></span></label>
-    <select class="form-control" name="conditions[metric]" required>
-        @foreach(App\Enums\AlertMetric::toSelectArray() as $key => $value)
-            <option value="{{ $key }}" @if(old('conditions.metric', $alert->conditions['metric']) == $key) selected @endif>{{ $value }}</option>
-        @endforeach
-    </select>
-    <select class="form-control" name="conditions[direction]" required>
-        <option value="0" @if(old('conditions.direction', $alert->conditions['direction']) == 0) selected @endif>falls by</option>
-        <option value="1" @if(old('conditions.direction', $alert->conditions['direction']) == 1) selected @endif>rises by</option>
-    </select>
     <div class="input-group pad-0">
         <div class="input-group-append">
             <div class="input-group-text">%</div>

@@ -31,7 +31,6 @@ class StoreAlertRequest extends FormRequest
             'exchange_id' => 'required|exists:exchanges,id',
             'market_id' => 'required|exists:markets,id',
             'conditions.metric' => 'required|enum_value:' . AlertMetric::class .',false',
-            'conditions.direction' => 'required|boolean',
             'conditions.value' => 'required|numeric|min:0',
             'conditions.interval' => ['required', Rule::in(config('alerts.intervals'))],
             'notification_channels' => 'required',
