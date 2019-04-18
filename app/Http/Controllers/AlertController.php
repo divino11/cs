@@ -46,22 +46,8 @@ class AlertController extends Controller
     public function store(StoreAlertRequest $request)
     {
         $expirationDate = $request->expiration_date . ' ' . $request->expiration_time;
-        $alert_message = str_replace([
-            '{market}',
-            '{type}',
-            '{direction}',
-            '{value}',
-            '{price}',
-            '{interval}'
-        ], [
-            $request->hiddenMarket,
-            $request->hiddenType,
-            $request->hiddenDirection,
-            $request->hiddenValue,
-            $request->hiddenCurrencyValue,
-            $request->hiddenInterval,
-        ], $request->alert_message);
-        $request->merge(['expiration_date' => $expirationDate, 'alert_message' => $alert_message]);
+
+        $request->merge(['expiration_date' => $expirationDate]);
         $alert = Auth::user()->alerts()->create($request->except('notification_channels'));
         $alert->notificationChannels()->create($request->notification_channels[0]);
 
@@ -104,22 +90,8 @@ class AlertController extends Controller
     public function update(StoreAlertRequest $request, Alert $alert)
     {
         $expirationDate = $request->expiration_date . ' ' . $request->expiration_time;
-        $alert_message = str_replace([
-            '{market}',
-            '{type}',
-            '{direction}',
-            '{value}',
-            '{price}',
-            '{interval}'
-        ], [
-            $request->hiddenMarket,
-            $request->hiddenType,
-            $request->hiddenDirection,
-            $request->hiddenValue,
-            $request->hiddenCurrencyValue,
-            $request->hiddenInterval,
-        ], $request->alert_message);
-        $request->merge(['expiration_date' => $expirationDate, 'alert_message' => $alert_message]);
+
+        $request->merge(['expiration_date' => $expirationDate]);
 
         $alert->update($request->except(['notification_channels']));
         $alert->notificationChannels()->update($request->notification_channels[0]);

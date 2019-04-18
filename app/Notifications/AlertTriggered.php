@@ -23,6 +23,8 @@ class AlertTriggered extends Notification
 
     private $ticker;
 
+    public $alert_message;
+
     /**
      * Create a new notification instance.
      *
@@ -32,6 +34,8 @@ class AlertTriggered extends Notification
     {
         $this->alert = $alert;
         $this->ticker = $ticker;
+
+        $this->alert_message = str_replace('{live_data}', $this->ticker->getMetric($this->alert->conditions['metric']), $this->alert->alert_message);
     }
 
     /**
@@ -51,7 +55,7 @@ class AlertTriggered extends Notification
 
     public function toMail($notifiable)
     {
-        return new AlertMail($notifiable, $this->alert, $this->ticker);
+        return new AlertMail($notifiable, $this->alert, $this->ticker, $this->alert_message);
     }
 
     /**
@@ -66,7 +70,7 @@ class AlertTriggered extends Notification
             User::find($this->alert->user->id)
                 ->decrement('sms', 1);
             return (new NexmoMessage)
-                ->content($this->alert->alert_message)
+                ->content($this->alert_message)
                 ->from('CoinSpy');
         }
     }
@@ -75,12 +79,12 @@ class AlertTriggered extends Notification
     {
         return TelegramMessage::create()
             ->to($this->alert->user->telegram)
-            ->content($this->alert->alert_message);
+            ->content($this->alert_message);
     }
 
     public function toPushover($notifiable)
     {
-        return PushoverMessage::create($this->alert->alert_message)
+        return PushoverMessage::create($this->alert_message)
             ->title('CoinSpy');
     }
 
@@ -88,6 +92,7 @@ class AlertTriggered extends Notification
     {
         return [
             'alert' => $this->alert,
+            'alert_message' => $this->alert_message,
             'ticker' => $this->ticker,
         ];
     }
@@ -102,6 +107,7 @@ class AlertTriggered extends Notification
     {
         return new BroadcastMessage([
             'alert' => $this->alert,
+            'alert_message' => $this->alert_message,
             'alert_sound' => 'storage/sounds/' . $this->alert->user->sound,
             'user' => $this->alert->user
         ]);
@@ -117,7 +123,7 @@ class AlertTriggered extends Notification
     {
         return [
             'alert_name' => $this->alert->name,
-            'alert_description' => view('alert.description.' . $this->alert->type, ['alert' => $this->alert])->render(),
+            'alert_description' => $this->alert_message,
             'ticker_key' => AlertMetric::getDescription((int)$this->alert->conditions['metric']),
             'ticker_value' => $this->ticker->getMetric($this->alert->conditions['metric']),
         ];

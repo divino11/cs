@@ -18,7 +18,7 @@
                     </div>
                     <div class="media-body">
                         <h4>{{ $alert->name }}</h4>
-                        <p>@include('alert.description.' . $alert->type)</p>
+                        <p>{{ $alert->alert_message }}</p>
                     </div>
                 </div>
 

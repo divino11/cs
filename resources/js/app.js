@@ -34,7 +34,7 @@ window.Echo.private(`user.${userId}`)
             audio.play();
         }
         $.notify({
-            message: data.alert.alert_message,
+            message: data.alert_message,
         },{
             type: 'success',
             placement: {

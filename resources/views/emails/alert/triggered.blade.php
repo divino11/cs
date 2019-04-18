@@ -4,7 +4,7 @@
 </h2>
 
 <p style="font-size: 18px; line-height: 22px; color: #333; text-align:center; font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;">
-{{$alert->alert_message}}
+{{$alert_message}}
 </p>
 <br>
 <p style="text-align: center;">

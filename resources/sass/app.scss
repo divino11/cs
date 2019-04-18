@@ -856,6 +856,7 @@ input:checked + .slider:before {
 .currency_price_group {
   display: flex;
   margin-bottom: 0;
+  text-transform: capitalize;
 }
 
 #currencyPrice {

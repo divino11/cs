@@ -61,9 +61,6 @@
 
 <!-- END combo -->
 
-{{--<div class="price_point tab-type">
-    @include('alert.conditions.price_point')
-</div>--}}
 <div class="percentage tab-type">
     @include('alert.conditions.percentage')
 </div>
@@ -308,6 +305,8 @@
                         $('.currency_price_group').show();
                         $('.currency_price_group h4').text(metricText + ': ');
                         $('#currencyPrice').text(currencyPrice);
+                        $("input[name='conditions[value]']:visible").val(currencyPrice);
+                        changeTextarea();
                     }
                 }, 'json');
             }).change();
@@ -324,7 +323,32 @@
                     requiredCheckboxes.attr('required', 'required');
                 }
             });
+
+            //alert message
+            changeTextarea();
+            if ($('#alert_message').keyup()) {
+                $('#alertForm').change(function () {
+                    changeTextarea();
+                });
+                return false;
+            }
+
+            function changeTextarea() {
+                var market = $('#markets option:selected').text();
+                var metric = $("select[name='conditions[metric]'] option:selected").text().toLowerCase() ? $("select[name='conditions[metric]'] option:selected").text().toLowerCase() : '';
+                var type = $("#type option:selected").text().toLowerCase() ? $("#type option:selected").text().toLowerCase() : '';
+                var value = $("input[name='conditions[value]']:visible").val() ? $("input[name='conditions[value]']:visible").val() : '';
+                var regular = '';
+                if (selectedType == 7) {
+                    value = $("select[name='conditions[interval]']:visible option:selected").text() ? $("select[name='conditions[interval]']:visible option:selected").text() : '';
+                    regular = '{live_data}';
+                }
+                $('#alert_message').text(market + ' ' + metric + ' ' + type + ' ' + value + ' ' + regular);
+                var textarea = $('#alert_message').val();
+                $('.live-preview').text(textarea);
+            }
         });
+
         $(document).ready(function () {
             //remove required
             $('#alertForm button[type="submit"]').click(function(){
@@ -342,23 +366,14 @@
                 if (selectedType == '5' || selectedType == '6') {
                     $('.tab-type').removeClass('active-type');
                     $('.percentage').addClass('active-type');
-                }
-                if (selectedType == '7') {
+                } else if (selectedType == '7') {
                     $('.tab-type').removeClass('active-type');
                     $('.regular_update').addClass('active-type');
-                }
-                if (selectedType == '0' || selectedType == '1' || selectedType == '2' || selectedType == '3' || selectedType == '4') {
+                } else {
                     $('.tab-type').removeClass('active-type');
                     $('.crossing').addClass('active-type');
                 }
             }).change();
-            //update value
-            $("select[name='conditions[metric]'], #type").change(function () {
-                setTimeout(function () {
-                    $('.' + currentType + ' input[name=\'conditions[value]\']').val($('#currencyPrice').text());
-                }, 500);
-            }).change();
-
             //select2
             $('#exchange').select2();
             $('#type').select2();
@@ -383,40 +398,6 @@
                     }
                 }
             });
-
-            $(document).ready(function () {
-                //alert message
-                changeTextarea();
-                if ($('#alert_message').keyup()) {
-                    $('#alertForm').change(function () {
-                        changeTextarea();
-                    });
-                    return false;
-                }
-            });
-
-            function changeTextarea()
-            {
-                setTimeout(function () {
-                    var market = $('#markets option:selected').text();
-                    var metric = $("select[name='conditions[metric]'] option:selected").text().toLowerCase() ? $("select[name='conditions[metric]'] option:selected").text().toLowerCase() : '';
-                    var type = $("#type option:selected").text().toLowerCase() ? $("#type option:selected").text().toLowerCase() : '';
-                    var value = $("input[name='conditions[value]']:visible").val() ? $("input[name='conditions[value]']:visible").val() : '';
-                    if (selectedType == 7) {
-                        value = $("select[name='conditions[interval]']:visible option:selected").text() ? $("select[name='conditions[interval]']:visible option:selected").text() : '';
-                    }
-                    $('#alert_message').text(market + ' ' + metric + ' ' + type + ' ' + value);
-                }, 1150);
-            }
-        });
-
-        $(document).ready(function () {
-            $('#alertForm').bind('input paste change', function () {
-                setTimeout(function () {
-                    var textarea = $('#alert_message').val();
-                    $('.live-preview').text(textarea);
-                }, 1200);
-            }).change();
         });
 
         $(document).ready(function () {

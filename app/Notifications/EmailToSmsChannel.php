@@ -16,6 +16,6 @@ class EmailToSmsChannel
     public function send($notifiable, Notification $notification)
     {
         $message = $notification->toEmailSms($notifiable);
-        Mail::send(new AlertMailToSms($notifiable, $message['alert'], $message['ticker']));
+        Mail::send(new AlertMailToSms($notifiable, $message['alert'], $message['alert_message'], $message['ticker']));
     }
 }

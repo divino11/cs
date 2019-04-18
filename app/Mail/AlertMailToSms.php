@@ -19,6 +19,8 @@ class AlertMailToSms extends Mailable
      */
     private $alert;
 
+    private $alert_message;
+
     private $user;
 
     private $ticker;
@@ -28,10 +30,11 @@ class AlertMailToSms extends Mailable
      *
      * @return void
      */
-    public function __construct(User $user, Alert $alert, Ticker $ticker)
+    public function __construct(User $user, Alert $alert, $alert_message, Ticker $ticker)
     {
         $this->user = $user;
         $this->alert = $alert;
+        $this->alert_message = $alert_message;
         $this->ticker = $ticker;
     }
 
@@ -43,12 +46,11 @@ class AlertMailToSms extends Mailable
     public function build()
     {
         $this->from(config('mail.from.address'),'CoinSpy Alerts');
-        $this->subject("Alert Triggered - {$this->alert->name}");
+        $this->subject("CoinSpy Alert: {$this->alert_message}");
         $this->to($this->user->routeNotificationForEmailToSms());
 
         return $this->markdown('emails.alert.triggered_to_sms', [
-            'alert' => $this->alert,
-            'value' => $this->ticker->getMetric($this->alert->conditions['metric']),
+            'alert_message' => $this->alert_message,
         ]);
     }
 }
