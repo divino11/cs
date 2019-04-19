@@ -1,21 +1,28 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: HP440G1
- * Date: 4/17/2019
- * Time: 3:35 PM
- */
 
 namespace App\AlertStrategies;
 
 
 use App\Alert;
+use App\Contracts\AlertStrategy;
 use App\Ticker;
+use Carbon\Carbon;
+use Carbon\CarbonInterval;
 
-class RegularUpdate extends AbstractRegularUpdate
+class RegularUpdate implements AlertStrategy
 {
-    public function process(Alert $alert, Ticker $ticker): bool
+    private $interval;
+
+    private $triggered_at;
+
+    public function __construct(Alert $alert)
     {
-        return parent::process($alert, $ticker);
+        $this->interval = $alert->conditions['interval'];
+        $this->triggered_at = $alert->triggered_at;
+    }
+
+    public function process(): bool
+    {
+        return Carbon::now()->sub(CarbonInterval::make($this->interval)) >= $this->triggered_at;
     }
 }

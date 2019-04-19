@@ -3,17 +3,34 @@
 namespace App\AlertStrategies;
 
 use App\Alert;
+use App\Contracts\AlertStrategy;
 use App\Ticker;
 
-abstract class AbstractCrossing
+abstract class AbstractCrossing implements AlertStrategy
 {
-    public function process(Alert $alert, Ticker $ticker)
+    protected $currentValue;
+    protected $previousValue;
+    protected $alertValue;
+
+    public function __construct(Alert $alert)
     {
-        $tickers = Ticker::marketLatest($alert->exchange_id, $alert->market_id)->latest()->take(2)->get();
+        $this->alertValue = $alert->conditions['value'];
+        $metric = $alert->conditions['metric'];
+        list($this->currentValue, $this->previousValue) = Ticker::marketLatest($alert->exchange_id, $alert->market_id)
+            ->take(2)
+            ->get()
+            ->map(function($item) use ($metric){
+                return $item->getMetric($metric);
+            });
+    }
 
-        $currentTicker = $tickers[0]->getMetric($alert->conditions['metric']);
-        $previousTicker = $tickers[1]->getMetric($alert->conditions['metric']);
+    protected function isCrossingUp() : bool
+    {
+        return $this->currentValue >= $this->alertValue && $this->previousValue <= $this->alertValue;
+    }
 
-        return [$currentTicker, $previousTicker];
+    protected function isCrossingDown() : bool
+    {
+        return $this->previousValue >= $this->alertValue && $this->currentValue <= $this->alertValue;
     }
 }

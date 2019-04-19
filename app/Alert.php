@@ -68,9 +68,6 @@ class Alert extends Model
 
     protected $casts = ['conditions' => 'array'];
 
-    /** @var AlertStrategy */
-    private $strategy;
-
     public function exchange()
     {
         return $this->belongsTo(Exchange::class);
@@ -93,41 +90,29 @@ class Alert extends Model
 
     private function getStrategy()
     {
-        if (empty($this->strategy)) {
-            switch($this->type){
-                case AlertType::Crossing:
-                    $this->strategy = new Crossing();
-                    break;
-                case AlertType::Crossing_Up:
-                    $this->strategy = new CrossingUp();
-                    break;
-                case AlertType::Crossing_Down:
-                    $this->strategy = new CrossingDown();
-                    break;
-                case AlertType::Greater_Than:
-                    $this->strategy = new GreaterThan();
-                    break;
-                case AlertType::Less_Than:
-                    $this->strategy = new LessThan();
-                    break;
-                case AlertType::Increased_By:
-                    $this->strategy = new IncreasedBy();
-                    break;
-                case AlertType::Falls_By:
-                    $this->strategy = new FallsBy();
-                    break;
-                case AlertType::Regular_Update:
-                    $this->strategy = new RegularUpdate();
-                    break;
-            }
+        switch($this->type){
+            case AlertType::Crossing:
+                return new Crossing($this);
+            case AlertType::Crossing_Up:
+                return new CrossingUp($this);
+            case AlertType::Crossing_Down:
+                return new CrossingDown($this);
+            case AlertType::Greater_Than:
+                return new GreaterThan($this);
+            case AlertType::Less_Than:
+                return new LessThan($this);
+            case AlertType::Increased_By:
+                return new IncreasedBy($this);
+            case AlertType::Falls_By:
+                return new FallsBy($this);
+            case AlertType::Regular_Update:
+                return new RegularUpdate($this);
         }
-
-        return $this->strategy;
     }
 
-    public function match(Ticker $ticker) : bool
+    public function match() : bool
     {
-        return $this->getStrategy()->process($this, $ticker);
+        return $this->getStrategy()->process();
     }
 
     public function getTypeKeyAttribute()
@@ -157,10 +142,12 @@ class Alert extends Model
     {
         return $query
             ->where('enabled', true)
-            ->whereDate('triggered_at', '<=', Carbon::now()->sub($this->cooldown)->toDateTimeString())
-            ->whereDate('expiration_date', '>', Carbon::now()->toDateTimeString())
-            ->orWhereNull('triggered_at')
-            ->orWhere('open_ended', '=', 1);
+            ->where(function(Builder $query){
+                $query->whereDate('triggered_at', '<=', Carbon::now()->sub($this->cooldown))->orWhereNull('triggered_at');
+            })
+            ->where(function(Builder $query){
+                $query->whereDate('expiration_date', '>', Carbon::now())->orWhere('open_ended', '=', 1);
+            });
     }
 
     public function getAvailableNotificationChannels()

@@ -37,7 +37,6 @@ class ProcessAlert implements ShouldQueue
     public function __construct(Alert $alert)
     {
         $this->alert = $alert;
-        $this->ticker = Ticker::marketLatest($alert->exchange_id, $alert->market_id)->first();
     }
 
     /**
@@ -47,7 +46,7 @@ class ProcessAlert implements ShouldQueue
      */
     public function handle()
     {
-        if (!$this->alert->match($this->ticker)) {
+        if (!$this->alert->match()) {
             return;
         }
 

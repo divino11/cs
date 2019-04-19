@@ -7,5 +7,7 @@ use App\Ticker;
 
 interface AlertStrategy
 {
-    public function process(Alert $alert, Ticker $ticker) : bool;
+    public function __construct(Alert $alert);
+
+    public function process() : bool;
 }
