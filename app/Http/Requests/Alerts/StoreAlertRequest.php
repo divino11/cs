@@ -37,7 +37,7 @@ class StoreAlertRequest extends FormRequest
             'notification_channels.*.notification_channel' => 'enum_value:' . NotificationChannel::class.',false',
             'frequency' => 'required|boolean',
             'cooldown_number' => 'numeric|min:5',
-            'expiration_date' => 'required|date',
+            'expiration_date' => 'date',
             'alert_message' => 'required',
             'open_ended' => 'boolean'
         ];

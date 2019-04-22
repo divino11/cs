@@ -58,7 +58,7 @@
                     <!-- END combo -->
 
                     <!-- combo -->
-                    <div class="myaccount-combo channels-combo">
+                    {{--<div class="myaccount-combo channels-combo">
                         <div class="form-group">
                             <h5>Email-To-SMS <span
                                         class="badge badge-secondary badge-{{ $user->getNotificationEmailToSms() ? 'success' : 'danger' }}">
@@ -80,7 +80,7 @@
                             </span>
                             </div>
                         </form>
-                    </div>
+                    </div>--}}
                     <!-- END combo -->
 
                     <!-- combo -->

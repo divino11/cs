@@ -1721,7 +1721,6 @@ span.select2-selection {
 
 .expiration input {
   width: 100%;
-  background-color: transparent !important;
 }
 
 .expiration .input-group-addon {
@@ -1741,4 +1740,9 @@ span.select2-selection {
 #select2-type-results,
 #select2-type-container {
   text-transform: capitalize;
+}
+
+.expiration-disabled {
+  pointer-events: none;
+  background-color: #e9ecef;
 }

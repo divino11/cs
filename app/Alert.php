@@ -64,7 +64,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Alert extends Model
 {
-    protected $fillable = ['exchange_id', 'market_id', 'type', 'conditions', 'alert_message', 'open_ended', 'frequency', 'expiration_date', 'enabled'];
+    protected $fillable = ['exchange_id', 'market_id', 'type', 'conditions', 'alert_message', 'open_ended', 'frequency', 'interval_number', 'interval_unit', 'expiration_date', 'enabled'];
 
     protected $casts = ['conditions' => 'array'];
 
@@ -146,7 +146,7 @@ class Alert extends Model
                 $query->whereDate('triggered_at', '<=', Carbon::now()->sub($this->cooldown))->orWhereNull('triggered_at');
             })
             ->where(function(Builder $query){
-                $query->whereDate('expiration_date', '>', Carbon::now())->orWhere('open_ended', '=', 1);
+                $query->whereDate('expiration_date', '>', Carbon::now());
             });
     }
 
