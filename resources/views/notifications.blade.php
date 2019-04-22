@@ -3,7 +3,20 @@
 @section('title', 'Notifications')
 
 @section('content')
-    <h2>Notifications</h2>
+    <div class="row">
+        <div class="col-md-6 col-6">
+            <h2>Notifications</h2>
+        </div>
+        <div class="col-md-6 col-6">
+            <div class="pull-right">
+                <form action="{{ route('notifications.destroy', \Illuminate\Support\Facades\Auth::user()) }}" method="post" onsubmit="return confirm('Clear all notifications?')">
+                    @method('DELETE')
+                    @csrf
+                    <button type="submit" class="btn-trash"><img src="{{ asset('images/ico_trash.svg') }}" alt=""/></button>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- CREDITS -->
     <div class="tab-pane" id="credits">

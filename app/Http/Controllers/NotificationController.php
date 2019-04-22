@@ -17,4 +17,10 @@ class NotificationController extends Controller
             'unRead' => Auth::user()->unreadNotifications
         ]);
     }
+
+    public function destroy($user)
+    {
+        Auth::user()->notifications()->where('notifiable_id', $user)->delete();
+        return back();
+    }
 }
