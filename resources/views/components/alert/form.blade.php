@@ -258,7 +258,7 @@
                 });
             }).change();
 
-            $('select[name="conditions[metric]"]').change(function () {
+            $('select[name="conditions[metric]"], #markets').change(function () {
                 selectedPlatform = $('#exchange option:selected').val();
                 selectedCurrency = $('#markets option:selected').val();
                 metricVal = $("select[name='conditions[metric]']").val();
@@ -390,6 +390,9 @@
                         $(this).remove();
                     }
                 });
+                if ($('#type option:selected').val() == 5 || $('#type option:selected').val() == 6) {
+                    $('input, textarea, select').filter('[required]:not(:visible), [disabled], .regular_update input[name="conditions[value]"]').remove();
+                }
             });
 
             //view alerts

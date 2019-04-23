@@ -17,7 +17,7 @@ class RegularUpdate implements AlertStrategy
 
     public function __construct(Alert $alert)
     {
-        $this->interval = $alert->conditions['interval'];
+        $this->interval = $alert->interval_number . ' ' . $alert->interval_unit;
         $this->triggered_at = $alert->triggered_at;
     }
 
