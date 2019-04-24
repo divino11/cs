@@ -136,7 +136,7 @@
 <!-- END combo -->
 
 <!-- combo -->
-<div class="myaccount-combo">
+<div class="myaccount-combo section-interval">
     <div class="row">
         <div class="col-md-6 col-sm-6">
             <h5>Per interval of</h5>
@@ -164,7 +164,7 @@
 <!-- END combo -->
 
 <!-- combo -->
-<div class="myaccount-combo">
+<div class="myaccount-combo section-expiration">
     <div class="row">
         <div class="col-md-6 col-sm-6">
             <h5>Expiring On</h5>
@@ -376,6 +376,7 @@
             }).change();
             //select2
             $('#exchange').select2();
+            $('select[name="conditions[metric]"]').select2();
             $('#type').select2();
             $('.js-data-example-ajax').select2({
                 ajax: {
