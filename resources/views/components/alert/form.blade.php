@@ -95,9 +95,10 @@
             <span class="checkmark"></span>
         </label>
     @endif
-    <label class="container">SMS
-        <input type="checkbox" id="sms_notification" value="{{ \App\Enums\NotificationChannel::Nexmo }}" name="notification_channels[][notification_channel]" @if(collect(old('notification_channels', $alert->notificationChannels))->where('notification_channel', \App\Enums\NotificationChannel::Nexmo)->isNotEmpty()) checked @endif>
+    <label class="container @if(!request()->user()->hasPhoneVerified()) disabled-channel @endif">SMS
+        <input type="checkbox" id="sms_notification" @if(!request()->user()->hasPhoneVerified()) disabled @endif value="{{ \App\Enums\NotificationChannel::Nexmo }}" name="notification_channels[][notification_channel]" @if(collect(old('notification_channels', $alert->notificationChannels))->where('notification_channel', \App\Enums\NotificationChannel::Nexmo)->isNotEmpty()) checked @endif>
         <span class="checkmark"></span>
+        @if(!request()->user()->hasPhoneVerified()) <a href="{{ route('channels.index') }}">Add channel first</a> @endif
     </label>
     @if(request()->user()->hasPushoverVerified())
         <label class="container">Pushover
