@@ -25,7 +25,7 @@ abstract class AbstractPercentage implements AlertStrategy
             ->firstOrFail()
             ->getMetric($alert->conditions['metric']);
         $this->previous = Ticker::marketLatest($alert->exchange_id, $alert->market_id)
-            ->whereDate('created_at', '<=', $fromDate)
+            ->where('created_at', '<=', $fromDate)
             ->firstOrFail()
             ->getMetric($alert->conditions['metric']);
     }

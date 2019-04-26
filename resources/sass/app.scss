@@ -1739,7 +1739,6 @@ span.select2-selection {
 
 .expiration input {
   width: 100%;
-  background-color: transparent !important;
 }
 
 .expiration .input-group-addon {
@@ -1759,6 +1758,25 @@ span.select2-selection {
 #select2-type-results,
 #select2-type-container {
   text-transform: capitalize;
+}
+
+.expiration-disabled {
+  pointer-events: none;
+  background-color: #e9ecef;
+}
+
+button.btn-trash {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 40px;
+  height: 70px;
+}
+
+.btn-trash img {
+  width: 100%;
 }
 
 span.flatpickr-day.today:not(.selected),

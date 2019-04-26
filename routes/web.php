@@ -49,7 +49,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('email_to_sms', 'EmailToSmsController')->name('email_to_sms');
 
     });
-    Route::resource('notifications', 'NotificationController')->only(['index']);
+    Route::resource('notifications', 'NotificationController')->only(['index', 'destroy']);
     Route::resource('alerts', 'AlertController')->middleware('verified');
     Route::group(['middleware' => 'verified', 'prefix' => 'alerts', 'namespace' => 'Alerts'], function () {
         Route::post('{alert}/duplicate', 'DuplicateAlertController')->name('alerts.duplicate');

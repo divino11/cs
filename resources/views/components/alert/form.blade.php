@@ -140,21 +140,23 @@
     <div class="row gutter-10">
         <div class="col-md-6 col-sm-6">
             <h5>Per interval of</h5>
-            <select type="number" class="form-control" name="conditions[cooldown_number]"></select>
+            <select type="number" class="form-control" name="interval_number">
+                <option value="{{ old('interval_number', $alert->interval_number) }}">{{ old('interval_number', $alert->interval_number) }}</option>
+            </select>
         </div>
         <div class="col-md-6 col-sm-6 myaccount-combo-righthalf">
             <h5>&nbsp;</h5>
-            <select name="conditions[cooldown_unit]" class="form-control">
+            <select name="interval_unit" class="form-control">
                 <option value="minutes"
-                        @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'minutes') selected @endif>
+                        @if(old('interval_unit', $alert->interval_unit) == 'minutes') selected @endif>
                     Minutes
                 </option>
                 <option value="hours"
-                        @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'hours') selected @endif>
+                        @if(old('interval_unit', $alert->interval_unit) == 'hours') selected @endif>
                     Hours
                 </option>
                 <option value="days"
-                        @if(old('conditions.cooldown_unit', $alert->conditions['cooldown_unit']) == 'days') selected @endif>
+                        @if(old('interval_unit', $alert->interval_unit) == 'days') selected @endif>
                     Days
                 </option>
             </select>
@@ -197,7 +199,7 @@
     <div class="form-group">
         <label class="container">Open-ended
             <input type="hidden" id="open_ended" value="0" name="open_ended">
-            <input type="checkbox" id="open_ended" value="1" name="open_ended" @if(old('open_ended', $alert->open_ended)) checked @endif>
+            <input type="checkbox" id="open_ended" value="1" name="open_ended" @if(old('open_ended', $alert->open_ended ?? '')) checked @endif>
             <span class="checkmark"></span>
         </label>
     </div>
@@ -245,23 +247,8 @@
                     }
                 });
             }).change();
-            $('#alertForm').change(function () {
-                selectedType = $('#type option:selected').val();
-                switch (selectedType) {
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                        currentType = 'crossing';
-                        break;
-                    case 5:
-                    case 6:
-                        currentType = 'percentage';
-                        break;
-                    case 7:
-                        currentType = 'regular_update';
-                }
+
+            $('select[name="conditions[metric]"], #markets').change(function () {
                 selectedPlatform = $('#exchange option:selected').val();
                 selectedCurrency = $('#markets option:selected').val();
                 metricVal = $("select[name='conditions[metric]']").val();
@@ -300,9 +287,31 @@
                         } else {
                             $("input[name='conditions[value]']:visible").val(currencyPrice);
                         }
+                        if ( '{{ !$alert->conditions['value'] }}' ) {
+                            $("input[name='conditions[value]']:visible").val(currencyPrice);
+                        }
                         changeTextarea();
                     }
                 }, 'json');
+            }).change();
+
+            $('#alertForm').change(function () {
+                selectedType = $('#type option:selected').val();
+                switch (selectedType) {
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                        currentType = 'crossing';
+                        break;
+                    case 5:
+                    case 6:
+                        currentType = 'percentage';
+                        break;
+                    case 7:
+                        currentType = 'regular_update';
+                }
             }).change();
             $('#markets').change(function() {
                 var selected = $('#markets option:selected');
@@ -351,13 +360,38 @@
         });
 
         $(document).ready(function () {
+            setTimeout(function () {
+                $('input[name="expiration_date"]').attr("readonly", false);
+                if ($('input[name="open_ended"]').is(":checked")) {
+                    $('.flatpickr-input, .expiration-time').prop('disabled', true);
+                    $('.flatpickr-input, .expiration-time, .input-group-addon').addClass('expiration-disabled');
+                    $('.flatpickr-input, .expiration-time, .input-group-addon').val('');
+                }
+            }, 1000);
+            $('input[name="open_ended"]').change(function () {
+                if ($('input[name="open_ended"]').is(":checked")) {
+                    $('.flatpickr-input, .expiration-time').prop('disabled', true);
+                    $('.flatpickr-input, .expiration-time').removeAttr('required');
+                    $('.flatpickr-input, .expiration-time, .input-group-addon').addClass('expiration-disabled');
+                } else {
+                    $('.flatpickr-input, .expiration-time').prop('disabled', false);
+                    $('.flatpickr-input, .expiration-time').attr('required');
+                    $('.flatpickr-input, .expiration-time, .input-group-addon').removeClass('expiration-disabled');
+                }
+            });
+        });
+
+        $(document).ready(function () {
             //remove required
             $('#alertForm button[type="submit"]').click(function(){
-                $('input, textarea, select').filter('[required]:not(:visible)').each(function(){
+                $('input, textarea, select').filter('[required]:not(:visible), [disabled], .regular_update input[name="conditions[value]"]').each(function(){
                     if (!$(this)[0].checkValidity()) {
                         $(this).remove();
                     }
                 });
+                if ($('#type option:selected').val() == 5 || $('#type option:selected').val() == 6) {
+                    $('input, textarea, select').filter('[required]:not(:visible), [disabled], .regular_update input[name="conditions[value]"]').remove();
+                }
             });
 
             //view alerts
@@ -420,9 +454,9 @@
                 autoclose: true,
             });
 
-            $("select[name='conditions[cooldown_unit]']").change(function () {
+            $("select[name='interval_unit']").change(function () {
                 var newOptions;
-                var interval_unit = $("select[name='conditions[cooldown_unit]']").val();
+                var interval_unit = $("select[name='interval_unit']").val();
                 if (interval_unit == 'minutes') {
                     newOptions = {
                         "5": "5",
@@ -452,12 +486,13 @@
                         "30": "30"
                     };
                 }
-                var $el = $("select[name='conditions[cooldown_number]']");
+                var $el = $("select[name='interval_number']");
                 $el.empty();
                 $.each(newOptions, function(key,value) {
                     $el.append($("<option></option>")
                         .attr("value", value).text(key));
                 });
+                $('select[name="interval_number"] option[value="' + {{ $alert->interval_number }} + '"]').prop('selected', true);
             }).change();
         });
     </script>

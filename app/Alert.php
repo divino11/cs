@@ -64,7 +64,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Alert extends Model
 {
-    protected $fillable = ['exchange_id', 'market_id', 'type', 'conditions', 'alert_message', 'open_ended', 'frequency', 'expiration_date', 'enabled'];
+    protected $fillable = ['exchange_id', 'market_id', 'type', 'conditions', 'alert_message', 'open_ended', 'frequency', 'interval_number', 'interval_unit', 'expiration_date', 'enabled'];
 
     protected $casts = ['conditions' => 'array'];
 
@@ -137,8 +137,8 @@ class Alert extends Model
 
     public function getCooldownAttribute()
     {
-        if ($this->conditions['cooldown_number']) {
-            return CarbonInterval::fromString($this->conditions['cooldown_number'] . ' ' . $this->conditions['cooldown_unit']);
+        if ($this->interval_number) {
+            return CarbonInterval::fromString($this->interval_number . ' ' . $this->interval_unit);
         }
         return new CarbonInterval('0', '0', '0', '0', '1');
     }
