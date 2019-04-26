@@ -8,6 +8,14 @@
 @import "~animate.css/animate.css";
 @import "~intl-tel-input/src/css/intlTelInput";
 @import "~clockpicker/src/clockpicker.css";
+@font-face {
+  font-family: 'Circular';
+  src: url('/fonts/lineto-circular-medium.woff');
+}
+@font-face {
+  font-family: 'Circular-Book';
+  src: url('/fonts/lineto-circular-book.woff');
+}
 main {
   padding-top: 90px;
   @media screen and (max-width: 768px) {
@@ -795,10 +803,6 @@ input:checked + .slider:before {
   font-size: 9px;
 }
 
-.myaccount-combo-lesspad {
-  margin-bottom: 0;
-}
-
 .myaccount-pushover-link {
   margin-top: 8px;
   font-size: 12px;
@@ -859,6 +863,10 @@ input:checked + .slider:before {
   text-transform: capitalize;
 }
 
+.currency_price_group h4 {
+  margin-bottom: 0;
+}
+
 #currencyPrice {
   margin-left: 5px;
 }
@@ -879,7 +887,7 @@ input:checked + .slider:before {
 }
 
 .input-group {
-  padding: 15px 15px 0 15px;
+  padding: 0 5px 0 5px;
 }
 
 #channels div.input-group {
@@ -1560,7 +1568,7 @@ li.channels-ico a {
 }
 
 $teal1: #66B3FB;
-$teal2: #4B9DEA;
+$teal2: #3580e9;
 $charcoal: #555555;
 $gold: #B6985A;
 
@@ -1590,7 +1598,7 @@ $activeShadow: 0 0 10px rgba($teal1, .5);
     border-radius: 3px;
     border: solid 1px #DDD; background-color: #e1e1e1;
     color: #fff;
-    margin-right: 10px;
+    margin-right: 5px;
     font-size: 14px; line-height: 80%; font-weight: normal !important; text-align: center;
     box-shadow: 0 0 0 rgba(255,255,255,0);
     transition: 	border-color .15s ease-out,
@@ -1598,7 +1606,7 @@ $activeShadow: 0 0 10px rgba($teal1, .5);
     background-color .15s ease-out,
     box-shadow .15s ease-out;
   }
-  input:hover + label {border-color: #828282;}
+  input:hover + label {border-color: #ccc; background-color: #ccc}
   input:checked + label {
     background-color: $teal2;
     color: #FFF;
@@ -1621,9 +1629,6 @@ $activeShadow: 0 0 10px rgba($teal1, .5);
 @media (max-width: 767px) {
   .select2 {
     width: 100% !important;
-  }
-  .currency_price_group {
-    margin-bottom: 20px;
   }
   .section-interval .myaccount-combo-righthalf h5,
   .section-expiration .myaccount-combo-righthalf h5 {
@@ -1754,4 +1759,57 @@ span.select2-selection {
 #select2-type-results,
 #select2-type-container {
   text-transform: capitalize;
+}
+
+span.flatpickr-day.today:not(.selected),
+span.flatpickr-day.prevMonthDay.today:not(.selected),
+span.flatpickr-day.nextMonthDay.today:not(.selected) {
+  border-bottom-color: #4b9dea;
+}
+
+.flatpickr-day.today:hover,
+.flatpickr-day.today:focus {
+  background: #4f99ff;
+}
+
+span.flatpickr-day.today:not(.selected):hover,
+span.flatpickr-day.prevMonthDay.today:not(.selected):hover,
+span.flatpickr-day.nextMonthDay.today:not(.selected):hover {
+  border: 1px solid #4f99ff;
+}
+
+.flatpickr-months .flatpickr-prev-month:hover svg,
+.flatpickr-months .flatpickr-next-month:hover svg {
+  fill: #4b9dea;
+}
+
+h2, .h2 {
+  font-size: 2rem;
+}
+
+.row.gutter-10 {
+  margin-left: -5px;
+  margin-right: -5px;
+}
+
+.row.gutter-10 [class*='col-']:not(:first-child),
+.row.gutter-10 [class*='col-']:not(:last-child) {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+  padding-left: 5px;
+}
+
+.myaccount-combo-lesspad {
+  margin-bottom: 12px;
+}
+
+.newalert-module-checks h5 {
+  padding-bottom: 10px;
+}
+
+.section-expiration .material-icons {
+  font-size: 21px;
 }

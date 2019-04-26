@@ -24,7 +24,7 @@ class NotificationPhoneChangeRequest extends FormRequest
     public function rules()
     {
         return [
-            'notification_phone' => 'numeric|min:11'
+            'notification_phone' => 'numeric|max:12'
         ];
     }
 }

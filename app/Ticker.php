@@ -63,14 +63,14 @@ class Ticker extends Model
     public function getMetric($metric)
     {
         switch($metric) {
-            case AlertMetric::Buy_price:
+            case AlertMetric::Price:
                 return $this->bid;
-            case AlertMetric::Sell_price:
+            /*case AlertMetric::Sell_price:
                 return $this->ask;
             case AlertMetric::High_price:
                 return $this->high_price;
             case AlertMetric::Low_price:
-                return $this->low_price;
+                return $this->low_price;*/
             case AlertMetric::Volume:
                 return $this->volume;
         }

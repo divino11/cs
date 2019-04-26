@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Alert;
 use App\Enums\AlertType;
+use App\Enums\NotificationChannel;
 use App\Exchange;
 use App\Http\Requests\Alerts\StoreAlertRequest;
 use Carbon\Carbon;
@@ -45,6 +46,11 @@ class AlertController extends Controller
      */
     public function store(StoreAlertRequest $request)
     {
+        if (!$request->user()->hasPhoneVerified()
+            && current($request->notification_channels[0]) == NotificationChannel::Nexmo) {
+            return redirect()->route('channels.index')->with('status', 'Please, set your phone number');
+        }
+
         $expirationDate = $request->expiration_date . ' ' . $request->expiration_time;
 
         $request->merge(['expiration_date' => $expirationDate]);
@@ -89,6 +95,11 @@ class AlertController extends Controller
      */
     public function update(StoreAlertRequest $request, Alert $alert)
     {
+        if (!$request->user()->hasPhoneVerified()
+            && current($request->notification_channels[0]) == NotificationChannel::Nexmo) {
+            return redirect()->route('channels.index')->with('status', 'Please, set your phone number');
+        }
+
         $expirationDate = $request->expiration_date . ' ' . $request->expiration_time;
 
         $request->merge(['expiration_date' => $expirationDate]);

@@ -91,15 +91,15 @@ class Alert extends Model
     private function getStrategy()
     {
         switch($this->type){
-            case AlertType::Crossing:
+            case AlertType::Crossed:
                 return new Crossing($this);
-            case AlertType::Crossing_Up:
+            case AlertType::Crossed_Up:
                 return new CrossingUp($this);
-            case AlertType::Crossing_Down:
+            case AlertType::Crossed_Down:
                 return new CrossingDown($this);
-            case AlertType::Greater_Than:
+            case AlertType::Become_Greater_Than:
                 return new GreaterThan($this);
-            case AlertType::Less_Than:
+            case AlertType::Become_Less_Than:
                 return new LessThan($this);
             case AlertType::Increased_By:
                 return new IncreasedBy($this);
@@ -123,6 +123,11 @@ class Alert extends Model
     public function getNameAttribute()
     {
         return strtoupper($this->exchange->name) . ' - ' . $this->market->base . '/' . $this->market->quote;
+    }
+
+    public function getCurrencyPairAttribute()
+    {
+        return $this->market->base . '/' . $this->market->quote;
     }
 
     public function getIntervalAttribute()

@@ -2,7 +2,7 @@
 <!-- combo -->
 <div class="myaccount-combo">
 
-    <div class="row">
+    <div class="row gutter-10">
         <div class="col-md-6 col-sm-6">
             <!-- combo -->
             <h5>Exchange</h5>
@@ -22,7 +22,7 @@
             <select class="form-control js-data-example-ajax" name="market_id" id="markets" required>
                 @if(old('exchange_id', $alert->exchange_id))
                     @foreach($exchanges->where('id', old('exchange_id', $alert->exchange_id))->first()->markets as $market)
-                        <option value="{{ $market->id }}" data-quote="{{ $market->quote }}" @if(old('market_id', $alert->market_id) == $market->id) selected @endif>{{ $market->base }}/{{ $market->quote }}</option>
+                        <option value="{{ $market->id }}" data-base="{{ $market->base }}" data-quote="{{ $market->quote }}" @if(old('market_id', $alert->market_id) == $market->id) selected @endif>{{ $market->base }}/{{ $market->quote }}</option>
                     @endforeach
                 @endif
             </select>
@@ -30,8 +30,8 @@
         </div>
     </div>
 </div>
-<div class="myaccount-combo">
-    <div class="row">
+<div class="myaccount-combo myaccount-combo-lesspad">
+    <div class="row gutter-10">
         <div class="col-md-6 col-sm-6">
             <!-- combo -->
             <h5>Alert me when <span class="market_name"></span></h5>
@@ -71,9 +71,10 @@
     @include('alert.conditions.crossing')
 </div>
 
-
-<div class="form-group currency_price_group" style="display: none">
-    <h4></h4><h4 id="currencyPrice"></h4>
+<div class="myaccount-combo">
+    <div class="form-group currency_price_group" style="display: none">
+        <h4></h4><h4 id="currencyPrice"></h4>
+    </div>
 </div>
 <!-- combo -->
 <div class="myaccount-combo newalert-module-checks">
@@ -94,12 +95,10 @@
             <span class="checkmark"></span>
         </label>
     @endif
-    @if(request()->user()->hasPhoneVerified())
-        <label class="container">SMS
-            <input type="checkbox" id="sms_notification" value="{{ \App\Enums\NotificationChannel::Nexmo }}" name="notification_channels[][notification_channel]" @if(collect(old('notification_channels', $alert->notificationChannels))->where('notification_channel', \App\Enums\NotificationChannel::Nexmo)->isNotEmpty()) checked @endif>
-            <span class="checkmark"></span>
-        </label>
-    @endif
+    <label class="container">SMS
+        <input type="checkbox" id="sms_notification" value="{{ \App\Enums\NotificationChannel::Nexmo }}" name="notification_channels[][notification_channel]" @if(collect(old('notification_channels', $alert->notificationChannels))->where('notification_channel', \App\Enums\NotificationChannel::Nexmo)->isNotEmpty()) checked @endif>
+        <span class="checkmark"></span>
+    </label>
     @if(request()->user()->hasPushoverVerified())
         <label class="container">Pushover
             <input type="checkbox" id="pushover_notification" value="{{ \App\Enums\NotificationChannel::Pushover }}" name="notification_channels[][notification_channel]" @if(collect(old('notification_channels', $alert->notificationChannels))->where('notification_channel', \App\Enums\NotificationChannel::Pushover)->isNotEmpty()) checked @endif>
@@ -124,12 +123,12 @@
 <!-- combo -->
 <div class="myaccount-combo">
     <div class="form-group">
-        <h5>Frequency</h5>
+        <h5>With frequency</h5>
         <div class="toggle">
             <input type="radio" name="frequency" value="0" id="once" @if(old('frequency', $alert->frequency) == 0) checked @endif />
-            <label for="once">Only Once</label>
+            <label for="once">Only once</label>
             <input type="radio" name="frequency" value="1" id="every_time" @if(old('frequency', $alert->frequency) == 1) checked @endif />
-            <label for="every_time">Every Time</label>
+            <label for="every_time">Every time</label>
         </div>
     </div>
 </div>
@@ -137,7 +136,7 @@
 
 <!-- combo -->
 <div class="myaccount-combo section-interval">
-    <div class="row">
+    <div class="row gutter-10">
         <div class="col-md-6 col-sm-6">
             <h5>Per interval of</h5>
             <select type="number" class="form-control" name="conditions[cooldown_number]"></select>
@@ -165,9 +164,9 @@
 
 <!-- combo -->
 <div class="myaccount-combo section-expiration">
-    <div class="row">
+    <div class="row gutter-10">
         <div class="col-md-6 col-sm-6">
-            <h5>Expiring On</h5>
+            <h5>Expiring on</h5>
             <div class="calendar-group">
                 <div class="expiration">
                     <input class="form-control" data-input type="text" autocomplete="off"
@@ -213,16 +212,6 @@
     </div>
 </div>
 <!-- END combo -->
-
-<div class="myaccount-combo">
-    <div class="form-group">
-        <h5>Alert Preview</h5>
-        <div class="live-preview">
-            <p></p>
-        </div>
-    </div>
-</div>
-
 
 @push('scripts')
     <script>
@@ -290,9 +279,9 @@
                                 currencyPrice = response.data.bid;
                                 break;
                             case '1':
-                                currencyPrice = response.data.ask;
+                                currencyPrice = response.data.volume;
                                 break;
-                            case '2':
+                            /*case '2':
                                 currencyPrice = response.data.high_price;
                                 break;
                             case '3':
@@ -300,12 +289,16 @@
                                 break;
                             case '4':
                                 currencyPrice = response.data.volume;
-                                break;
+                                break;*/
                         }
                         $('.currency_price_group').show();
                         $('.currency_price_group h4').text(metricText + ': ');
                         $('#currencyPrice').text(currencyPrice);
-                        $("input[name='conditions[value]']:visible").val(currencyPrice);
+                        if (selectedType == 5 || selectedType == 6) {
+                            $("input[name='conditions[value]']:visible").val(1);
+                        } else {
+                            $("input[name='conditions[value]']:visible").val(currencyPrice);
+                        }
                         changeTextarea();
                     }
                 }, 'json');
@@ -313,7 +306,11 @@
             $('#markets').change(function() {
                 var selected = $('#markets option:selected');
                 $('.market_name').text(selected.text());
-                $('#quoteCurrency').text(selected.data('quote'));
+                if ($('select[name="conditions[metric]"]').val() == '1') {
+                    $('#quoteCurrency').text(selected.text().split('/')[0]);
+                } else {
+                    $('#quoteCurrency').text(selected.data('quote'));
+                }
             }).change();
             var requiredCheckboxes = $('#notificationChannels :checkbox[required]');
             requiredCheckboxes.change(function(){
@@ -340,12 +337,15 @@
                 var value = $("input[name='conditions[value]']:visible").val() ? $("input[name='conditions[value]']:visible").val() : '';
                 var regular = '';
                 if (selectedType == 7) {
-                    value = $("select[name='conditions[interval]']:visible option:selected").text() ? $("select[name='conditions[interval]']:visible option:selected").text() : '';
-                    regular = '{live_data}';
+                    value = '';
+                    regular = 'become is {live_data}';
+                    type = '';
                 }
-                $('#alert_message').text(market + ' ' + metric + ' ' + type + ' ' + value + ' ' + regular);
-                var textarea = $('#alert_message').val();
-                $('.live-preview').text(textarea);
+                if (selectedType == 5 || selectedType == 6) {
+                    regular = '%';
+                }
+                var message = market + ' ' + metric + ' ' + type + ' ' + value + regular;
+                $('#alert_message').text(message.replace(/\s+/g, ' ').trim());
             }
         });
 
@@ -362,7 +362,11 @@
             //view alerts
             $('#alertForm').bind('change keyup', function () {
                 var selected = $('#markets option:selected');
-                $('#quoteCurrency').text(selected.data('quote'));
+                if ($('select[name="conditions[metric]"]').val() == '1') {
+                    $('#quoteCurrency').text(selected.text().split('/')[0]);
+                } else {
+                    $('#quoteCurrency').text(selected.data('quote'));
+                }
                 if (selectedType == '5' || selectedType == '6') {
                     $('.tab-type').removeClass('active-type');
                     $('.percentage').addClass('active-type');
@@ -406,7 +410,8 @@
                dateFormat: "Y-m-d",
                minDate: "today",
                wrap: true,
-               maxDate: new Date().fp_incr(30)
+               maxDate: new Date().fp_incr(30),
+               defaultDate: new Date().fp_incr(30)
            });
 
             $('.clockpicker').clockpicker({
