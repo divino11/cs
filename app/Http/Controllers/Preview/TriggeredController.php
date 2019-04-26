@@ -15,6 +15,7 @@ class TriggeredController extends Controller
 
         return $markdown->render('emails.alert.triggered', [
             'alert' => Alert::latest()->first(),
+            'alert_message' => Alert::latest()->first()->alert_message,
             'editUrl' => 'https://example.com/',
             'disableUrl' => 'https://example.com/',
         ]);
