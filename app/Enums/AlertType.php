@@ -12,6 +12,6 @@ final class AlertType extends Enum
     const Become_Greater_Than = 3;
     const Become_Less_Than = 4;
     const Increased_By = 5;
-    const Falls_By = 6;
+    const Decreased_By = 6;
     const Regular_Update = 7;
 }

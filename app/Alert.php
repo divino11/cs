@@ -103,7 +103,7 @@ class Alert extends Model
                 return new LessThan($this);
             case AlertType::Increased_By:
                 return new IncreasedBy($this);
-            case AlertType::Falls_By:
+            case AlertType::Decreased_By:
                 return new FallsBy($this);
             case AlertType::Regular_Update:
                 return new RegularUpdate($this);
