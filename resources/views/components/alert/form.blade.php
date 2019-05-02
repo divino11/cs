@@ -89,7 +89,7 @@
             <span class="checkmark"></span>
         </label>
     @endif
-    @if(request()->user()->getNotificationEmailToSms())
+    @if(request()->user()->hasEmailToSmsVerified())
         <label class="container">Email-To-Sms
             <input type="checkbox" id="email_notification" value="{{ \App\Enums\NotificationChannel::Email_To_Sms }}" name="notification_channels[][notification_channel]" @if(collect(old('notification_channels', $alert->notificationChannels))->where('notification_channel', \App\Enums\NotificationChannel::Email_To_Sms)->isNotEmpty()) checked @endif>
             <span class="checkmark"></span>
@@ -210,7 +210,7 @@
 
 <div class="myaccount-combo">
     <div class="form-group">
-        <h5>Alert Message</h5>
+        <h5>Message</h5>
         <textarea name="alert_message" class="form-control" id="alert_message" rows="3">{{ old('alert_message', $alert->alert_message) }}</textarea>
     </div>
 </div>
@@ -297,20 +297,10 @@
 
             $('#alertForm').change(function () {
                 selectedType = $('#type option:selected').val();
-                switch (selectedType) {
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                        currentType = 'crossing';
-                        break;
-                    case 5:
-                    case 6:
-                        currentType = 'percentage';
-                        break;
-                    case 7:
-                        currentType = 'regular_update';
+                if (selectedType == '7') {
+                    $('#every_time').prop('checked', true);
+                } else {
+                    $('#once').prop('checked', true);
                 }
             }).change();
             $('#markets').change(function() {

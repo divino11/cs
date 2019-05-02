@@ -46,19 +46,20 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('pushover/verify', 'PushoverVerificationController')->name('pushover.verify');
         Route::get('/{user}/soundEnable', 'SoundController@soundEnable')->name('soundEnable');
         Route::get('/{user}/sound', 'SoundController@sound')->name('sound');
-        Route::post('email_to_sms', 'EmailToSmsController')->name('email_to_sms');
+        Route::resource('email_to_sms', 'EmailToSmsController')->only(['store', 'destroy']);
+        Route::resource('email_to_sms/email_to_sms_verification', 'EmailToSmsVerificationController')->only(['store', 'update']);
 
     });
     Route::resource('notifications', 'NotificationController')->only(['index', 'destroy']);
     Route::resource('alerts', 'AlertController')->middleware('verified');
     Route::group(['middleware' => 'verified', 'prefix' => 'alerts', 'namespace' => 'Alerts'], function () {
         Route::post('{alert}/duplicate', 'DuplicateAlertController')->name('alerts.duplicate');
-        Route::resource('price_point', 'PricePointAlertController')->only(['create', 'store', 'update'])->parameters(['price_point' => 'alert']);
+        //Route::resource('price_point', 'PricePointAlertController')->only(['create', 'store', 'update'])->parameters(['price_point' => 'alert']);
         Route::group(['middleware' => 'subscribed'], function () {
-            Route::resource('percentage', 'PercentageAlertController')->only(['create', 'store', 'update'])->parameters(['percentage' => 'alert']);
-            Route::resource('regular_update', 'RegularUpdateAlertController')->only(['create', 'store', 'update'])->parameters(['regular_update' => 'alert']);
-            Route::resource('volume', 'VolumeController')->only(['create', 'store', 'update'])->parameters(['volume' => 'alert']);
-            Route::resource('crossing', 'CrossingAlertController')->only(['create', 'store', 'update'])->parameters(['crossing' => 'alert']);
+            //Route::resource('percentage', 'PercentageAlertController')->only(['create', 'store', 'update'])->parameters(['percentage' => 'alert']);
+            //Route::resource('regular_update', 'RegularUpdateAlertController')->only(['create', 'store', 'update'])->parameters(['regular_update' => 'alert']);
+            //Route::resource('volume', 'VolumeController')->only(['create', 'store', 'update'])->parameters(['volume' => 'alert']);
+            //Route::resource('crossing', 'CrossingAlertController')->only(['create', 'store', 'update'])->parameters(['crossing' => 'alert']);
         });
     });
     Route::group(['prefix' => 'preview', 'namespace' => 'Preview', 'as' => 'preview.'], function () {

@@ -8,7 +8,7 @@
     <style type="text/css">
 
         h1,.h1,h2,.h2,h3,.h3,h4,.h4,h5,.h5,h6,.h6{
-            Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-family: Circular-Book, sans-serif;
         }
         h1,.h1,h2,.h2,h3,.h3{
             margin-top:20px;
@@ -54,7 +54,7 @@
     <tr>
         <td>
             <!-- Text box -->
-            <table width="600px" border="0" cellspacing="0" cellpadding="0" style="padding-left:50px; padding-top:20px;padding-right:50px; padding-bottom:50px;">
+            <table width="600px" border="0" cellspacing="0" cellpadding="0" style="padding: 20px 50px 40px;">
                 <tbody>
                 <tr>
                     <td>

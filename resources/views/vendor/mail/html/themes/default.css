@@ -1,7 +1,15 @@
 /* Base */
+@font-face {
+    font-family: 'Circular';
+    src: url('/fonts/lineto-circular-medium.woff');
+}
+@font-face {
+    font-family: 'Circular-Book';
+    src: url('/fonts/lineto-circular-book.woff');
+}
 
 body, body *:not(html):not(style):not(br):not(tr):not(code) {
-    font-family: Avenir, Helvetica, sans-serif;
+    font-family: Circular-Book, sans-serif;
     box-sizing: border-box;
 }
 
@@ -291,14 +299,14 @@ img {
 
 .footer-text p {
     text-align:center !important;
-    font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+    font-family: Circular-Book, sans-serif;
     font-size:11px !important;
     color:#666 !important;
 }
 
 .footer-text a {
     text-align:center !important;
-    font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+    font-family: Circular-Book, sans-serif;
     font-size:11px !important;
     color:#666 !important;
 }

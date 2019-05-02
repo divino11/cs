@@ -36,7 +36,7 @@
                             <blockquote>Yes.<form class="d-inline-block" action="{{ route('user.delete_user', ['user_id' => \Illuminate\Support\Facades\Auth::user()->id]) }}" method="POST" onsubmit="return confirm('Are you sure remove account?')">
                                     @method('DELETE')
                                     @csrf
-                                    <button type="submit" class="submit-btn">Click Here.</button>
+                                    <button type="submit" class="submit-btn">Click here.</button>
                                 </form>
                             </blockquote>
                         </div>

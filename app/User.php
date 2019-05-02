@@ -158,6 +158,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return (bool) ($this->hasNotificationPhone() ? $this->phone_verified_at : $this->phone_verified_at);
     }
 
+    private function hasNotificationEmailToSms()
+    {
+        return isset($this->notification_phone);
+    }
+
+    public function hasNotificationEmailToSmsVerified()
+    {
+        return (bool) ($this->hasNotificationEmailToSms() ? $this->email_to_sms_verified_at : $this->email_to_sms_verified_at);
+    }
+
     private function hasNotificationTelegram()
     {
         return isset($this->notification_telegram);
@@ -171,6 +181,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function hasPhoneVerified()
     {
         return (bool) isset($this->phone_verified_at);
+    }
+
+    public function hasEmailToSmsVerified()
+    {
+        return (bool) isset($this->email_to_sms_verified_at);
     }
 
     public function getNotificationPushover()
@@ -213,6 +228,13 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->forceFill([
             'phone_verified_at' => $this->freshTimestamp(),
+        ])->save();
+    }
+
+    public function markNotificationEmailToSmsAsVerified()
+    {
+        $this->forceFill([
+            'email_to_sms_verified_at' => $this->freshTimestamp(),
         ])->save();
     }
 

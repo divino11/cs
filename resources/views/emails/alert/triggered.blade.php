@@ -1,13 +1,12 @@
 @component('mail::message')
-<h2 style="font-size: 30px; color: #222; text-align:center; line-height: 30px; font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+<h2 style="font-size: 28px; color: #222; text-align:center; line-height: 30px; font-family: 'Circular-Book', sans-serif">
     Your {{ $alert->currency_pair }} alert was triggered.
 </h2>
 
-<p style="font-size: 18px; line-height: 22px; color: #333; text-align:center; font-family:Gotham, 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+<p style="font-size: 18px; line-height: 22px; color: #333; margin-bottom: 25px; text-align:center; font-family: 'Circular-Book', sans-serif">
 {{$alert_message}}
 </p>
-<br>
-<p style="text-align: center;">
+<p style="text-align: center; margin-bottom: 0;">
 @component('mail::button', ['url' => $editUrl])
     Modify Your Alert
 @endcomponent

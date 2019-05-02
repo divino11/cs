@@ -33,8 +33,8 @@
                         <span class="label label-danger">New</span>
                     @endif
                 </h6>
-                <p><span class="notification-module-ttl">{{ $notification['data']['alert_name'] }}</span> {{ $notification['data']['alert_description'] }}.
-                    The {{ $notification['data']['ticker_key'] }} is currently {{ $notification['data']['ticker_value'] }}.</p>
+                <div><p class="notification-module-ttl">{{ $notification['data']['alert_name'] }}</p><p> {{ $notification['data']['alert_description'] }}.
+                        The {{ $notification['data']['ticker_key'] }} is currently {{ $notification['data']['ticker_value'] }}.</p></div>
             </div>
 
         </div>

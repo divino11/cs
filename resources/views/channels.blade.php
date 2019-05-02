@@ -58,29 +58,77 @@
                     <!-- END combo -->
 
                     <!-- combo -->
-                    {{--<div class="myaccount-combo channels-combo">
+                    <div class="myaccount-combo channels-combo">
                         <div class="form-group">
                             <h5>Email-To-SMS <span
-                                        class="badge badge-secondary badge-{{ $user->getNotificationEmailToSms() ? 'success' : 'danger' }}">
-                            {{ $user->getNotificationEmailToSms() ? 'Verified' : 'Not verified' }}
+                                        class="badge badge-secondary badge-{{ $user->hasNotificationEmailToSmsVerified() ? 'success' : 'danger' }}">
+                            {{ $user->hasNotificationEmailToSmsVerified() ? 'Verified' : 'Not verified' }}
                                 </span></h5>
                             <p>Find your Email-to-SMS address here: <a href="http://smsemailgateway.com/" target="_blank">http://smsemailgateway.com/</a></p>
                             @if($user->getNotificationEmailToSms())
-                                <input type="email" class="form-control" placeholder="{{ $user->getNotificationEmailToSms() }}"
-                                   disabled>
+                                <span class="entered-channel">{{$user->getNotificationEmailToSms()}}</span>
                             @endif
-                        </div>
-                        <form class="form" action="{{ route('channels.email_to_sms') }}" method="POST">
-                            @csrf
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="email_to_sms"
-                                       placeholder="@if($user->getNotificationEmailToSms())Use an additional email @else e.g. 123456789@tmomail.net @endif">
-                                <span class="input-group-btn">
+                            @if (!$user->getNotificationEmailToSms())
+                                <form class="form" action="{{ route('channels.email_to_sms.store') }}" method="POST">
+                                    @csrf
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="email_to_sms"
+                                               placeholder="e.g. 123456789@tmomail.net">
+                                        <span class="input-group-btn">
     	                        <button class="btn btn-default bt-custom" type="submit">Save</button>
                             </span>
-                            </div>
-                        </form>
-                    </div>--}}
+                                    </div>
+                                </form>
+                            @else
+                                @if (!$user->hasNotificationEmailToSmsVerified())
+                                    <form class="form" method="post"
+                                          action="{{ route('channels.email_to_sms_verification.store') }}">
+                                        @csrf
+                                        <div class="input-group">
+                                            <input class="form-control" type="text" name="emailToSmsVerify"
+                                                   placeholder="Enter verification code"/>
+                                            <button class="btn btn-primary bt-custom text-uppercase" type="submit">
+                                                Verify
+                                            </button>
+                                        </div>
+                                    </form>
+                                    <div class="form-buttons">
+                                        <form class="form" method="post"
+                                              action="{{route('channels.email_to_sms.destroy', $user->id)}}">
+                                            @csrf
+                                            @method('delete')
+                                            <div class="input-group">
+                                                <button class="btn btn-primary bt-custom-out text-uppercase"
+                                                        type="submit">Use another email-to-sms address
+                                                </button>
+                                            </div>
+                                        </form>
+                                        <form class="form" method="post"
+                                              action="{{ route('channels.email_to_sms_verification.update', $user->id) }}">
+                                            @csrf
+                                            @method('put')
+                                            <div class="input-group">
+                                                <button class="btn btn-primary bt-custom text-uppercase"
+                                                        type="submit">Resend code
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                @else
+                                    <form class="form" method="post"
+                                          action="{{route('channels.email_to_sms.destroy', $user->id)}}">
+                                        @csrf
+                                        @method('delete')
+                                        <div class="input-group">
+                                            <button class="btn btn-primary bt-custom-out text-uppercase ml-1"
+                                                    type="submit">Use another email-to-sms address
+                                            </button>
+                                        </div>
+                                    </form>
+                                @endif
+                            @endif
+                        </div>
+                    </div>
                     <!-- END combo -->
 
                     <!-- combo -->

@@ -539,13 +539,17 @@ select {
 
 .alerts-module p {
   margin: 0;
-  padding-bottom: 0 !important;
+  padding-bottom: 0;
   line-height: 15px;
 }
 
 .alerts-module img {
   width: 40px;
   margin-right: 15px;
+  @media (max-width: 768px) {
+    height: 100px;
+
+  }
 }
 
 .alerts-module-right {
@@ -771,11 +775,16 @@ input:checked + .slider:before {
 .notification-module h6 {
   color: #888;
   margin-bottom: 8px;
+  float: right;
+  @media (max-width: 768px) {
+    float: none;
+  }
 }
 
 .notification-module-ttl {
   color: #50556b;
   font-size: 18px;
+  padding-bottom: 10px !important;
 }
 
 .notification-module-new {
