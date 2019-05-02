@@ -776,9 +776,6 @@ input:checked + .slider:before {
   color: #888;
   margin-bottom: 8px;
   float: right;
-  @media (max-width: 768px) {
-    float: none;
-  }
 }
 
 .notification-module-ttl {
@@ -789,6 +786,14 @@ input:checked + .slider:before {
 
 .notification-module-new {
   background-color: #d7dde5;
+}
+
+.alerts-module .media-body div {
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+  }
 }
 
 /* SETTINGS ACCOUNT
