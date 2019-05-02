@@ -295,12 +295,10 @@
                 }, 'json');
             }).change();
 
-            $('#alertForm').change(function () {
+            $('#type').change(function () {
                 selectedType = $('#type option:selected').val();
                 if (selectedType == '7') {
                     $('#every_time').prop('checked', true);
-                } else {
-                    $('#once').prop('checked', true);
                 }
             }).change();
             $('#markets').change(function() {
