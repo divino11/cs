@@ -120,4 +120,6 @@ return [
         ],
     ],
 
+    'tracking_domain' => env('MAIL_TRACKING_DOMAIN'),
+
 ];
