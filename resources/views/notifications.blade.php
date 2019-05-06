@@ -9,10 +9,12 @@
         </div>
         <div class="col-md-6 col-6">
             <div class="pull-right">
-                <form action="{{ route('notifications.destroy', \Illuminate\Support\Facades\Auth::user()) }}" method="post" onsubmit="return confirm('Clear all notifications?')">
+                <form action="{{ route('notifications.destroy', \Illuminate\Support\Facades\Auth::user()) }}"
+                      method="post" onsubmit="return confirm('Clear all notifications?')">
                     @method('DELETE')
                     @csrf
-                    <button type="submit" class="btn-trash"><img src="{{ asset('images/ico_trash.svg') }}" alt=""/></button>
+                    <button type="submit" class="btn-trash"><img src="{{ asset('images/ico_trash.svg') }}" alt=""/>
+                    </button>
                 </form>
             </div>
         </div>
@@ -22,28 +24,34 @@
     <div class="tab-pane" id="credits">
     @forelse($notifications as $notification)
         <!-- blurb -->
-        <div class="alerts-module notification-module @if(!$notification->read_at)notification-module-new @endif">
+            <div class="alerts-module notification-module @if(!$notification->read_at)notification-module-new @endif">
 
-            <div class="pull-left">
-                <img src="{{ asset('images/notifications_ico_bell.svg') }}" alt=""/>
-            </div>
-            <div class="media-body">
-                <div class="pull-right">
-                    <h6>{{ $notification->created_at->timezone(\Illuminate\Support\Facades\Auth::user()->timezone) }}
-                        @if (!$notification->read_at)
-                            <span class="label label-danger">New</span>
-                        @endif
-                    </h6>
-                    <p>The {{ $notification['data']['ticker_key'] }} is
-                        currently {{ $notification['data']['ticker_value'] }}</p>
+                <div class="row">
+                    <div class="col-xl-1 d-none d-xl-block">
+                        <img src="{{ asset('images/notifications_ico_bell.svg') }}" alt=""/>
+                    </div>
+                    <div class="col-xl-11">
+                        <div class="media-body row">
+                            <div class="col-xl-6">
+                                <p class="notification-module-ttl">{{ $notification['data']['alert_name'] }}</p>
+                                <p> {{ $notification['data']['alert_description'] }}.</p>
+                            </div>
+                            <div class="col-xl-6 col-12 text-xl-right">
+                                <div class="row">
+                                    <h6 class="col-xl-12 order-1 order-xl-0 text-right">{{ $notification->created_at->timezone(\Illuminate\Support\Facades\Auth::user()->timezone) }}
+                                        @if (!$notification->read_at)
+                                            <span class="label label-danger">New</span>
+                                        @endif
+                                    </h6>
+                                    <p class="col-xl-12 order-0 order-xl-1">The {{ $notification['data']['ticker_key'] }} is
+                                        currently {{ $notification['data']['ticker_value'] }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="pull-left">
-                    <div><p class="notification-module-ttl">{{ $notification['data']['alert_name'] }}</p>
-                        <p> {{ $notification['data']['alert_description'] }}.</p></div>
-                </div>
-            </div>
 
-        </div>
+            </div>
         @empty
             <h3 class="text-center pt-5">You don't have any notifications</h3>
         @endforelse

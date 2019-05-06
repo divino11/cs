@@ -1,6 +1,6 @@
 @component('mail::message')
 {{-- Greeting --}}
-<p style="font-size: 24px; color: #222; text-align:left; line-height: 30px; font-family:Circular, sans-serif;">
+<p style="font-size: 24px; font-weight: bold; color: #333; text-align:left; line-height: 30px;margin-bottom: 7px; font-family:Circular, sans-serif;">
 @if (! empty($greeting))
 {{ $greeting }}
 @else
@@ -14,11 +14,11 @@
 
 {{-- Intro Lines --}}
 @foreach ($introLines as $line)
-<p style="font-size: 16px; line-height: 22px; margin-bottom: 0; color: #333; text-align:left; font-family:Circular-Book, sans-serif;">
+<p style="font-size: 16px; line-height: 24px; margin-bottom: 20px; color: #333; text-align:left; font-family:Circular-Book, sans-serif;">
 {{ $line }}
 </p>
 @endforeach
-<p style="line-height: 10px"><br></p>
+
 {{-- Action Button --}}
 @isset($actionText)
 <?php
@@ -35,11 +35,10 @@
 {{ $actionText }}
 @endcomponent
 @endisset
-
 {{-- Outro Lines --}}
-<p style="line-height: 10px; margin-bottom: 0;"><br></p>
+<p style="line-height: 20px;">&nbsp;</p>
 @foreach ($outroLines as $line)
-<p style="font-size: 16px; line-height: 22px; color: #333; text-align:left; font-family:Circular-Book, sans-serif;">
+<p style="font-size: 16px; line-height: 22px; color: #333; margin-bottom: 0; text-align:left; font-family:Circular-Book, sans-serif;">
 {{ $line }}
 </p>
 @endforeach

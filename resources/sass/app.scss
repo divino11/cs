@@ -775,7 +775,10 @@ input:checked + .slider:before {
 .notification-module h6 {
   color: #888;
   margin-bottom: 8px;
-  float: right;
+  @media (max-width: 768px) {
+    margin-bottom: 0;
+    margin-top: 15px;
+  }
 }
 
 .notification-module-ttl {
@@ -786,14 +789,6 @@ input:checked + .slider:before {
 
 .notification-module-new {
   background-color: #d7dde5;
-}
-
-.alerts-module .media-body div {
-  @media (max-width: 768px) {
-    display: flex;
-    flex-direction: column;
-    width: 75%;
-  }
 }
 
 /* SETTINGS ACCOUNT
@@ -1848,24 +1843,4 @@ h2, .h2 {
 
 .disabled-channel {
   color: #ccc;
-}
-
-.notification-module .media-body .pull-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  @media (max-width: 768px) {
-    order: 1;
-  }
-}
-.notification-module .media-body .pull-left {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.notification-module .media-body {
-  @media (max-width: 768px) {
-    display: flex;
-  }
 }

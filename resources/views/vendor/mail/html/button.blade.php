@@ -1,1 +1,1 @@
-<a style="background-color:#1f8ce7; padding: 15px 20px; border-radius:60px; color:#fff; text-decoration:none; font-family: Circular-Book, sans-serif; font-size: 14px;" href="{{ $url }}">{{ $slot }}</a>
+<a style="background-color:#1f8ce7; padding: 15px 20px; border-radius:60px; color:#fff; text-decoration:none; font-family: Circular-Book, sans-serif; font-size: 14px; margin-bottom: 0;" href="{{ $url }}">{{ $slot }}</a>
