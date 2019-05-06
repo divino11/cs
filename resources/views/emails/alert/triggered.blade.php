@@ -1,9 +1,9 @@
 @component('mail::message')
-<h2 style="font-size: 28px; color: #222; text-align:center; line-height: 30px; font-family: 'Circular-Book', sans-serif">
+<h2 style="font-size: 24px; color: #222; text-align:center; line-height: 30px; font-family: 'Circular-Book', sans-serif">
     Your {{ $alert->currency_pair }} alert was triggered.
 </h2>
 
-<p style="font-size: 18px; line-height: 22px; color: #333; margin-bottom: 25px; text-align:center; font-family: 'Circular-Book', sans-serif">
+<p style="font-size: 16px; line-height: 24px; color: #333; margin-bottom: 25px; text-align:center; font-family: 'Circular-Book', sans-serif">
 {{$alert_message}}
 </p>
 <p style="text-align: center; margin-bottom: 0;">
