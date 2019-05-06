@@ -1,6 +1,6 @@
 @component('mail::message')
 {{-- Greeting --}}
-<p style="font-size: 30px; color: #222; text-align:left; line-height: 30px; font-family:Circular-Book, sans-serif;">
+<p style="font-size: 24px; color: #222; text-align:left; line-height: 30px; font-family:Circular, sans-serif;">
 @if (! empty($greeting))
 {{ $greeting }}
 @else
@@ -14,7 +14,7 @@
 
 {{-- Intro Lines --}}
 @foreach ($introLines as $line)
-<p style="font-size: 14px; line-height: 22px; margin-bottom: 0; color: #333; text-align:left; font-family:Circular-Book, sans-serif;">
+<p style="font-size: 16px; line-height: 22px; margin-bottom: 0; color: #333; text-align:left; font-family:Circular-Book, sans-serif;">
 {{ $line }}
 </p>
 @endforeach
@@ -39,7 +39,7 @@
 {{-- Outro Lines --}}
 <p style="line-height: 10px; margin-bottom: 0;"><br></p>
 @foreach ($outroLines as $line)
-<p style="font-size: 14px; line-height: 22px; color: #333; text-align:left; font-family:Circular-Book, sans-serif;">
+<p style="font-size: 16px; line-height: 22px; color: #333; text-align:left; font-family:Circular-Book, sans-serif;">
 {{ $line }}
 </p>
 @endforeach
