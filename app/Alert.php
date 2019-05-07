@@ -5,9 +5,11 @@ namespace App;
 use App\AlertStrategies\Crossing;
 use App\AlertStrategies\CrossingDown;
 use App\AlertStrategies\CrossingUp;
-use App\AlertStrategies\FallsBy;
+use App\AlertStrategies\DecreasedBy;
+use App\AlertStrategies\FallsByPercentage;
 use App\AlertStrategies\GreaterThan;
 use App\AlertStrategies\IncreasedBy;
+use App\AlertStrategies\IncreasedByPercentage;
 use App\AlertStrategies\LessThan;
 use App\AlertStrategies\Percentage;
 use App\AlertStrategies\AbstractRegularUpdate;
@@ -101,10 +103,14 @@ class Alert extends Model
                 return new GreaterThan($this);
             case AlertType::Become_Less_Than:
                 return new LessThan($this);
+            case AlertType::Increased_By_Percentage:
+                return new IncreasedByPercentage($this);
+            case AlertType::Decreased_By_Percentage:
+                return new FallsByPercentage($this);
             case AlertType::Increased_By:
                 return new IncreasedBy($this);
             case AlertType::Decreased_By:
-                return new FallsBy($this);
+                return new DecreasedBy($this);
             case AlertType::Regular_Update:
                 return new RegularUpdate($this);
         }

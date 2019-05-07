@@ -46,11 +46,11 @@
         </div>
         <div class="col-md-6 col-sm-6 myaccount-combo-righthalf">
             <!-- combo -->
-            <h5>Has</h5>
+            <h5>Has condition</h5>
             <div class="btn-group special">
                 <select class="form-control" name="type" id="type" required>
-                    @foreach(App\Enums\AlertType::getKeys() as $key => $item)
-                        <option value="{{$key}}" @if(old('type', $alert->type) === $key) selected @endif>{{App\Enums\AlertType::getDescription($key)}}</option>
+                    @foreach(App\Enums\AlertType::toSelectArray() as $key => $item)
+                        <option value="{{$key}}" @if(old('type', $alert->type) === $key) selected @endif>{{$item}}</option>
                     @endforeach
                 </select>
             </div>
@@ -342,6 +342,10 @@
                 if (selectedType == 5 || selectedType == 6) {
                     regular = '%';
                 }
+                if (selectedType == 7 || selectedType == 8) {
+                    $('.percentage .input-group-text').text('Value');
+                    regular = '';
+                }
                 var message = market + ' ' + metric + ' ' + type + ' ' + value + regular;
                 $('#alert_message').text(message.replace(/\s+/g, ' ').trim());
             }
@@ -382,6 +386,17 @@
                 }
             });
 
+            //test
+           /* $('#type, select[name="conditions[metric]"]').bind('change keyup', function () {
+                if (selectedType == '5' || selectedType == '6') {
+                    $('input[name="conditions[value]"]').val('5');
+                }
+                if (selectedType == '7' || selectedType == '8') {
+                    $('.percentage .input-group-text').text('Value');
+                    $('input[name="conditions[value]"]').val('2');
+                }
+            });*/
+
             //view alerts
             $('#alertForm').bind('change keyup', function () {
                 var selected = $('#markets option:selected');
@@ -390,10 +405,10 @@
                 } else {
                     $('#quoteCurrency').text(selected.data('quote'));
                 }
-                if (selectedType == '5' || selectedType == '6') {
+                if (selectedType == '5' || selectedType == '6' || selectedType == '7' || selectedType == '8') {
                     $('.tab-type').removeClass('active-type');
                     $('.percentage').addClass('active-type');
-                } else if (selectedType == '7') {
+                } else if (selectedType == '9') {
                     $('.tab-type').removeClass('active-type');
                     $('.regular_update').addClass('active-type');
                 } else {
