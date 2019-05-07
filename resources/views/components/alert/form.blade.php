@@ -64,7 +64,7 @@
 <div class="percentage tab-type">
     @include('alert.conditions.percentage')
 </div>
-<div class="regular_update tab-type">
+<div class="regular_update myaccount-combo tab-type">
     @include('alert.conditions.regular_update')
 </div>
 <div class="crossing tab-type">
@@ -139,7 +139,7 @@
 <div class="myaccount-combo section-interval">
     <div class="row gutter-10">
         <div class="col-md-6 col-sm-6">
-            <h5>Per interval of</h5>
+            <h5>With cooldown of</h5>
             <select type="number" class="form-control" name="interval_number">
                 <option value="{{ old('interval_number', $alert->interval_number) }}">{{ old('interval_number', $alert->interval_number) }}</option>
             </select>
@@ -185,7 +185,7 @@
             <h5>&nbsp;</h5>
             <div class="clockpicker">
                 <input type="text" class="form-control expiration-time"
-                       value="{{ old('expiration_time', $expiration_time ?? '') }}" autocomplete="off"
+                       value="{{ old('expiration_time', $expiration_time ?? '00:00') }}" autocomplete="off"
                        name="expiration_time">
                 <span class="input-group-addon">
         <i class="material-icons">access_time</i>

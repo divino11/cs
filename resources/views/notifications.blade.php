@@ -43,7 +43,7 @@
                                             <span class="label label-danger">New</span>
                                         @endif
                                     </h6>
-                                    <p class="col-xl-12 order-0 order-xl-1">The {{ $notification['data']['ticker_key'] }} is
+                                    <p class="col-xl-12 order-0 order-xl-1">The {{ lcfirst($notification['data']['ticker_key']) }} is
                                         currently {{ $notification['data']['ticker_value'] }}</p>
                                 </div>
                             </div>
