@@ -248,7 +248,7 @@
                 });
             }).change();
 
-            $('select[name="conditions[metric]"], #markets').change(function () {
+            $('select[name="conditions[metric]"], #markets, #type').change(function () {
                 selectedPlatform = $('#exchange option:selected').val();
                 selectedCurrency = $('#markets option:selected').val();
                 metricVal = $("select[name='conditions[metric]']").val();
@@ -269,21 +269,17 @@
                             case '1':
                                 currencyPrice = response.data.volume;
                                 break;
-                            /*case '2':
-                                currencyPrice = response.data.high_price;
-                                break;
-                            case '3':
-                                currencyPrice = response.data.low_price;
-                                break;
-                            case '4':
-                                currencyPrice = response.data.volume;
-                                break;*/
                         }
                         $('.currency_price_group').show();
                         $('.currency_price_group h4').text(metricText + ': ');
                         $('#currencyPrice').text(currencyPrice);
                         if (selectedType == 5 || selectedType == 6) {
-                            $("input[name='conditions[value]']:visible").val(1);
+                            $("input[name='conditions[value]']:visible").val('2');
+                            return false;
+                        }
+                        if (selectedType == 7 || selectedType == 8) {
+                            $("input[name='conditions[value]']:visible").val('5');
+                            return false;
                         } else {
                             $("input[name='conditions[value]']:visible").val(currencyPrice);
                         }
@@ -297,7 +293,7 @@
 
             $('#type').change(function () {
                 selectedType = $('#type option:selected').val();
-                if (selectedType == '7') {
+                if (selectedType == '9') {
                     $('#every_time').prop('checked', true);
                 }
             }).change();
@@ -320,13 +316,15 @@
             });
 
             //alert message
-            changeTextarea();
-            if ($('#alert_message').keyup()) {
-                $('#alertForm').change(function () {
-                    changeTextarea();
-                });
-                return false;
-            }
+            setInterval(function () {
+                changeTextarea();
+                if ($('#alert_message').keyup()) {
+                    $('#alertForm').change(function () {
+                        changeTextarea();
+                    });
+                    return false;
+                }
+            }, 2000);
 
             function changeTextarea() {
                 var market = $('#markets option:selected').text();
@@ -334,17 +332,19 @@
                 var type = $("#type option:selected").text().toLowerCase() ? $("#type option:selected").text().toLowerCase() : '';
                 var value = $("input[name='conditions[value]']:visible").val() ? $("input[name='conditions[value]']:visible").val() : '';
                 var regular = '';
-                if (selectedType == 7) {
+                if (selectedType == 9) {
                     value = '';
                     regular = 'become is {live_data}';
                     type = '';
                 }
                 if (selectedType == 5 || selectedType == 6) {
-                    regular = '%';
-                }
-                if (selectedType == 7 || selectedType == 8) {
                     $('.percentage .input-group-text').text('Value');
                     regular = '';
+                }
+                if (selectedType == 7 || selectedType == 8) {
+                    $('.percentage .input-group-text').text('%');
+                    regular = '%';
+                    type = type.replace('%', "");
                 }
                 var message = market + ' ' + metric + ' ' + type + ' ' + value + regular;
                 $('#alert_message').text(message.replace(/\s+/g, ' ').trim());
@@ -385,17 +385,6 @@
                     $('input, textarea, select').filter('[required]:not(:visible), [disabled], .regular_update input[name="conditions[value]"]').remove();
                 }
             });
-
-            //test
-           /* $('#type, select[name="conditions[metric]"]').bind('change keyup', function () {
-                if (selectedType == '5' || selectedType == '6') {
-                    $('input[name="conditions[value]"]').val('5');
-                }
-                if (selectedType == '7' || selectedType == '8') {
-                    $('.percentage .input-group-text').text('Value');
-                    $('input[name="conditions[value]"]').val('2');
-                }
-            });*/
 
             //view alerts
             $('#alertForm').bind('change keyup', function () {
@@ -496,6 +485,47 @@
                         .attr("value", value).text(key));
                 });
                 $('select[name="interval_number"] option[value="' + {{ $alert->interval_number }} + '"]').prop('selected', true);
+            }).change();
+
+            $("select[name='conditions[interval_unit]']").change(function () {
+                var newOptions;
+                var interval_unit = $("select[name='conditions[interval_unit]']").val();
+                if (interval_unit == 'minutes') {
+                    newOptions = {
+                        "5": "5",
+                        "15": "15",
+                        "30": "30",
+                        "40": "40",
+                        "60": "60",
+                        "90": "90"
+                    };
+                } else if (interval_unit == 'hours') {
+                    newOptions = {
+                        "1": "1",
+                        "2": "2",
+                        "3": "3",
+                        "4": "4",
+                        "6": "6",
+                        "12": "12",
+                        "24": "24"
+                    };
+                } else if (interval_unit == 'days') {
+                    newOptions = {
+                        "1": "1",
+                        "2": "2",
+                        "3": "3",
+                        "4": "4",
+                        "7": "7",
+                        "30": "30"
+                    };
+                }
+                var $el = $("select[name='conditions[interval_number]']");
+                $el.empty();
+                $.each(newOptions, function(key,value) {
+                    $el.append($("<option></option>")
+                        .attr("value", value).text(key));
+                });
+                $('select[name="conditions[interval_number]"] option[value="' + {{ $alert->conditions['interval_number'] }} + '"]').prop('selected', true);
             }).change();
         });
     </script>

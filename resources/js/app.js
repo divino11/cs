@@ -52,9 +52,17 @@ window.Echo.private(`user.${userId}`)
     });
 //window.Pusher.logToConsole = true;
 $(document).ready(function() {
-    var input = document.querySelector("#phone");
+    var countryData = window.intlTelInputGlobals.getCountryData(),
+        input = document.querySelector("#phone");
+
+    for (var i = 0; i < countryData.length; i++) {
+        var country = countryData[i];
+        country.name = country.name.replace(/ *\([^)]*\) */g, "");
+    }
+
     var a = window.intlTelInput(input, {
-        separateDialCode: true
+        separateDialCode: true,
+        utilsScript: ''
     });
     $('#phone').keyup(function () {
         $('#phoneHidden').val(a.selectedCountryData.dialCode + $('#phone').val());

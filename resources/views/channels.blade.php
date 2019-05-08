@@ -230,7 +230,7 @@
                                 <h5>Pushover</h5>
                             @endif
                             @if (!$user->getNotificationPushover())
-                                <p><a href="http://pushover.net" class="myaccount-pushover-link">What's Pushover?</a>
+                                <p><a href="http://pushover.net" target="_blank" class="myaccount-pushover-link">What's Pushover?</a>
                                 </p>
                                 <form class="form" action="{{ route('channels.pushover.store') }}" method="post">
                                     @csrf

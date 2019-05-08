@@ -5,7 +5,7 @@ namespace App\AlertStrategies;
 use App\Alert;
 use App\Ticker;
 
-class FallsByPercentage extends AbstractPercentage
+class MovingDownPercentage extends AbstractChange
 {
     public function process(): bool
     {
