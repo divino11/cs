@@ -61,7 +61,7 @@
 
 <!-- END combo -->
 
-<div class="percentage tab-type">
+<div class="percentage myaccount-combo tab-type">
     @include('alert.conditions.percentage')
 </div>
 <div class="regular_update myaccount-combo tab-type">
