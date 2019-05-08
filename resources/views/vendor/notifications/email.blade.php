@@ -36,7 +36,6 @@
 @endcomponent
 @endisset
 {{-- Outro Lines --}}
-<p style="line-height: 20px;">&nbsp;</p>
 @foreach ($outroLines as $line)
 <p style="font-size: 16px; line-height: 22px; color: #333; margin-bottom: 0; text-align:left; font-family:Circular-Book, sans-serif;">
 {{ $line }}

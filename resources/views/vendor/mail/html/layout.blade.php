@@ -54,7 +54,7 @@
     <tr>
         <td>
             <!-- Text box -->
-            <table width="600px" border="0" cellspacing="0" cellpadding="0" style="padding: 20px 50px 40px;">
+            <table width="600px" border="0" cellspacing="0" cellpadding="0" style="padding: 20px 50px 20px;">
                 <tbody>
                 <tr>
                     <td>
@@ -81,7 +81,6 @@
                 <tr>
                     <td style="padding-right:10px;"><a href="#" target="_blank"><img src="{{ asset('images/ico_fb.png') }}" style="width: 24px;" alt=""></a></td>
                     <td style="padding-right:10px;"><a href="#" target="_blank"><img src="{{ asset('images/ico_twitter.png') }}" style="width: 25px;" alt=""></a></td>
-                    <td style="padding-right:10px;"><a href="#" target="_blank"><img src="{{ asset('images/ico_google.png') }}" style="width: 28px;" alt=""></a></td>
                     <td><a href="#"><img src="{{ asset('images/ico_insta.png') }}" style="width: 20px;" alt=""></a></td>
                 </tr>
                 </tbody>

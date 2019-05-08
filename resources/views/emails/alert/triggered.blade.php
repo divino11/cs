@@ -6,7 +6,7 @@
 <p style="font-size: 16px; line-height: 24px; color: #333; margin-bottom: 25px; text-align:center; font-family: 'Circular-Book', sans-serif">
 {{$alert_message}}
 </p>
-<p style="text-align: center; margin-bottom: 0;">
+<p style="text-align: center; margin-bottom: 16px;">
 @component('mail::button', ['url' => $editUrl])
     Modify Your Alert
 @endcomponent
