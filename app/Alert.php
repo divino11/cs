@@ -5,9 +5,11 @@ namespace App;
 use App\AlertStrategies\Crossing;
 use App\AlertStrategies\CrossingDown;
 use App\AlertStrategies\CrossingUp;
-use App\AlertStrategies\FallsBy;
+use App\AlertStrategies\MovingDown;
+use App\AlertStrategies\MovingDownPercentage;
 use App\AlertStrategies\GreaterThan;
-use App\AlertStrategies\IncreasedBy;
+use App\AlertStrategies\MovingUp;
+use App\AlertStrategies\MovingUpPercentage;
 use App\AlertStrategies\LessThan;
 use App\AlertStrategies\Percentage;
 use App\AlertStrategies\AbstractRegularUpdate;
@@ -91,20 +93,24 @@ class Alert extends Model
     private function getStrategy()
     {
         switch($this->type){
-            case AlertType::Crossed:
+            case AlertType::Crossing:
                 return new Crossing($this);
-            case AlertType::Crossed_Up:
+            case AlertType::Crossing_Up:
                 return new CrossingUp($this);
-            case AlertType::Crossed_Down:
+            case AlertType::Crossing_Down:
                 return new CrossingDown($this);
-            case AlertType::Become_Greater_Than:
+            case AlertType::Greater_Than:
                 return new GreaterThan($this);
-            case AlertType::Become_Less_Than:
+            case AlertType::Less_Than:
                 return new LessThan($this);
-            case AlertType::Increased_By:
-                return new IncreasedBy($this);
-            case AlertType::Decreased_By:
-                return new FallsBy($this);
+            case AlertType::Moving_Up_Percentage:
+                return new MovingUpPercentage($this);
+            case AlertType::Moving_Down_Percentage:
+                return new MovingDownPercentage($this);
+            case AlertType::Moving_Up:
+                return new MovingUp($this);
+            case AlertType::Moving_Down:
+                return new MovingDown($this);
             case AlertType::Regular_Update:
                 return new RegularUpdate($this);
         }
@@ -130,9 +136,14 @@ class Alert extends Model
         return $this->market->base . '/' . $this->market->quote;
     }
 
+    public function getIntervalFormatAttribute()
+    {
+        return $this->conditions['interval_number'] . ' ' . $this->conditions['interval_unit'];
+    }
+
     public function getIntervalAttribute()
     {
-        return CarbonInterval::make($this->conditions['interval'])->forHumans();
+        return CarbonInterval::make($this->interval_format)->forHumans();
     }
 
     public function getCooldownAttribute()

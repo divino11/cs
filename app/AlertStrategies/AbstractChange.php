@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Carbon\CarbonPeriod;
 
-abstract class AbstractPercentage implements AlertStrategy
+abstract class AbstractChange implements AlertStrategy
 {
     protected $alertValue;
 
@@ -20,7 +20,7 @@ abstract class AbstractPercentage implements AlertStrategy
     public function __construct(Alert $alert)
     {
         $this->alertValue = $alert->conditions['value'];
-        $fromDate = Carbon::now()->sub(CarbonInterval::make($alert->conditions['interval']));
+        $fromDate = Carbon::now()->sub(CarbonInterval::make($alert->interval_format));
         $this->current = Ticker::marketLatest($alert->exchange_id, $alert->market_id)
             ->firstOrFail()
             ->getMetric($alert->conditions['metric']);
