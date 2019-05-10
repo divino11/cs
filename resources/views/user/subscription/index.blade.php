@@ -9,7 +9,7 @@
             <div class="row">
 
                 <!-- col 1 -->
-                <div class="col-md-5 col-sm-6">
+                <div class="col-xl-5 col-lg-6 col-md-6 col-sm-6">
                     <div class="pricing-module">
                         <!-- content -->
                         <div class="pricing-module-content">
@@ -48,7 +48,7 @@
                 <!-- END col 1 -->
 
                 <!-- col 2 -->
-                <div class="col-md-5 col-sm-6">
+                <div class="col-xl-5 col-lg-6 col-md-6 col-sm-6">
                     <div class="pricing-module">
                         <!-- content -->
                         <div class="pricing-module-content">

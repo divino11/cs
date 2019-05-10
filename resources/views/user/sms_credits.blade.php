@@ -18,7 +18,7 @@
                         </div>
                         <div class="media-body">
                             <h3>Credit card</h3>
-                            <p>100 credits for $ 2</p>
+                            <p>100 credits for $2.00 USD</p>
                         </div>
                     </div>
 
@@ -42,7 +42,7 @@
                         </div>
                         <div class="media-body">
                             <h3>Bitcoin</h3>
-                            <p>100 credits for $ 2</p>
+                            <p>100 credits for $2.00 USD</p>
                         </div>
                     </div>
 

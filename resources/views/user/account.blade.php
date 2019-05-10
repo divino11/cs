@@ -3,7 +3,7 @@
 @section('title', 'Account')
 
 @section('tabcontent')
-    <div class="col-md-8 col-sm-12">
+    <div class="col-xl-8 col-md-12 col-sm-12">
     <div class="settings-generalmodule">
         <h5>Account Details</h5>
         <div class="row myaccount-list no-gutters">
@@ -84,7 +84,7 @@
             </div>
             <div class="col-6">
                 <ul>
-                    <li>{{ $user->timezone ? $user->timezone : 'None' }} <a href="#" data-toggle="modal" data-target="#change_time_zone">Update</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#change_time_zone">{{ $user->timezone ? $user->timezone : 'None' }}</a></li>
                 </ul>
             </div>
         </div>

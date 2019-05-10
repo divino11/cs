@@ -12,7 +12,7 @@
         <div class="alerts-module">
             <div class="row">
 
-                <div class="col-md-8 col-sm-8">
+                <div class="col-md-12 col-sm-8 col-lg-8 col-xl-8">
                     <div class="pull-left">
                         <img src="{{asset('images/alerts_ico_' . $alert->type . '.svg')}}" alt=""/>
                     </div>
@@ -22,7 +22,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-4 col-sm-4 alerts-module-right text-right">
+                <div class="col-md-12 col-sm-4 col-lg-4 col-xl-4 alerts-module-right text-right">
                     <ul class="list-inline alerts-module-right">
                         <li>
                             <form action="{{ route('alerts.edit', ['alert_id' => $alert->id]) }}">

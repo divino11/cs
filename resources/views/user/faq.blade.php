@@ -5,7 +5,7 @@
 @section('tabcontent')
     <div class="tab-pane active" id="channels">
         <div class="row">
-            <div class="col-md-7 col-sm-12">
+            <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12">
                 <div class="settings-generalmodule">
                     <div class="row">
                         <div class="col-lg-12">
