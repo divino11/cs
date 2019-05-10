@@ -57,7 +57,7 @@ $(document).ready(function() {
 
     for (var i = 0; i < countryData.length; i++) {
         var country = countryData[i];
-        country.name = country.name.replace(/ *\([^)]*\) */g, "");
+        country.name = country.name.replace(/(\[.*?\]|\(.*()?\)) */g, "");
     }
 
     var a = window.intlTelInput(input, {
