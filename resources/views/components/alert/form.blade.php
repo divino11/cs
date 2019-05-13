@@ -227,6 +227,7 @@
             var selectedPlatform;
             var selectedCurrency;
             var currencyPrice;
+            $('select[name="conditions[interval_unit]"] option[value="days"]').prop('selected', true);
             $('#exchange').change(function() {
                 if (!exchanges.hasOwnProperty($('#exchange').val())) {
                     return;
@@ -275,20 +276,23 @@
                         $('#currencyPrice').text(currencyPrice);
                         if (selectedType == 5 || selectedType == 6) {
                             $("input[name='conditions[value]']:visible").val('2');
-                            return false;
-                        }
-                        if (selectedType == 7 || selectedType == 8) {
+                        } else if (selectedType == 7 || selectedType == 8) {
                             $("input[name='conditions[value]']:visible").val('5');
-                            return false;
                         } else {
                             $("input[name='conditions[value]']:visible").val(currencyPrice);
                         }
-                        if ( '{{ !$alert->conditions['value'] }}' ) {
-                            $("input[name='conditions[value]']:visible").val(currencyPrice);
+                        if ( '{{ $alert->conditions['value'] }}' ) {
+                            $("input[name='conditions[value]']:visible").val({{ $alert->conditions['value'] }});
                         }
                         changeTextarea();
+                        if ($('#alert_message').keyup()) {
+                            $('#alertForm').change(function () {
+                                changeTextarea();
+                            });
+                            return false;
+                        }
                     }
-                }, 'json');
+                }, 'json')
             }).change();
 
             $('#type').change(function () {
@@ -301,9 +305,9 @@
                 var selected = $('#markets option:selected');
                 $('.market_name').text(selected.text());
                 if ($('select[name="conditions[metric]"]').val() == '1') {
-                    $('#quoteCurrency').text(selected.text().split('/')[0]);
+                    $('.input-group-text').text(selected.text().split('/')[0]);
                 } else {
-                    $('#quoteCurrency').text(selected.data('quote'));
+                    $('.input-group-text').text(selected.data('quote'));
                 }
             }).change();
             var requiredCheckboxes = $('#notificationChannels :checkbox[required]');
@@ -315,38 +319,31 @@
                 }
             });
 
-            //alert message
-            setInterval(function () {
-                changeTextarea();
-                if ($('#alert_message').keyup()) {
-                    $('#alertForm').change(function () {
-                        changeTextarea();
-                    });
-                    return false;
-                }
-            }, 2000);
-
-            function changeTextarea() {
+            function changeTextarea()
+            {
                 var market = $('#markets option:selected').text();
                 var metric = $("select[name='conditions[metric]'] option:selected").text().toLowerCase() ? $("select[name='conditions[metric]'] option:selected").text().toLowerCase() : '';
                 var type = $("#type option:selected").text().toLowerCase() ? $("#type option:selected").text().toLowerCase() : '';
                 var value = $("input[name='conditions[value]']:visible").val() ? $("input[name='conditions[value]']:visible").val() : '';
+                var intervalTime = $('select[name="conditions[interval_number]"] option:selected').val() + ' ' + $('select[name="conditions[interval_unit]"] option:selected').val();
                 var regular = '';
+                var interval = '';
                 if (selectedType == 9) {
                     value = '';
                     regular = 'become is {live_data}';
                     type = '';
+                    interval = '';
                 }
                 if (selectedType == 5 || selectedType == 6) {
-                    $('.percentage .input-group-text').text('Value');
                     regular = '';
+                    interval = ' in ' + intervalTime;
                 }
                 if (selectedType == 7 || selectedType == 8) {
-                    $('.percentage .input-group-text').text('%');
                     regular = '%';
                     type = type.replace('%', "");
+                    interval = ' in ' + intervalTime;
                 }
-                var message = market + ' ' + metric + ' ' + type + ' ' + value + regular;
+                var message = market + ' ' + metric + ' ' + type + ' ' + value + regular + interval;
                 $('#alert_message').text(message.replace(/\s+/g, ' ').trim());
             }
         });
@@ -390,9 +387,9 @@
             $('#alertForm').bind('change keyup', function () {
                 var selected = $('#markets option:selected');
                 if ($('select[name="conditions[metric]"]').val() == '1') {
-                    $('#quoteCurrency').text(selected.text().split('/')[0]);
+                    $('.input-group-text').text(selected.text().split('/')[0]);
                 } else {
-                    $('#quoteCurrency').text(selected.data('quote'));
+                    $('.input-group-text').text(selected.data('quote'));
                 }
                 if (selectedType == '5' || selectedType == '6' || selectedType == '7' || selectedType == '8') {
                     $('.tab-type').removeClass('active-type');

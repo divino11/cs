@@ -1,7 +1,7 @@
 <div class="form-group">
     <div class="input-group pad-0">
         <div class="input-group-append">
-            <div class="input-group-text">%</div>
+            <div class="input-group-text"></div>
         </div>
         <input class="form-control" type="number" step="any" min="0" name="conditions[value]" value="{{ old('conditions.value', $alert->conditions['value']) }}" required />
     </div>
