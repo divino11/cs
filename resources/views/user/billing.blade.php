@@ -8,7 +8,6 @@
             <table class="table table-striped settings-billing-module">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th scope="col">Transaction date</th>
                     <th scope="col">Description</th>
                     <th scope="col">Amount</th>
@@ -19,7 +18,6 @@
                 <tbody>
                 @forelse($transactions as $transaction)
                     <tr>
-                        <th scope="row">{{ $transaction->id }}</th>
                         <td>{{ $transaction->created_at->timezone(\Illuminate\Support\Facades\Auth::user()->timezone) }}</td>
                         <td>{{ $transaction->description }}</td>
                         <td>${{ $transaction->amount }}</td>
@@ -28,7 +26,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center"><h2>Data is empty...</h2></td>
+                        <td colspan="5" class="text-center"><h2>Data is empty...</h2></td>
                     </tr>
                 @endforelse
                 </tbody>

@@ -780,6 +780,8 @@ input:checked + .slider:before {
   margin-bottom: 8px;
   @media (max-width: 768px) {
     margin-bottom: 0;
+    text-align: left !important;
+    margin-top: 15px;
   }
 }
 
@@ -1531,7 +1533,6 @@ svg:not(:root).svg-inline--fa {
   padding-bottom: 10px;
   border-bottom: 1px solid #ddd;
   font-size: 14px;
-  height: 43px
 }
 
 .myaccount-list-subscription-bot {
@@ -1849,6 +1850,14 @@ h2, .h2 {
 
 .myaccount-combo .btn {
   @media (max-width: 468px) {
+    font-size: 13px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+.telegram-buttons .btn {
+  @media (max-width: 468px) {
     padding-left: 8px;
     padding-right: 8px;
     font-size: 11px;
@@ -1871,8 +1880,85 @@ h2, .h2 {
   }
 }
 
-#billing {
-  @media (max-width: 768px) {
-    overflow-x: scroll;
+@media (max-width: 340px) {
+  .settings-generalmodule .myaccount-list li {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding-top: 0;
+    padding-bottom: 0;
   }
+  .settings-generalmodule .col-6.myaccount-list-grey {
+    flex: 0 0 33.3333%;
+    max-width: 33.33333%;
+  }
+  .settings-generalmodule .col-6:not(.myaccount-list-grey) {
+    flex: 0 0 66.6666%;
+    max-width: 66.6666%;
+  }
+}
+
+@media (min-width: 341px) and (max-width: 380px) {
+  .settings-generalmodule .myaccount-list li {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .settings-generalmodule .col-6.myaccount-list-grey {
+    flex: 0 0 45%;
+    max-width: 45%;
+  }
+  .settings-generalmodule .col-6:not(.myaccount-list-grey) {
+    flex: 0 0 55%;
+    max-width: 55%;
+  }
+}
+
+@media (max-width: 468px) {
+  .nav-tabs {
+    margin-top: -15px;
+  }
+  .nav-tabs .nav-item {
+    width: 100%;
+    text-align: center;
+  }
+  .nav-tabs .nav-link.active {
+    color: #082a52 !important;
+    font-weight: bold;
+    border: none;
+  }
+  .nav-tabs .nav-link {
+    padding: 2px 12px;
+  }
+
+  .settings-billing-module thead th:nth-child(1) {
+    display: none;
+  }
+
+  .settings-billing-module tbody tr td:nth-child(1) {
+    display: none;
+  }
+
+  [data-notify="container"] {
+    right: 13px !important;
+    width: 92%;
+  }
+
+  .alerts-module .pull-left img {
+    margin: 0 15px 20px 0;
+  }
+
+  .notification-pagination {
+    width: 100%;
+  }
+
+  .pagination {
+    justify-content: center;
+  }
+}
+
+.settings-billing-module thead th {
+  text-align: center;
 }
