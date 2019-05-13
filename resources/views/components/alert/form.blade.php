@@ -481,7 +481,9 @@
                     $el.append($("<option></option>")
                         .attr("value", value).text(key));
                 });
-                $('select[name="interval_number"] option[value="' + {{ $alert->interval_number }} + '"]').prop('selected', true);
+                if ('{{ $alert->interval_number }}' ) {
+                    $('select[name="interval_number"] option[value="' + {{ $alert->interval_number }} +'"]').prop('selected', true);
+                }
             }).change();
 
             $("select[name='conditions[interval_unit]']").change(function () {
@@ -522,7 +524,9 @@
                     $el.append($("<option></option>")
                         .attr("value", value).text(key));
                 });
-                $('select[name="conditions[interval_number]"] option[value="' + {{ $alert->conditions['interval_number'] }} + '"]').prop('selected', true);
+                if ('{{ $alert->conditions["interval_number"] }}') {
+                    $('select[name="conditions[interval_number]"] option[value="' + {{ $alert->conditions['interval_number'] }} +'"]').prop('selected', true);
+                }
             }).change();
         });
     </script>

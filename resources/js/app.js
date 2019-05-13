@@ -62,7 +62,7 @@ $(document).ready(function() {
 
     var a = window.intlTelInput(input, {
         separateDialCode: true,
-        utilsScript: ''
+        placeholder: 'Phone number',
     });
     $('#phone').keyup(function () {
         $('#phoneHidden').val(a.selectedCountryData.dialCode + $('#phone').val());

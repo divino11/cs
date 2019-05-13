@@ -49,7 +49,7 @@ class AlertMailToSms extends Mailable
         $this->subject("CoinSpy Alert: {$this->alert_message}");
         $this->to($this->user->routeNotificationForEmailToSms());
 
-        return $this->markdown('emails.alert.triggered_to_sms', [
+        return $this->text('emails.alert.triggered_to_sms', [
             'alert_message' => $this->alert_message,
         ]);
     }
