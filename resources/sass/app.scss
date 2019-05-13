@@ -1922,15 +1922,12 @@ h2, .h2 {
   }
   .nav-tabs .nav-item {
     width: 100%;
-    text-align: center;
   }
   .nav-tabs .nav-link.active {
     color: #082a52 !important;
     font-weight: bold;
-    border: none;
-  }
-  .nav-tabs .nav-link {
-    padding: 2px 12px;
+    border-color: #dee2e6;
+    border-radius: 3px;
   }
 
   .settings-billing-module thead th:nth-child(1) {
@@ -1957,8 +1954,12 @@ h2, .h2 {
   .pagination {
     justify-content: center;
   }
-}
 
-.settings-billing-module thead th {
-  text-align: center;
+  .settings-billing-module thead th {
+    text-align: center;
+  }
+
+  .table th, .table td {
+    padding: 11px;
+  }
 }
