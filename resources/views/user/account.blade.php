@@ -74,17 +74,15 @@
                 <ul>
                     <li>Timezone:</li>
                 </ul>
-
-                <div class="myaccount-list-subscription-bot">
-                    <ul class="list-inline">
-                        <li class="list-inline-item"><a href="{{ route('user.password.index') }}">Change password</a></li>
-                    </ul>
-                </div>
-
             </div>
             <div class="col-6">
                 <ul>
                     <li><a href="#" data-toggle="modal" data-target="#change_time_zone">{{ $user->timezone ? $user->timezone : 'None' }}</a></li>
+                </ul>
+            </div>
+            <div class="myaccount-list-subscription-bot">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="{{ route('user.password.index') }}">Change password</a></li>
                 </ul>
             </div>
         </div>

@@ -44,7 +44,7 @@
                                         @endif
                                     </h6>
                                     <p class="col-xl-12 col-lg-6 col-md-6 col-sm-6 order-0 order-xl-1">The {{ lcfirst($notification['data']['ticker_key']) }} is
-                                        currently {{ $notification['data']['ticker_value'] }}</p>
+                                        currently {{ rtrim($notification['data']['ticker_value'], '\0') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -56,6 +56,6 @@
             <h3 class="text-center pt-5">You don't have any notifications</h3>
         @endforelse
         {{$unRead->markAsRead()}}
-        <div class="pull-right">{{$notifications->links()}}</div>
+        <div class="pull-right notification-pagination">{{$notifications->links()}}</div>
     </div>
 @endsection

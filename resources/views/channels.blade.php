@@ -308,7 +308,7 @@
                                 <blockquote>
                                     <p><b>/start {{ $user->telegram_verification_code }}</b></p>
                                 </blockquote>
-                                <div class="form-buttons">
+                                <div class="form-buttons telegram-buttons">
                                     <form class="form">
                                         <div class="input-group">
                                             <a class="btn btn-primary bt-custom text-uppercase link-telegram"
