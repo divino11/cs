@@ -18,7 +18,7 @@
                                 <a href="mailto:support@coinspy.it">support@coinspy.it</a></p>
 
                             <p>Join us on our public Slack channel:
-                                <a href="https://bit.ly/2UqiNJ6">https://bit.ly/2UqiNJ6</a>
+                                <a href="https://bit.ly/2LAdrrl">https://bit.ly/2LAdrrl</a>
                             </p>
                         </div>
                         <div class="col-lg-12">
