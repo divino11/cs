@@ -390,7 +390,7 @@
                         $(this).remove();
                     }
                 });
-                if ($('#type option:selected').val() == 5 || $('#type option:selected').val() == 6) {
+                if ($('#type option:selected').val() == 5 || $('#type option:selected').val() == 6 || $('#type option:selected').val() == 7 || $('#type option:selected').val() == 8) {
                     $('input, textarea, select').filter('[required]:not(:visible), [disabled], .regular_update input[name="conditions[value]"]').remove();
                 }
             });
