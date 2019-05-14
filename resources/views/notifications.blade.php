@@ -34,7 +34,7 @@
                         <div class="media-body row">
                             <div class="col-xl-6 col-lg-6 col-md-6">
                                 <p class="notification-module-ttl">{{ $notification['data']['alert_name'] }}</p>
-                                <p> {{ $notification['data']['alert_description'] }}.</p>
+                                <p> {{ rtrim($notification['data']['alert_description'], '\0') }}.</p>
                             </div>
                             <div class="col-xl-6 col-12 text-xl-right">
                                 <div class="row">
