@@ -16,6 +16,8 @@ class EmailToSmsChannel
     public function send($notifiable, Notification $notification)
     {
         $message = $notification->toEmailSms($notifiable);
-        Mail::send(new AlertMailToSms($notifiable, $message['alert'], $message['alert_message'], $message['ticker']));
+        Mail::raw('CoinSpy Alert: ' . $message['alert_message'], function ($message) use ($notifiable) {
+           $message->to($notifiable->email_to_sms);
+        });
     }
 }

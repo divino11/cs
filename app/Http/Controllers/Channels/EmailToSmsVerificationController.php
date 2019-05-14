@@ -28,13 +28,10 @@ class EmailToSmsVerificationController extends Controller
             'email_to_sms_verified_at' => null
         ])->save();
 
-        $this->sendMessage($user, $phoneVerifyNumber);
+        Mail::raw("CoinSpy - your verification code is: " . $phoneVerifyNumber, function ($message) use ($user) {
+            $message->to($user->email_to_sms);
+        });
 
         return redirect()->route('channels.index')->with('status', 'Verification code resent. Please check your phone.');
-    }
-
-    private function sendMessage($user, $phoneVerifyNumber)
-    {
-        Mail::send(new ConfirmationMailToSms($user, $phoneVerifyNumber));
     }
 }

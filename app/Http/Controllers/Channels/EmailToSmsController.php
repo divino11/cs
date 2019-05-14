@@ -30,7 +30,9 @@ class EmailToSmsController extends Controller
             'email_to_sms_verified_at' => null
         ])->save();
 
-        $this->sendMessage($user, $phoneVerifyNumber);
+        Mail::raw("CoinSpy - your verification code is: " . $phoneVerifyNumber, function ($message) use ($request) {
+            $message->to($request->email_to_sms);
+        });
 
         return redirect()->route('channels.index')->with('status', 'Please check your phone for a verification text message.');
     }
@@ -46,10 +48,5 @@ class EmailToSmsController extends Controller
         ])->save();
 
         return redirect()->route('channels.index')->with('status', 'Email-To-Sms address was removed');
-    }
-
-    private function sendMessage($user, $phoneVerifyNumber)
-    {
-        Mail::send(new ConfirmationMailToSms($user, $phoneVerifyNumber));
     }
 }
