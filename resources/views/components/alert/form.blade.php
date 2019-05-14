@@ -335,12 +335,24 @@
                     interval = '';
                 }
                 if (selectedType == 5 || selectedType == 6) {
-                    regular = '';
+                    if (selectedType == 5) {
+                        type = 'increased';
+                        regular = ' times';
+                    }
+                    if (selectedType == 6) {
+                        type = 'decreased';
+                        regular = ' times';
+                    }
                     interval = ' in ' + intervalTime;
                 }
                 if (selectedType == 7 || selectedType == 8) {
+                    if (selectedType == 7) {
+                        type = 'increased by';
+                    }
+                    if (selectedType == 8) {
+                        type = 'decreased by';
+                    }
                     regular = '%';
-                    type = type.replace('%', "");
                     interval = ' in ' + intervalTime;
                 }
                 var message = market + ' ' + metric + ' ' + type + ' ' + value + regular + interval;
