@@ -35,7 +35,7 @@ class AlertTriggered extends Notification
         $this->alert = $alert;
         $this->ticker = $ticker;
 
-        $this->alert_message = str_replace('{live_data}', $this->ticker->getMetric($this->alert->conditions['metric']), $this->alert->alert_message);
+        $this->alert_message = str_replace('{live_data}', rtrim($this->ticker->getMetric($this->alert->conditions['metric']), '\0'), $this->alert->alert_message);
     }
 
     /**
