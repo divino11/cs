@@ -20,7 +20,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         '/channels/telegram/verify/',
-        'braintree/webhook',
+        'stripe/*',
         '/coinpayment/ipn',
     ];
 }

@@ -20,9 +20,9 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/metricPrice/', 'CurrencyPriceController')->name('metric'); //TODO: rename
             Route::get('/markets/', 'MarketController')->name('markets');
         });
-        Route::group(['prefix' => 'braintree', 'namespace' => 'Payments', 'as' => 'payments.braintree.'], function () {
-            Route::get('/', 'SubscribeBraintreeController')->name('subscribe');
-            Route::get('/sms', 'SmsBraintreeController')->name('sms');
+        Route::group(['prefix' => 'stripe', 'namespace' => 'Payments', 'as' => 'payments.stripe.'], function () {
+            Route::post('/', 'SubscribeStripeController')->name('subscribe');
+            Route::post('/sms', 'SmsStripeController')->name('sms');
         });
     });
     Route::group(['prefix' => 'user', 'namespace' => 'User', 'as' => 'user.'], function () {

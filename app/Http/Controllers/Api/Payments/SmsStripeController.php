@@ -9,42 +9,36 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class SmsBraintreeController extends Controller
+class SmsStripeController extends Controller
 {
     public function __invoke(Request $request)
     {
-        if($request->nonce) {
-             if (!$request->user()->braintree_id) {
-                $request->user()->createAsBraintreeCustomer($request->nonce);
+        if($request->stripeToken) {
+             if (!$request->user()->stripe_id) {
+                $request->user()->createAsStripeCustomer($request->stripeToken);
              }
 
-            $request->user()->charge(PaymentPrice::Sms);
+            $request->user()->charge(200);
 
             User::updateSmsCount($request->user()->id);
             Transaction::updateOrCreate(['created_at' => Carbon::now()], [
                 'user_id' => $request->user()->id,
                 'description' => '100 SMS Credits',
                 'amount' => PaymentPrice::Sms,
-                'service' => $request->type,
+                'service' => 'CreditCard',
                 'status' => 100,
             ]);
 
-            return response()->json([
-                'status' => back()->with('status', 'You have purchased 100 SMS Credits'),
-                'success' => true,
-            ]);
+            return redirect()->route('user.sms_credits')->with('status', 'You have purchased 100 SMS Credits');
         } else {
             Transaction::updateOrCreate(['created_at' => Carbon::now()], [
                 'user_id' => $request->user()->id,
                 'description' => '100 SMS Credits',
                 'amount' => PaymentPrice::Sms,
-                'service' => $request->type,
+                'service' => 'CreditCard',
                 'status' => '-1',
             ]);
-            return response()->json([
-                'status' => back()->with('status', 'Data is invalid'),
-                'success' => false,
-            ]);
+            return redirect()->route('user.sms_credits')->with('status', 'Data is invalid');
         }
     }
 }
