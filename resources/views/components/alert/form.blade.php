@@ -140,13 +140,15 @@
     <div class="row gutter-10">
         <div class="col-md-6 col-sm-6">
             <h5>With cooldown of</h5>
-            <select type="number" class="form-control" name="interval_number">
-                <option value="{{ old('interval_number', $alert->interval_number) }}">{{ old('interval_number', $alert->interval_number) }}</option>
+            <select type="number" class="form-control" name="interval_number" id="cooldown_value">
+                @foreach(config('alerts.intervals.' . old('interval_unit', $alert->interval_unit)) as $value)
+                    <option value="{{ $value }}" @if(old('interval_number', $alert->interval_number) == $value) selected @endif>{{ $value }}</option>
+                @endforeach
             </select>
         </div>
         <div class="col-md-6 col-sm-6 myaccount-combo-righthalf">
             <h5>&nbsp;</h5>
-            <select name="interval_unit" class="form-control">
+            <select name="interval_unit" class="form-control" id="cooldown">
                 <option value="minutes"
                         @if(old('interval_unit', $alert->interval_unit) == 'minutes') selected @endif>
                     Minutes
@@ -227,13 +229,11 @@
             var selectedPlatform;
             var selectedCurrency;
             var currencyPrice;
-            $('select[name="conditions[interval_unit]"] option[value="days"]').prop('selected', true);
             $('#exchange').change(function() {
                 if (!exchanges.hasOwnProperty($('#exchange').val())) {
                     return;
                 }
                 $('.market_name').text('');
-                //$('#quoteCurrency').text('');
                 selectedMarket = $('#markets').val();
                 $('#markets').html('<option value="" disabled>Select market</option>');
                 $.each(exchanges[$('#exchange').val()].markets, function(key, value){
@@ -455,91 +455,21 @@
                 autoclose: true,
             });
 
-            $("select[name='interval_unit']").change(function () {
-                var newOptions;
-                var interval_unit = $("select[name='interval_unit']").val();
-                if (interval_unit == 'minutes') {
-                    newOptions = {
-                        "5": "5",
-                        "15": "15",
-                        "30": "30",
-                        "40": "40",
-                        "60": "60",
-                        "90": "90"
-                    };
-                } else if (interval_unit == 'hours') {
-                    newOptions = {
-                        "1": "1",
-                        "2": "2",
-                        "3": "3",
-                        "4": "4",
-                        "6": "6",
-                        "12": "12",
-                        "24": "24"
-                    };
-                } else if (interval_unit == 'days') {
-                    newOptions = {
-                        "1": "1",
-                        "2": "2",
-                        "3": "3",
-                        "4": "4",
-                        "7": "7",
-                        "30": "30"
-                    };
-                }
-                var $el = $("select[name='interval_number']");
-                $el.empty();
-                $.each(newOptions, function(key,value) {
-                    $el.append($("<option></option>")
-                        .attr("value", value).text(key));
+            var freshIntervalValues = function (e) {
+                intervalOptions = @json(config('alerts.intervals'));
+                var unitList = $(e.target);
+                var valueList = $('#' + unitList.attr('id') + '_value');
+                var intervalUnit = unitList.val();
+                valueList.empty();
+                $.each(intervalOptions[intervalUnit], function(key, value) {
+                    valueList.append(
+                        $("<option></option>").attr("value", value).text(value)
+                    );
                 });
-                if ('{{ $alert->interval_number }}' ) {
-                    $('select[name="interval_number"] option[value="' + {{ $alert->interval_number }} +'"]').prop('selected', true);
-                }
-            }).change();
+            };
+            $("#cooldown").change(freshIntervalValues);
+            $("#period").change(freshIntervalValues);
 
-            $("select[name='conditions[interval_unit]']").change(function () {
-                var newOptions;
-                var interval_unit = $("select[name='conditions[interval_unit]']").val();
-                if (interval_unit == 'minutes') {
-                    newOptions = {
-                        "5": "5",
-                        "15": "15",
-                        "30": "30",
-                        "40": "40",
-                        "60": "60",
-                        "90": "90"
-                    };
-                } else if (interval_unit == 'hours') {
-                    newOptions = {
-                        "1": "1",
-                        "2": "2",
-                        "3": "3",
-                        "4": "4",
-                        "6": "6",
-                        "12": "12",
-                        "24": "24"
-                    };
-                } else if (interval_unit == 'days') {
-                    newOptions = {
-                        "1": "1",
-                        "2": "2",
-                        "3": "3",
-                        "4": "4",
-                        "7": "7",
-                        "30": "30"
-                    };
-                }
-                var $el = $("select[name='conditions[interval_number]']");
-                $el.empty();
-                $.each(newOptions, function(key,value) {
-                    $el.append($("<option></option>")
-                        .attr("value", value).text(key));
-                });
-                if ('{{ $alert->conditions["interval_number"] }}') {
-                    $('select[name="conditions[interval_number]"] option[value="' + {{ $alert->conditions['interval_number'] }} +'"]').prop('selected', true);
-                }
-            }).change();
         });
     </script>
 @endpush

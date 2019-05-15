@@ -10,22 +10,24 @@
     <h5>In a period of</h5>
     <div class="row gutter-10">
         <div class="col-md-6 col-sm-6">
-            <select type="number" class="form-control" name="conditions[interval_number]">
-                <option value="{{ old('conditions.interval_number', $alert->conditions['interval_number']) }}">{{ old('conditions.interval_number', $alert->conditions['interval_number']) }}</option>
+            <select type="number" class="form-control" name="conditions[interval_number]" id="period_value">
+                @foreach(config('alerts.intervals.' . $conditions_intervals) as $value)
+                    <option value="{{ $value }}" @if(old('conditions.interval_number', $alert->conditions['interval_number']) == $value) selected @endif>{{ $value }}</option>
+                @endforeach
             </select>
         </div>
         <div class="col-md-6 col-sm-6 myaccount-combo-righthalf">
-            <select name="conditions[interval_unit]" class="form-control">
+            <select name="conditions[interval_unit]" class="form-control" id="period">
                 <option value="minutes"
-                        @if(old('conditions.interval_unit', $alert->conditions['interval_unit']) == 'minutes') selected @endif>
+                        @if($conditions_intervals == 'minutes') selected @endif>
                     Minutes
                 </option>
                 <option value="hours"
-                        @if(old('conditions.interval_unit', $alert->conditions['interval_unit']) == 'hours') selected @endif>
+                        @if($conditions_intervals == 'hours') selected @endif>
                     Hours
                 </option>
                 <option value="days"
-                        @if(old('conditions.interval_unit', $alert->conditions['interval_unit']) == 'days') selected @endif>
+                        @if($conditions_intervals == 'days') selected @endif>
                     Days
                 </option>
             </select>

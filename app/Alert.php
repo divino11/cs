@@ -70,6 +70,10 @@ class Alert extends Model
 
     protected $casts = ['conditions' => 'array'];
 
+    protected $attributes = [
+        'interval_unit' => 'hours'
+    ];
+
     public function exchange()
     {
         return $this->belongsTo(Exchange::class);

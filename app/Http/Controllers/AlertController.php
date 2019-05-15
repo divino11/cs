@@ -35,6 +35,7 @@ class AlertController extends Controller
         return view('alert.create', [
             'exchanges' => Exchange::enabled()->with('markets')->get(),
             'alert' => new Alert(),
+            'conditions_intervals' => 'days'
         ]);
     }
 
@@ -80,6 +81,7 @@ class AlertController extends Controller
             'exchanges' => Exchange::enabled()->with('markets')->get(),
             'alert' => $alert,
             'expiration_time' => Carbon::parse($alert->expiration_date)->format('H:i'),
+            'conditions_intervals' => old('conditions.interval_unit', isset($alert->conditions['interval_unit']) ? $alert->conditions['interval_unit'] : 'days')
         ]);
     }
 
