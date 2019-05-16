@@ -15,10 +15,15 @@ class SmsStripeController extends Controller
     {
         if($request->stripeToken) {
              if (!$request->user()->stripe_id) {
-                $request->user()->createAsStripeCustomer($request->stripeToken);
+                $request->user()->createAsStripeCustomer();
              }
+            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
 
-            $request->user()->charge(200);
+            \Stripe\Charge::create([
+                "amount" => 200,
+                "currency" => "usd",
+                "source" => "tok_mastercard",
+            ]);
 
             User::updateSmsCount($request->user()->id);
             Transaction::updateOrCreate(['created_at' => Carbon::now()], [

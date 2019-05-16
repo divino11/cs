@@ -94,7 +94,7 @@
 @push('scripts')
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-        var stripe = Stripe('pk_test_oah3rY56CrjlAj47rf1WKwse');
+        var stripe = Stripe("{{ config('services.stripe.key') }}");
         // Create an instance of Elements.
         var elements = stripe.elements();
 
