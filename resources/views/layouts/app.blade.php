@@ -32,7 +32,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav d-block d-sm-none">
+                <ul class="navbar-nav d-block d-lg-none">
                     <li class="nav-item {{ (Request::is('alerts/create') ? 'active' : '') }}">
                         <a class="nav-link" href="{{ route('alerts.create') }}">Add new alert</a>
                     </li>
@@ -46,7 +46,7 @@
                         <a class="nav-link" href="{{ route('notifications.index') }}">Notifications</a>
                     </li>
                 </ul>
-                <span class="ml-auto d-none d-sm-block">
+                <span class="ml-auto">
                     <a href="#" onclick="$('#logoutForm').submit()">Log out</a>
                     <form method="post" action="{{ route('logout') }}" id="logoutForm">@csrf</form>
                 </span>

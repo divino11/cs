@@ -36,14 +36,14 @@
                                 <p class="notification-module-ttl">{{ $notification['data']['alert_name'] }}</p>
                                 <p> {{ rtrim($notification['data']['alert_description'], '\0') }}</p>
                             </div>
-                            <div class="col-xl-6 col-12 text-xl-right">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-12 text-md-right text-xl-right">
                                 <div class="row">
-                                    <h6 class="col-xl-12 col-lg-6 col-md-6 col-sm-6 order-1 order-xl-0 text-right">{{ $notification->created_at->timezone(\Illuminate\Support\Facades\Auth::user()->timezone) }}
+                                    <h6 class="col-xl-12 col-lg-12 col-md-12 col-sm-6 order-1 order-xl-0 order-md-0 order-lg-0 text-right">{{ $notification->created_at->timezone(\Illuminate\Support\Facades\Auth::user()->timezone) }}
                                         @if (!$notification->read_at)
                                             <span class="label label-danger">New</span>
                                         @endif
                                     </h6>
-                                    <p class="col-xl-12 col-lg-6 col-md-6 col-sm-6 order-0 order-xl-1">The {{ lcfirst($notification['data']['ticker_key']) }} is
+                                    <p class="col-xl-12 col-lg-12 col-md-12 col-sm-6 order-0 order-xl-1 order-lg-1 order-md-1">The {{ lcfirst($notification['data']['ticker_key']) }} is
                                         currently {{ rtrim($notification['data']['ticker_value'], '\0.') }}</p>
                                 </div>
                             </div>
