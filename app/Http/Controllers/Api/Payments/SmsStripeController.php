@@ -20,7 +20,7 @@ class SmsStripeController extends Controller
             \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
 
             \Stripe\Charge::create([
-                "amount" => 200,
+                "amount" => config('payments.sms.cent_price'),
                 "currency" => "usd",
                 "source" => "tok_mastercard",
             ]);
@@ -29,8 +29,8 @@ class SmsStripeController extends Controller
             Transaction::updateOrCreate(['created_at' => Carbon::now()], [
                 'user_id' => $request->user()->id,
                 'description' => '100 SMS Credits',
-                'amount' => PaymentPrice::Sms,
-                'service' => 'CreditCard',
+                'amount' => config('payments.sms.price'),
+                'service' => config('payments.sms.service'),
                 'status' => 100,
             ]);
 
@@ -39,8 +39,8 @@ class SmsStripeController extends Controller
             Transaction::updateOrCreate(['created_at' => Carbon::now()], [
                 'user_id' => $request->user()->id,
                 'description' => '100 SMS Credits',
-                'amount' => PaymentPrice::Sms,
-                'service' => 'CreditCard',
+                'amount' => config('payments.sms.price'),
+                'service' => config('payments.sms.service'),
                 'status' => '-1',
             ]);
             return redirect()->route('user.sms_credits')->with('status', 'Data is invalid');

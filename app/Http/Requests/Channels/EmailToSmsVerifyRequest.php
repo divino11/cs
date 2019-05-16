@@ -31,7 +31,7 @@ class EmailToSmsVerifyRequest extends FormRequest
     public function messages()
     {
         return [
-            'exists:users,email_to_sms_verification_code' => 'Verification number is incorrect'
+            'exists' => 'Verification code is invalid.'
         ];
     }
 }

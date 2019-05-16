@@ -31,7 +31,7 @@ class PhoneVerifyRequest extends FormRequest
     public function messages()
     {
         return [
-            'exists:users,phone_verification_code' => 'Verification number is incorrect'
+            'exists' => 'Verification code is invalid.'
         ];
     }
 }
