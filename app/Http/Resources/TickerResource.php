@@ -15,11 +15,11 @@ class TickerResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'bid' => rtrim($this->bid, '\0'),
-            'ask' => rtrim($this->ask, '\0'),
-            'high_price' => rtrim($this->high_price, '\0'),
-            'low_price' => rtrim($this->low_price, '\0'),
-            'volume' => rtrim($this->volume, '\0')
+            'bid' => rtrim($this->bid, '\0.'),
+            'ask' => rtrim($this->ask, '\0.'),
+            'high_price' => rtrim($this->high_price, '\0.'),
+            'low_price' => rtrim($this->low_price, '\0.'),
+            'volume' => rtrim($this->volume, '\0.')
         ];
     }
 }

@@ -24,6 +24,8 @@
                     <li class="channels-ico">
                         @if ($user->hasNotificationEmailVerified())
                             <a href="{{ route('notifications.index') }}"><i class="material-icons">email</i></a>
+                        @else
+                            -
                         @endif
                         @if ($user->hasPhoneVerified())
                             <a href="{{ route('notifications.index') }}"><i class="material-icons">comment</i></a>
