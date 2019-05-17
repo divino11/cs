@@ -47,12 +47,12 @@ class Ticker extends Model
 
     public function getHighPriceAttribute()
     {
-        return $this->daily()->max('bid');
+        return $this->daily()->max('last');
     }
 
     public function getLowPriceAttribute()
     {
-        return $this->daily()->min('bid');
+        return $this->daily()->min('last');
     }
 
     public function scopeMarketLatest(Builder $query, $exchangeId, $marketId)
@@ -64,13 +64,7 @@ class Ticker extends Model
     {
         switch($metric) {
             case AlertMetric::Price:
-                return $this->bid;
-            /*case AlertMetric::Sell_price:
-                return $this->ask;
-            case AlertMetric::High_price:
-                return $this->high_price;
-            case AlertMetric::Low_price:
-                return $this->low_price;*/
+                return $this->last;
             case AlertMetric::Volume:
                 return $this->volume;
         }

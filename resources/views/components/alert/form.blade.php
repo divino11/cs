@@ -290,7 +290,7 @@
                     if (response) {
                         switch (metricVal) {
                             case '0':
-                                currencyPrice = response.data.bid;
+                                currencyPrice = response.data.last;
                                 break;
                             case '1':
                                 currencyPrice = response.data.volume;

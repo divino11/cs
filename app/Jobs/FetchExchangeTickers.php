@@ -54,8 +54,7 @@ class FetchExchangeTickers implements ShouldQueue
         Ticker::create([
             'exchange_id'   => $this->exchange->id,
             'market_id'     => $market->id,
-            'bid'           => $ticker['bid'],
-            'ask'           => $ticker['ask'],
+            'last'          => $ticker['last'],
             'volume'        => $ticker['baseVolume'],
         ]);
     }
