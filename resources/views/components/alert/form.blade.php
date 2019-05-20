@@ -209,7 +209,7 @@
             <h5>&nbsp;</h5>
             <div class="clockpicker">
                 <input type="text" class="form-control expiration-time"
-                       value="{{ old('expiration_time', $expiration_time ?? '00:00') }}" autocomplete="off"
+                       value="{{ old('expiration_time', $alert->expiration_time ?? '00:00') }}" autocomplete="off"
                        name="expiration_time">
                 <span class="input-group-addon">
         <i class="material-icons">access_time</i>
@@ -309,12 +309,20 @@
                         if ('{{ $alert->conditions['value'] }}') {
                             $("input[name='conditions[value]']:visible").val({{ $alert->conditions['value'] }});
                         }
-                        changeTextarea();
-                        if ($('#alert_message').keyup()) {
-                            $('#alertForm').change(function () {
-                                changeTextarea();
-                            });
-                            return false;
+                        if (flag == 1) {
+                            if ('{{ $alert->alert_message }}') {
+                                var message = '{{ $alert->alert_message }}';
+                            }
+                            flag = 0;
+                            $('#alert_message').val(message.replace(/\s+/g, ' ').trim());
+                        } else {
+                            $('#alert_message').text(changeTextarea());
+                            if ($('#alert_message').keyup()) {
+                                $('#alertForm').change(function () {
+                                    $('#alert_message').text(changeTextarea());
+                                });
+                                return false;
+                            }
                         }
                     }
                 }, 'json')
@@ -341,6 +349,12 @@
                     requiredCheckboxes.removeAttr('required');
                 } else {
                     requiredCheckboxes.attr('required', 'required');
+                }
+            });
+
+            $('#alert_message').bind('change', function () {
+                if ($('#alert_message').val() == '') {
+                    $('#alert_message').val(changeTextarea());
                 }
             });
 
@@ -380,38 +394,28 @@
                     interval = ' in ' + intervalTime;
                 }
                 var message = market + ' ' + metric + ' ' + type + ' ' + value + regular + interval;
-                $('#alert_message').text(message.replace(/\s+/g, ' ').trim());
-            }
 
-            $(document).ajaxStop(function () {
-                if (flag == 1) {
-                    if ('{{ $alert->alert_message }}') {
-                        var message = '{{ $alert->alert_message }}';
-                    }
-                    flag = 0;
-                    $('#alert_message').text(message.replace(/\s+/g, ' ').trim());
-                }
-            });
+                return message.replace(/\s+/g, ' ').trim();
+            }
         });
 
         $(document).ready(function () {
             setTimeout(function () {
                 $('input[name="expiration_date"]').attr("readonly", false);
                 if ($('input[name="open_ended"]').is(":checked")) {
-                    $('.flatpickr-input, .expiration-time').prop('disabled', true);
-                    $('.flatpickr-input, .expiration-time, .input-group-addon').addClass('expiration-disabled');
-                    $('.flatpickr-input, .expiration-time, .input-group-addon').val('');
+                    $('.expiration .flatpickr-input, .clockpicker .expiration-time').prop('disabled', true);
+                    $('.expiration .flatpickr-input, .clockpicker .expiration-time, .expiration .input-group-addon, .clockpicker .input-group-addon').addClass('expiration-disabled');
                 }
             }, 1000);
             $('input[name="open_ended"]').change(function () {
                 if ($('input[name="open_ended"]').is(":checked")) {
-                    $('.flatpickr-input, .expiration-time').prop('disabled', true);
-                    $('.flatpickr-input, .expiration-time').removeAttr('required');
-                    $('.flatpickr-input, .expiration-time, .input-group-addon').addClass('expiration-disabled');
+                    $('.expiration .flatpickr-input, .clockpicker .expiration-time').prop('disabled', true);
+                    $('.expiration .flatpickr-input, .clockpicker .expiration-time').removeAttr('required');
+                    $('.expiration .flatpickr-input, .clockpicker .expiration-time, .expiration .input-group-addon, .clockpicker .input-group-addon').addClass('expiration-disabled');
                 } else {
-                    $('.flatpickr-input, .expiration-time').prop('disabled', false);
-                    $('.flatpickr-input, .expiration-time').attr('required');
-                    $('.flatpickr-input, .expiration-time, .input-group-addon').removeClass('expiration-disabled');
+                    $('.expiration .flatpickr-input, .clockpicker .expiration-time').prop('disabled', false);
+                    $('.expiration .flatpickr-input, .clockpicker .expiration-time').attr('required');
+                    $('.expiration .flatpickr-input, .clockpicker .expiration-time, .expiration .input-group-addon, .clockpicker .input-group-addon').removeClass('expiration-disabled');
                 }
             });
         });
@@ -483,12 +487,23 @@
                 dateFormat: "Y-m-d",
                 minDate: "today",
                 wrap: true,
-                maxDate: new Date().fp_incr(30),
                 defaultDate: new Date().fp_incr(30)
             });
 
             $('.clockpicker').clockpicker({
-                default: 'now',
+                default: '00:00',
+                autoclose: true,
+            });
+
+
+            $('.starting-date').flatpickr({
+                dateFormat: "Y-m-d",
+                minDate: "today",
+                wrap: true,
+            });
+
+            $('.starting-time').clockpicker({
+                default: '00:00',
                 autoclose: true,
             });
 

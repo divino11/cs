@@ -871,7 +871,8 @@ input:checked + .slider:before {
 }
 
 .currency_price_group {
-  display: flex;
+  display: inline-flex;
+  border-bottom: 2px solid #000;
   margin-bottom: 0;
   text-transform: capitalize;
 }
@@ -882,7 +883,6 @@ input:checked + .slider:before {
 
 #currencyPrice {
   margin-left: 5px;
-  border-bottom: 2px solid #000;
 }
 
 .chosen-single {
@@ -2003,4 +2003,13 @@ h2, .h2 {
     padding-left: 22px;
     padding-right: 22px;
   }
+}
+
+.starting-date, .starting-time {
+  display: flex;
+  width: 100%;
+}
+
+.starting-date input {
+  background-color: transparent !important;
 }

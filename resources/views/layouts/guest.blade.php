@@ -17,7 +17,15 @@
     <script src="/js/app.js"></script>
 </head>
 <body>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-52339587-9"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
+    gtag('config', 'UA-52339587-9');
+</script>
 <div class="container">
     <div class="log-content">
         <div class="col-md-12">

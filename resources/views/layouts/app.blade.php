@@ -23,6 +23,15 @@
     <script src="/js/app.js"></script>
 </head>
 <body>
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-52339587-9"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-52339587-9');
+</script>
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-custom">
         <a class="navbar-brand" href="#"><img src="{{asset('images/logo.svg')}}" alt=""/></a>
