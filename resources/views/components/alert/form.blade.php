@@ -297,8 +297,11 @@
                             $("input[name='conditions[value]']:visible").val(currencyPrice);
                         }
 
-                        if ('{{ $alert->conditions['value'] }}') {
-                            $("input[name='conditions[value]']:visible").val({{ $alert->conditions['value'] }});
+                        if (flag == 1) {
+                            if ('{{ $alert->conditions['value'] }}') {
+                                setStorage(metricVal, selectedType, {{ $alert->conditions['value'] }});
+                                $("input[name='conditions[value]']:visible").val({{ $alert->conditions['value'] }});
+                            }
                         }
 
                         currentValue = $("input[name='conditions[value]']:visible").val();
