@@ -171,18 +171,10 @@
         <div class="col-md-6 col-sm-6 myaccount-combo-righthalf">
             <h5>&nbsp;</h5>
             <select name="interval_unit" class="form-control" id="cooldown">
-                <option value="minutes"
-                        @if(old('interval_unit', $alert->interval_unit) == 'minutes') selected @endif>
-                    Minutes
-                </option>
-                <option value="hours"
-                        @if(old('interval_unit', $alert->interval_unit) == 'hours') selected @endif>
-                    Hours
-                </option>
-                <option value="days"
-                        @if(old('interval_unit', $alert->interval_unit) == 'days') selected @endif>
-                    Days
-                </option>
+                @foreach(App\Enums\AlertPeriod::toSelectArray() as $key => $value)
+                    <option value="{{ strtolower(App\Enums\AlertPeriod::getDescription($key)) }}"
+                            @if(old('interval_unit', $alert->interval_unit) == strtolower(App\Enums\AlertPeriod::getDescription($key))) selected @endif>{{ $value }}</option>
+                @endforeach
             </select>
         </div>
     </div>
@@ -522,6 +514,7 @@
                 var unitList = $(e.target);
                 var valueList = $('#' + unitList.attr('id') + '_value');
                 var intervalUnit = unitList.val();
+
                 valueList.empty();
                 $.each(intervalOptions[intervalUnit], function (key, value) {
                     valueList.append(

@@ -18,18 +18,10 @@
         </div>
         <div class="col-md-6 col-sm-6 myaccount-combo-righthalf">
             <select name="conditions[interval_unit]" class="form-control" id="period">
-                <option value="minutes"
-                        @if($conditions_intervals == 'minutes') selected @endif>
-                    Minutes
-                </option>
-                <option value="hours"
-                        @if($conditions_intervals == 'hours') selected @endif>
-                    Hours
-                </option>
-                <option value="days"
-                        @if($conditions_intervals == 'days') selected @endif>
-                    Days
-                </option>
+                @foreach(App\Enums\AlertPeriod::toSelectArray() as $key => $value)
+                    <option value="{{ strtolower(App\Enums\AlertPeriod::getDescription($key)) }}"
+                            @if(old('interval_unit', $alert->interval_unit) == strtolower(App\Enums\AlertPeriod::getDescription($key))) selected @endif>{{ $value }}</option>
+                @endforeach
             </select>
         </div>
     </div>
