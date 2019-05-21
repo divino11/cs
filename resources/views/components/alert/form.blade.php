@@ -245,14 +245,10 @@
 @push('scripts')
     <script>
         const exchanges = @json($exchanges->keyBy('id'));
-        var currentType;
         var selectedType;
         $(document).ready(function () {
-            var metricVal;
-            var metricText;
-            var selectedPlatform;
-            var selectedCurrency;
-            var currencyPrice;
+            localStorage.clear();
+            var metricVal, metricText, selectedPlatform, selectedCurrency, currencyPrice, currentValue;
             var flag = 1;
             $('#exchange').change(function () {
                 if (!exchanges.hasOwnProperty($('#exchange').val())) {
@@ -296,9 +292,11 @@
                                 currencyPrice = response.data.volume;
                                 break;
                         }
+
                         $('.currency_price_group').show();
                         $('.currency_price_group h4').text(metricText + ': ');
                         $('#currencyPrice').text(currencyPrice);
+
                         if (selectedType == 5 || selectedType == 6) {
                             $("input[name='conditions[value]']:visible").val('2');
                         } else if (selectedType == 7 || selectedType == 8) {
@@ -306,9 +304,15 @@
                         } else {
                             $("input[name='conditions[value]']:visible").val(currencyPrice);
                         }
+
                         if ('{{ $alert->conditions['value'] }}') {
                             $("input[name='conditions[value]']:visible").val({{ $alert->conditions['value'] }});
                         }
+
+                        currentValue = $("input[name='conditions[value]']:visible").val();
+                        currencyPrice = getStorage(metricVal, selectedType, currentValue);
+                        $("input[name='conditions[value]']:visible").val(currencyPrice);
+
                         if (flag == 1) {
                             if ('{{ $alert->alert_message }}') {
                                 var message = '{{ $alert->alert_message }}';
@@ -316,10 +320,10 @@
                             flag = 0;
                             $('#alert_message').val(message.replace(/\s+/g, ' ').trim());
                         } else {
-                            $('#alert_message').text(changeTextarea());
+                            $('#alert_message').text(changeTextarea(currencyPrice));
                             if ($('#alert_message').keyup()) {
                                 $('#alertForm').change(function () {
-                                    $('#alert_message').text(changeTextarea());
+                                    $('#alert_message').text(changeTextarea(currencyPrice));
                                 });
                                 return false;
                             }
@@ -354,15 +358,27 @@
 
             $('#alert_message').bind('change', function () {
                 if ($('#alert_message').val() == '') {
-                    $('#alert_message').val(changeTextarea());
+                    $('#alert_message').val(changeTextarea(currencyPrice));
                 }
             });
 
-            function changeTextarea() {
+            $('input[name="conditions[value]"]').bind('change', function () {
+                setStorage(metricVal, selectedType, $('input[name="conditions[value]"]:visible').val());
+            });
+
+            function setStorage(metric, type, value) {
+                localStorage.setItem(metric + '_' + type, value);
+            }
+
+            function getStorage(metric, type, value) {
+                return localStorage.getItem(metric + '_' + type) ? localStorage.getItem(metric + '_' + type) : value;
+            }
+
+            function changeTextarea(price) {
                 var market = $('#markets option:selected').text();
                 var metric = $("select[name='conditions[metric]'] option:selected").text().toLowerCase() ? $("select[name='conditions[metric]'] option:selected").text().toLowerCase() : '';
                 var type = $("#type option:selected").text().toLowerCase() ? $("#type option:selected").text().toLowerCase() : '';
-                var value = $("input[name='conditions[value]']:visible").val() ? $("input[name='conditions[value]']:visible").val() : '';
+                var value = price ? price : '';
                 var intervalTime = $('select[name="conditions[interval_number]"] option:selected').val() + ' ' + $('select[name="conditions[interval_unit]"] option:selected').val();
                 var regular = '';
                 var interval = '';
@@ -490,21 +506,15 @@
                 defaultDate: new Date().fp_incr(30)
             });
 
-            $('.clockpicker').clockpicker({
+            $('.clockpicker, .starting-time').clockpicker({
                 default: '00:00',
                 autoclose: true,
             });
-
 
             $('.starting-date').flatpickr({
                 dateFormat: "Y-m-d",
                 minDate: "today",
                 wrap: true,
-            });
-
-            $('.starting-time').clockpicker({
-                default: '00:00',
-                autoclose: true,
             });
 
             var freshIntervalValues = function (e) {
