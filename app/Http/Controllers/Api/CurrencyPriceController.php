@@ -17,11 +17,9 @@ class CurrencyPriceController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return new TickerResource(
-            Ticker::where('exchange_id', $request->selectedPlatform)
-                ->where('market_id', $request->selectedCurrency)
-                ->latest()
-                ->first()
-        );
+        $ccxt = '\\ccxt\\' . $request->selectedPlatform;
+        $exchange = new $ccxt;
+
+        return $exchange->fetch_ticker($request->selectedCurrency);
     }
 }

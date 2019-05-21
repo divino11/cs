@@ -263,8 +263,8 @@
             }).change();
 
             $('select[name="conditions[metric]"], #markets, #type').change(function () {
-                selectedPlatform = $('#exchange option:selected').val();
-                selectedCurrency = $('#markets option:selected').val();
+                selectedPlatform = $('#exchange option:selected').text().toLowerCase();
+                selectedCurrency = $('#markets option:selected').text();
                 metricVal = $("select[name='conditions[metric]']").val();
                 metricText = $("select[name='conditions[metric]'] option:selected").text();
                 var data = {
@@ -278,10 +278,10 @@
                     if (response) {
                         switch (metricVal) {
                             case '0':
-                                currencyPrice = response.data.last;
+                                currencyPrice = response.last;
                                 break;
                             case '1':
-                                currencyPrice = response.data.volume;
+                                currencyPrice = response.baseVolume;
                                 break;
                         }
 
