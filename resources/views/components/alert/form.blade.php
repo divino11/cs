@@ -240,7 +240,7 @@
         var selectedType;
         $(document).ready(function () {
             localStorage.clear();
-            var metricVal, metricText, selectedPlatform, selectedCurrency, currencyPrice, currentValue;
+            var metricVal, metricText, selectedPlatform, selectedCurrency, currencyPrice, currentValue, alertMessage;
             var flag = 1;
             $('#exchange').change(function () {
                 if (!exchanges.hasOwnProperty($('#exchange').val())) {
@@ -308,20 +308,24 @@
                         currencyPrice = getStorage(metricVal, selectedType, currentValue);
                         $("input[name='conditions[value]']:visible").val(currencyPrice);
 
+                        if (getStorage('alert', '0', null)) {
+                            $('#alert_message').val(getStorage('alert', '0', null));
+                            return false;
+                        }
                         if (flag == 1) {
                             if ('{{ $alert->alert_message }}') {
                                 var message = '{{ $alert->alert_message }}';
+                                $('#alert_message').val(message);
+                            } else {
+                                $('#alert_message').val(changeTextarea(currencyPrice));
                             }
                             flag = 0;
-                            $('#alert_message').val(message.replace(/\s+/g, ' ').trim());
                         } else {
-                            $('#alert_message').text(changeTextarea(currencyPrice));
-                            if ($('#alert_message').keyup()) {
-                                $('#alertForm').change(function () {
-                                    $('#alert_message').text(changeTextarea(currencyPrice));
-                                });
-                                return false;
-                            }
+                            $('#alert_message').val(changeTextarea(currencyPrice));
+                            $('#alert_message').keyup(function () {
+                                setStorage('alert', '0', $('#alert_message').val());
+                                $('#alert_message').val(getStorage('alert', '0', null));
+                            });
                         }
                     }
                 }, 'json')
@@ -353,11 +357,13 @@
 
             $('#alert_message').bind('change', function () {
                 if ($('#alert_message').val() == '') {
+                    localStorage.removeItem('alert_0');
                     $('#alert_message').val(changeTextarea(currencyPrice));
                 }
             });
 
-            $('input[name="conditions[value]"]').bind('change', function () {
+            $('input[name="conditions[value]"]').change(function () {
+                $('#alert_message').val(changeTextarea($('input[name="conditions[value]"]:visible').val()));
                 setStorage(metricVal, selectedType, $('input[name="conditions[value]"]:visible').val());
             });
 
