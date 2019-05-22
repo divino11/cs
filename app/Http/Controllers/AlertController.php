@@ -53,7 +53,9 @@ class AlertController extends Controller
         }
         $request->merge(['expiration_date' => $expirationDate]);
         $alert = Auth::user()->alerts()->create($request->except('notification_channels'));
-        $alert->notificationChannels()->create($request->notification_channels[0]);
+        foreach ($request->notification_channels as $notification_channel) {
+            $alert->notificationChannels()->create($notification_channel);
+        }
 
         return redirect()->route('alerts.index')->with('status', 'New alert created');
     }
@@ -101,7 +103,11 @@ class AlertController extends Controller
         $request->merge(['expiration_date' => $expirationDate]);
 
         $alert->update($request->except(['notification_channels']));
-        $alert->notificationChannels()->update($request->notification_channels[0]);
+
+        $alert->notificationChannels()->delete();
+        foreach ($request->notification_channels as $key => $notification_channel) {
+            $alert->notificationChannels()->create($notification_channel);
+        }
 
         return redirect()->route('alerts.index')->with('status', 'Alert has been updated');
     }
