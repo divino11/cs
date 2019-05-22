@@ -21,6 +21,7 @@
             <!-- combo -->
             <h5>Market</h5>
             <select class="form-control js-data-example-ajax" name="market_id" id="markets" required>
+                <option value="" disabled>Select market</option>
                 @if(old('exchange_id', $alert->exchange_id))
                     @foreach($exchanges->where('id', old('exchange_id', $alert->exchange_id))->first()->markets as $market)
                         <option value="{{ $market->id }}" data-base="{{ $market->base }}"
@@ -41,6 +42,7 @@
             <h5>Alert me when <span class="market_name"></span></h5>
             <div class="btn-group special">
                 <select class="form-control" name="conditions[metric]" required>
+                    <option value="" disabled>Select metric</option>
                     @foreach(App\Enums\AlertMetric::toSelectArray() as $key => $value)
                         <option value="{{ $key }}"
                                 @if(old('conditions.metric', $alert->conditions['metric']) == $key) selected @endif>{{ $value }}</option>
@@ -54,6 +56,7 @@
             <h5>Has condition</h5>
             <div class="btn-group special">
                 <select class="form-control" name="type" id="type" required>
+                    <option value="" disabled>Select condition</option>
                     @foreach(App\Enums\AlertType::toSelectArray() as $key => $item)
                         <option value="{{$key}}"
                                 @if(old('type', $alert->type) === $key) selected @endif>{{$item}}</option>
@@ -262,11 +265,9 @@
                 });
             }).change();
 
-            $('select[name="conditions[metric]"], #markets, #type').change(function () {
+            $('#markets').change(function () {
                 selectedPlatform = $('#exchange option:selected').text().toLowerCase();
                 selectedCurrency = $('#markets option:selected').text();
-                metricVal = $("select[name='conditions[metric]']").val();
-                metricText = $("select[name='conditions[metric]'] option:selected").text();
                 var data = {
                     selectedPlatform: selectedPlatform,
                     selectedCurrency: selectedCurrency
@@ -274,62 +275,68 @@
                 if (!selectedPlatform || !selectedCurrency) {
                     return;
                 }
-                $.get('{{ route('api.alert.metric') }}', data, function (response) {
-                    if (response) {
-                        switch (metricVal) {
-                            case '0':
-                                currencyPrice = response.last;
-                                break;
-                            case '1':
-                                currencyPrice = response.baseVolume;
-                                break;
-                        }
+                $.get('{{ route('api.alert.metric') }}', data)
+                    .done(function (response) {
+                        return response;
+                    });
+            }).change();
 
-                        $('.currency_price_group').show();
-                        $('.currency_price_group h4').text(metricText + ': ');
-                        $('#currencyPrice').text(currencyPrice);
+            $(document).ajaxComplete(function (event, response) {
+                $("select[name='conditions[metric]'], #type").change(function () {
+                    metricVal = $("select[name='conditions[metric]']").val();
+                    metricText = $("select[name='conditions[metric]'] option:selected").text();
+                    switch (metricVal) {
+                        case '0':
+                            currencyPrice = response.responseJSON.last;
+                            break;
+                        case '1':
+                            currencyPrice = response.responseJSON.baseVolume;
+                            break;
+                    }
+                    $('.currency_price_group').show();
+                    $('.currency_price_group h4').text(metricText + ': ');
+                    $('#currencyPrice').text(currencyPrice);
 
-                        if (selectedType == 5 || selectedType == 6) {
-                            $("input[name='conditions[value]']:visible").val('2');
-                        } else if (selectedType == 7 || selectedType == 8) {
-                            $("input[name='conditions[value]']:visible").val('5');
-                        } else {
-                            $("input[name='conditions[value]']:visible").val(currencyPrice);
-                        }
-
-                        if (flag == 1) {
-                            if ('{{ $alert->conditions['value'] }}') {
-                                setStorage(metricVal, selectedType, {{ $alert->conditions['value'] }});
-                                $("input[name='conditions[value]']:visible").val({{ $alert->conditions['value'] }});
-                            }
-                        }
-
-                        currentValue = $("input[name='conditions[value]']:visible").val();
-                        currencyPrice = getStorage(metricVal, selectedType, currentValue);
+                    if (selectedType == 5 || selectedType == 6) {
+                        $("input[name='conditions[value]']:visible").val('2');
+                    } else if (selectedType == 7 || selectedType == 8) {
+                        $("input[name='conditions[value]']:visible").val('5');
+                    } else {
                         $("input[name='conditions[value]']:visible").val(currencyPrice);
+                    }
 
-                        if (getStorage('alert', '0', null)) {
-                            $('#alert_message').val(getStorage('alert', '0', null));
-                            return false;
-                        }
-                        if (flag == 1) {
-                            if ('{{ $alert->alert_message }}') {
-                                var message = '{{ $alert->alert_message }}';
-                                $('#alert_message').val(message);
-                            } else {
-                                $('#alert_message').val(changeTextarea(currencyPrice));
-                            }
-                            flag = 0;
-                        } else {
-                            $('#alert_message').val(changeTextarea(currencyPrice));
-                            $('#alert_message').keyup(function () {
-                                setStorage('alert', '0', $('#alert_message').val());
-                                $('#alert_message').val(getStorage('alert', '0', null));
-                            });
+                    if (flag == 1) {
+                        if ('{{ $alert->conditions['value'] }}') {
+                            setStorage(metricVal, selectedType, {{ $alert->conditions['value'] }});
+                            $("input[name='conditions[value]']:visible").val({{ $alert->conditions['value'] }});
                         }
                     }
-                }, 'json')
-            }).change();
+
+                    currentValue = $("input[name='conditions[value]']:visible").val();
+                    currencyPrice = getStorage(metricVal, selectedType, currentValue);
+                    $("input[name='conditions[value]']:visible").val(currencyPrice);
+
+                    if (getStorage('alert', '0', null)) {
+                        $('#alert_message').val(getStorage('alert', '0', null));
+                        return false;
+                    }
+                    if (flag == 1) {
+                        if ('{{ $alert->alert_message }}') {
+                            var message = '{{ $alert->alert_message }}';
+                            $('#alert_message').val(message);
+                        } else {
+                            $('#alert_message').val(changeTextarea(currencyPrice));
+                        }
+                        flag = 0;
+                    } else {
+                        $('#alert_message').val(changeTextarea(currencyPrice));
+                        $('#alert_message').keyup(function () {
+                            setStorage('alert', '0', $('#alert_message').val());
+                            $('#alert_message').val(getStorage('alert', '0', null));
+                        });
+                    }
+                }).change();
+            });
 
             $('#type').change(function () {
                 selectedType = $('#type option:selected').val();
@@ -357,8 +364,13 @@
 
             $('#alert_message').bind('change', function () {
                 if ($('#alert_message').val() == '') {
+                    if (selectedType == 5 || selectedType == 6) {
+                        $("input[name='conditions[value]']:visible").val('2');
+                    } else if (selectedType == 7 || selectedType == 8) {
+                        $("input[name='conditions[value]']:visible").val('5');
+                    }
                     localStorage.removeItem('alert_0');
-                    $('#alert_message').val(changeTextarea(currencyPrice));
+                    $('#alert_message').val(changeTextarea($("input[name='conditions[value]']:visible").val()));
                 }
             });
 
