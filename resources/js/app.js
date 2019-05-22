@@ -69,6 +69,14 @@ $(document).ready(function() {
     });
 });
 
+window._mfq = window._mfq || [];
+(function() {
+    var mf = document.createElement("script");
+    mf.type = "text/javascript"; mf.async = true;
+    mf.src = "//cdn.mouseflow.com/projects/53094351-7046-4529-b05a-ce9d225240ab.js";
+    document.getElementsByTagName("head")[0].appendChild(mf);
+})();
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
