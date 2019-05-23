@@ -247,6 +247,9 @@
             var selectedPlatform, selectedCurrency, currencyPrice = '', currentValue, alertMessage;
             var flag = 1;
             var ticker, metricVal, metricText = {};
+            if ('{{ $alert->conditions['value'] }}') {
+                setStorage($('select[name="conditions[metric]"]').val(), $('#type option:selected').val(), {{ $alert->conditions['value'] }});
+            }
 
             $('#exchange').change(function () {
                 if (!exchanges.hasOwnProperty($('#exchange').val())) {
@@ -299,31 +302,10 @@
                 }
             });
 
-            $("#type").change(function () {
-                /* if (flag == 1) {
-                     if ('{{ $alert->conditions['value'] }}') {
-                        setStorage(metricVal, selectedType, {{ $alert->conditions['value'] }});
-                        $("input[name='conditions[value]']:visible").val({{ $alert->conditions['value'] }});
-                    }
-                }*/
-
-                currentValue = $("input[name='conditions[value]']:visible").val();
-                currencyPrice = getStorage(metricVal, selectedType, currentValue);
-                $("input[name='conditions[value]']:visible").val(currencyPrice);
-
-                /*if (getStorage('alert', '0', null)) {
-                    $('#alert_message').val(getStorage('alert', '0', null));
-                    return false;
-                }
-
-                $('#alert_message').val(changeTextarea(currencyPrice));
-                $('#alert_message').keyup(function () {
-                    setStorage('alert', '0', $('#alert_message').val());
-                    $('#alert_message').val(getStorage('alert', '0', null));
-                });*/
-            });
-
             $('#type').change(function () {
+                if (ticker) {
+                    updatePrice();
+                }
                 selectedType = $('#type option:selected').val();
                 if (selectedType == '7' || selectedType == '8') {
                     $('.input-group-text').text('%');
@@ -392,6 +374,7 @@
             }
 
             function updatePrice() {
+                selectedType = $('#type option:selected').val();
                 metricVal = $("select[name='conditions[metric]']").val();
                 metricText = $("select[name='conditions[metric]'] option:selected").text();
                 switch (metricVal) {
@@ -407,15 +390,18 @@
                 $('.currency_price_group h4').text(metricText + ': ');
                 $('#currencyPrice').text(currencyPrice);
 
-                var inputValue = $("input[name='conditions[value]']:visible");
-                if (!inputValue.val()) {
-                    if (selectedType == 5 || selectedType == 6) {
-                        inputValue.val('2');
-                    } else if (selectedType == 7 || selectedType == 8) {
-                        inputValue.val('5');
-                    } else {
-                        inputValue.val(currencyPrice);
-                    }
+                currentValue = $("input[name='conditions[value]']:visible");
+
+                /*setStorage(metricVal, selectedType, currencyPrice);
+                currencyPrice = getStorage(metricVal, selectedType, currencyPrice);
+                currentValue.val(currencyPrice);*/
+
+                if (selectedType == 5 || selectedType == 6) {
+                    currentValue.val('2');
+                } else if (selectedType == 7 || selectedType == 8) {
+                    currentValue.val('5');
+                } else {
+                    currentValue.val(currencyPrice);
                 }
             }
 
@@ -461,13 +447,11 @@
         });
 
         $(document).ready(function () {
-            setTimeout(function () {
-                $('input[name="expiration_date"]').attr("readonly", false);
-                if ($('input[name="open_ended"]').is(":checked")) {
-                    $('.expiration .flatpickr-input, .clockpicker .expiration-time').prop('disabled', true);
-                    $('.expiration .flatpickr-input, .clockpicker .expiration-time, .expiration .input-group-addon, .clockpicker .input-group-addon').addClass('expiration-disabled');
-                }
-            }, 1000);
+            $('input[name="expiration_date"]').attr("readonly", false);
+            if ($('input[name="open_ended"]').is(":checked")) {
+                $('.expiration .flatpickr-input, .clockpicker .expiration-time').prop('disabled', true);
+                $('.expiration .flatpickr-input, .clockpicker .expiration-time, .expiration .input-group-addon, .clockpicker .input-group-addon').addClass('expiration-disabled');
+            }
             $('input[name="open_ended"]').change(function () {
                 if ($('input[name="open_ended"]').is(":checked")) {
                     $('.expiration .flatpickr-input, .clockpicker .expiration-time').prop('disabled', true);
