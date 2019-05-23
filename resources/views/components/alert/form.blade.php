@@ -292,7 +292,6 @@
                 $("select[name='conditions[metric]'], #type").change(function () {
                     metricVal = $("select[name='conditions[metric]']").val();
                     metricText = $("select[name='conditions[metric]'] option:selected").text();
-                    setStorage('last', 0, currencyPrice);
                     switch (metricVal) {
                         case '0':
                             currencyPrice = response.responseJSON.last;
@@ -304,7 +303,7 @@
 
                     $('.currency_price_group').show();
                     $('.currency_price_group h4').text(metricText + ': ');
-                    $('#currencyPrice').text(currencyPrice ? currencyPrice : getStorage('last', 0, ''));
+                    $('#currencyPrice').text(currencyPrice ? currencyPrice : '');
 
                     if (selectedType == 5 || selectedType == 6) {
                         $("input[name='conditions[value]']:visible").val('2');
