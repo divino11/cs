@@ -275,10 +275,17 @@
                 if (!selectedPlatform || !selectedCurrency) {
                     return;
                 }
-                $.get('{{ route('api.alert.metric') }}', data)
-                    .done(function (response) {
+                $.ajax({
+                    type: 'GET',
+                    url: '{{ route('api.alert.metric') }}',
+                    data: data,
+                    beforeSend: function (){
+                        $('#currencyPrice').text('Loading...');
+                    },
+                    complete: function (response) {
                         return response;
-                    });
+                    }
+                });
             }).change();
 
             $(document).ajaxComplete(function (event, response) {

@@ -66,7 +66,7 @@
                                 </span></h5>
                             <p>Find your Email-to-SMS address here: <a href="http://smsemailgateway.com/" target="_blank">http://smsemailgateway.com/</a></p>
                             @if($user->getNotificationEmailToSms())
-                                <span class="entered-channel">{{$user->getNotificationEmailToSms()}}</span>
+                                <p class="entered-channel">{{$user->getNotificationEmailToSms()}}</p>
                             @endif
                             @if (!$user->getNotificationEmailToSms())
                                 <form class="form" action="{{ route('channels.email_to_sms.store') }}" method="POST">
@@ -120,7 +120,7 @@
                                         @csrf
                                         @method('delete')
                                         <div class="input-group">
-                                            <button class="btn btn-primary bt-custom-out text-uppercase ml-1"
+                                            <button class="btn btn-primary bt-custom-out text-uppercase"
                                                     type="submit">Use another email-to-sms address
                                             </button>
                                         </div>
