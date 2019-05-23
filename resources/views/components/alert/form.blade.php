@@ -231,8 +231,9 @@
 <div class="myaccount-combo">
     <div class="form-group">
         <h5>Message</h5>
-        <textarea name="alert_message" class="form-control" id="alert_message"
-                  rows="3">{{ old('alert_message', $alert->alert_message) }}</textarea>
+        <textarea name="alert_message" class="form-control" id="alert_message" rows="3">
+            {{ old('alert_message', $alert->alert_message) }}
+        </textarea>
     </div>
 </div>
 <!-- END combo -->
@@ -243,8 +244,10 @@
         var selectedType;
         $(document).ready(function () {
             localStorage.clear();
-            var metricVal, metricText, selectedPlatform, selectedCurrency, currencyPrice, currentValue, alertMessage;
+            var selectedPlatform, selectedCurrency, currencyPrice = '', currentValue, alertMessage;
             var flag = 1;
+            var ticker, metricVal, metricText = {};
+
             $('#exchange').change(function () {
                 if (!exchanges.hasOwnProperty($('#exchange').val())) {
                     return;
@@ -279,79 +282,67 @@
                     type: 'GET',
                     url: '{{ route('api.alert.metric') }}',
                     data: data,
-                    beforeSend: function (){
+                    beforeSend: function () {
                         $('#currencyPrice').text('Loading...');
                     },
                     complete: function (response) {
-                        return response;
+                        ticker = response.responseJSON;
+                        updatePrice();
+                        return ticker;
                     }
                 });
             }).change();
 
-            $(document).ajaxComplete(function (event, response) {
-                $("select[name='conditions[metric]'], #type").change(function () {
-                    metricVal = $("select[name='conditions[metric]']").val();
-                    metricText = $("select[name='conditions[metric]'] option:selected").text();
-                    switch (metricVal) {
-                        case '0':
-                            currencyPrice = response.responseJSON.last;
-                            break;
-                        case '1':
-                            currencyPrice = response.responseJSON.baseVolume;
-                            break;
-                    }
+            $("select[name='conditions[metric]']").change(function () {
+                if (ticker) {
+                    updatePrice();
+                }
+            });
 
-                    $('.currency_price_group').show();
-                    $('.currency_price_group h4').text(metricText + ': ');
-                    $('#currencyPrice').text(currencyPrice ? currencyPrice : '');
-
-                    if (selectedType == 5 || selectedType == 6) {
-                        $("input[name='conditions[value]']:visible").val('2');
-                    } else if (selectedType == 7 || selectedType == 8) {
-                        $("input[name='conditions[value]']:visible").val('5');
-                    } else {
-                        $("input[name='conditions[value]']:visible").val(currencyPrice);
+            $("#type").change(function () {
+                /* if (flag == 1) {
+                     if ('{{ $alert->conditions['value'] }}') {
+                        setStorage(metricVal, selectedType, {{ $alert->conditions['value'] }});
+                        $("input[name='conditions[value]']:visible").val({{ $alert->conditions['value'] }});
                     }
+                }*/
 
-                    if (flag == 1) {
-                        if ('{{ $alert->conditions['value'] }}') {
-                            setStorage(metricVal, selectedType, {{ $alert->conditions['value'] }});
-                            $("input[name='conditions[value]']:visible").val({{ $alert->conditions['value'] }});
-                        }
-                    }
+                currentValue = $("input[name='conditions[value]']:visible").val();
+                currencyPrice = getStorage(metricVal, selectedType, currentValue);
+                $("input[name='conditions[value]']:visible").val(currencyPrice);
 
-                    currentValue = $("input[name='conditions[value]']:visible").val();
-                    currencyPrice = getStorage(metricVal, selectedType, currentValue);
-                    $("input[name='conditions[value]']:visible").val(currencyPrice);
+                /*if (getStorage('alert', '0', null)) {
+                    $('#alert_message').val(getStorage('alert', '0', null));
+                    return false;
+                }
 
-                    if (getStorage('alert', '0', null)) {
-                        $('#alert_message').val(getStorage('alert', '0', null));
-                        return false;
-                    }
-                    if (flag == 1) {
-                        if ('{{ $alert->alert_message }}') {
-                            var message = '{{ $alert->alert_message }}';
-                            $('#alert_message').val(message);
-                        } else {
-                            $('#alert_message').val(changeTextarea(currencyPrice));
-                        }
-                        flag = 0;
-                    } else {
-                        $('#alert_message').val(changeTextarea(currencyPrice));
-                        $('#alert_message').keyup(function () {
-                            setStorage('alert', '0', $('#alert_message').val());
-                            $('#alert_message').val(getStorage('alert', '0', null));
-                        });
-                    }
-                }).change();
+                $('#alert_message').val(changeTextarea(currencyPrice));
+                $('#alert_message').keyup(function () {
+                    setStorage('alert', '0', $('#alert_message').val());
+                    $('#alert_message').val(getStorage('alert', '0', null));
+                });*/
             });
 
             $('#type').change(function () {
                 selectedType = $('#type option:selected').val();
+                if (selectedType == '7' || selectedType == '8') {
+                    $('.input-group-text').text('%');
+                }
+                if (selectedType == '5' || selectedType == '6' || selectedType == '7' || selectedType == '8') {
+                    $('.tab-type').removeClass('active-type');
+                    $('.percentage').addClass('active-type');
+                } else if (selectedType == '9') {
+                    $('.tab-type').removeClass('active-type');
+                    $('.regular_update').addClass('active-type');
+                } else {
+                    $('.tab-type').removeClass('active-type');
+                    $('.crossing').addClass('active-type');
+                }
                 if (selectedType == '9') {
                     $('#every_time').prop('checked', true);
                 }
             }).change();
+
             $('#markets').change(function () {
                 var selected = $('#markets option:selected');
                 $('.market_name').text(selected.text());
@@ -361,6 +352,7 @@
                     $('.input-group-text').text(selected.data('quote'));
                 }
             }).change();
+
             var requiredCheckboxes = $('#notificationChannels :checkbox[required]');
             requiredCheckboxes.change(function () {
                 if (requiredCheckboxes.is(':checked')) {
@@ -371,15 +363,7 @@
             });
 
             $('#alert_message').bind('change', function () {
-                if ($('#alert_message').val() == '') {
-                    if (selectedType == 5 || selectedType == 6) {
-                        $("input[name='conditions[value]']:visible").val('2');
-                    } else if (selectedType == 7 || selectedType == 8) {
-                        $("input[name='conditions[value]']:visible").val('5');
-                    }
-                    localStorage.removeItem('alert_0');
-                    $('#alert_message').val(changeTextarea($("input[name='conditions[value]']:visible").val()));
-                }
+                cleanMessage(selectedType);
             });
 
             $('input[name="conditions[value]"]').change(function () {
@@ -393,6 +377,46 @@
 
             function getStorage(metric, type, value) {
                 return localStorage.getItem(metric + '_' + type) ? localStorage.getItem(metric + '_' + type) : value;
+            }
+
+            function cleanMessage(selectedType) {
+                if ($('#alert_message').val() == '') {
+                    if (selectedType == 5 || selectedType == 6) {
+                        $("input[name='conditions[value]']:visible").val('2');
+                    } else if (selectedType == 7 || selectedType == 8) {
+                        $("input[name='conditions[value]']:visible").val('5');
+                    }
+                    localStorage.removeItem('alert_0');
+                    $('#alert_message').val(changeTextarea($("input[name='conditions[value]']:visible").val()));
+                }
+            }
+
+            function updatePrice() {
+                metricVal = $("select[name='conditions[metric]']").val();
+                metricText = $("select[name='conditions[metric]'] option:selected").text();
+                switch (metricVal) {
+                    case '0':
+                        currencyPrice = ticker.last;
+                        break;
+                    case '1':
+                        currencyPrice = ticker.baseVolume;
+                        break;
+                }
+
+                $('.currency_price_group').show();
+                $('.currency_price_group h4').text(metricText + ': ');
+                $('#currencyPrice').text(currencyPrice);
+
+                var inputValue = $("input[name='conditions[value]']:visible");
+                if (!inputValue.val()) {
+                    if (selectedType == 5 || selectedType == 6) {
+                        inputValue.val('2');
+                    } else if (selectedType == 7 || selectedType == 8) {
+                        inputValue.val('5');
+                    } else {
+                        inputValue.val(currencyPrice);
+                    }
+                }
             }
 
             function changeTextarea(price) {
@@ -470,28 +494,6 @@
                 }
             });
 
-            //view alerts
-            $('#alertForm').bind('change keyup', function () {
-                var selected = $('#markets option:selected');
-                if ($('select[name="conditions[metric]"]').val() == '1') {
-                    $('.input-group-text').text(selected.text().split('/')[0]);
-                } else {
-                    $('.input-group-text').text(selected.data('quote'));
-                }
-                if (selectedType == '7' || selectedType == '8') {
-                    $('.input-group-text').text('%');
-                }
-                if (selectedType == '5' || selectedType == '6' || selectedType == '7' || selectedType == '8') {
-                    $('.tab-type').removeClass('active-type');
-                    $('.percentage').addClass('active-type');
-                } else if (selectedType == '9') {
-                    $('.tab-type').removeClass('active-type');
-                    $('.regular_update').addClass('active-type');
-                } else {
-                    $('.tab-type').removeClass('active-type');
-                    $('.crossing').addClass('active-type');
-                }
-            }).change();
             //select2
             $('#exchange').select2();
             $('select[name="conditions[metric]"]').select2();
