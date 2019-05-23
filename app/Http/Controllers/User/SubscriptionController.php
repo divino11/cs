@@ -32,10 +32,10 @@ class SubscriptionController extends Controller
     {
         $trx = [
             'amountTotal' => PaymentPrice::Subscription,
-            'note' => 'Subscription Pro',
+            'note' => 'Advanced plan',
             'items' => [
                 [
-                    'descriptionItem' => 'Subscription Pro',
+                    'descriptionItem' => 'Advanced plan',
                     'priceItem' => PaymentPrice::Subscription, // USD
                     'qtyItem' => 1,
                     'subtotalItem' => PaymentPrice::Subscription // USD
@@ -43,7 +43,7 @@ class SubscriptionController extends Controller
             ],
             'payload' => [
                 'subscription' => 'subscription',
-                'description' => 'Subscription Pro',
+                'description' => 'Advanced plan',
                 'priceItem' => PaymentPrice::Subscription,
                 'service' => 'blockchain',
                 'user_id' => Auth::user()->id,

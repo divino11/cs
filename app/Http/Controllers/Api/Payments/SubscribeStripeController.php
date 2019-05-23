@@ -19,16 +19,19 @@ class SubscribeStripeController extends Controller
 
             Transaction::updateOrCreate(['created_at' => Carbon::now()], [
                 'user_id' => $request->user()->id,
-                'description' => 'Subscription Pro',
+                'description' => 'Advanced plan',
                 'amount' => config('payments.subscriptions.price'),
                 'service' => config('payments.sms.service'),
                 'status' => 100,
             ]);
+
+
+
             return redirect()->route('user.subscription.index')->with('status', 'You have purchased pro subscription');
         } else {
             Transaction::updateOrCreate(['created_at' => Carbon::now()], [
                 'user_id' => $request->user()->id,
-                'description' => 'Subscription Pro',
+                'description' => 'Advanced plan',
                 'amount' => config('payments.subscriptions.price'),
                 'service' => config('payments.sms.service'),
                 'status' => -1,
