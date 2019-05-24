@@ -304,17 +304,7 @@
 
             $('#type').change(function () {
                 selectedType = $('#type option:selected').val();
-                if (ticker) {
-                    updatePrice();
-                }
 
-                if (getStorage(metricVal, selectedType, null)) {
-                    $('input[name="conditions[value]"]:visible').val(getStorage(metricVal, selectedType, null));
-                    $('#alert_message').val(changeTextarea(getStorage(metricVal, selectedType, null)));
-                }
-                if (selectedType == '7' || selectedType == '8') {
-                    $('.input-group-text').text('%');
-                }
                 if (selectedType == '5' || selectedType == '6' || selectedType == '7' || selectedType == '8') {
                     $('.tab-type').removeClass('active-type');
                     $('.percentage').addClass('active-type');
@@ -325,18 +315,37 @@
                     $('.tab-type').removeClass('active-type');
                     $('.crossing').addClass('active-type');
                 }
+
+                if (ticker) {
+                    updatePrice();
+                }
+
+                if (getStorage(metricVal, selectedType, null)) {
+                    $('input[name="conditions[value]"]:visible').val(getStorage(metricVal, selectedType, null));
+                    $('#alert_message').val(changeTextarea(getStorage(metricVal, selectedType, null)));
+                }
+
                 if (selectedType == '9') {
                     $('#every_time').prop('checked', true);
                 }
             }).change();
 
-            $('#markets').change(function () {
+            $('select[name="conditions[metric]"], #markets, #type').change(function () {
                 var selected = $('#markets option:selected');
+                selectedType = $('#type option:selected').val();
                 $('.market_name').text(selected.text());
                 if ($('select[name="conditions[metric]"]').val() == '1') {
-                    $('.input-group-text').text(selected.text().split('/')[0]);
+                    if (selectedType >= 0 && selectedType <= 6) {
+                        $('.input-group-text').text(selected.text().split('/')[0]);
+                    } else if (selectedType == 7 || selectedType == 8) {
+                        $('.input-group-text').text('%');
+                    }
                 } else {
-                    $('.input-group-text').text(selected.data('quote'));
+                    if (selectedType >= 0 && selectedType <= 6) {
+                        $('.input-group-text').text(selected.data('quote'));
+                    } else if (selectedType == 7 || selectedType == 8) {
+                        $('.input-group-text').text('%');
+                    }
                 }
             }).change();
 
