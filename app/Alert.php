@@ -66,7 +66,21 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Alert extends Model
 {
-    protected $fillable = ['exchange_id', 'market_id', 'type', 'conditions', 'alert_message', 'open_ended', 'frequency', 'interval_number', 'interval_unit', 'expiration_date', 'enabled'];
+    protected $fillable = [
+        'exchange_id',
+        'market_id',
+        'type',
+        'conditions',
+        'alert_message',
+        'open_ended',
+        'frequency',
+        'interval_number',
+        'interval_unit',
+        'expiration_date',
+        'sound_enable',
+        'sound',
+        'enabled'
+    ];
 
     protected $casts = ['conditions' => 'array'];
 

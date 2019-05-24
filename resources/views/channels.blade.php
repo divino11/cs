@@ -7,31 +7,6 @@
         <div class="row">
             <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12">
                 <div class="settings-generalmodule">
-
-                    <div class="myaccount-combo channels-combo">
-                        <div class="form-group">
-                            <h5>Browser Alert</h5>
-
-                            <form action="{{ route('channels.soundEnable', ['user' => $user->id]) }}" class="form">
-                                <label class="container">Play Sound
-                                    <input type="checkbox" @if($user->sound_enable) checked @endif value="" name="sound_enable">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </form>
-                            <form action="{{ route('channels.sound', ['user' => $user->id]) }}" @if(!$user->sound_enable) style="display: none;" @endif class="sound-select form">
-                                <select class="form-control" name="sound">
-                                    <option disabled selected>Choose sound</option>
-                                    <option @if($user->sound == 'notification.mp3') selected @endif value="notification.mp3">Notification</option>
-                                    <option @if($user->sound == 'phone.mp3') selected @endif value="phone.mp3">Phone</option>
-                                    <option @if($user->sound == 'tone.wav') selected @endif value="tone.wav">Tone</option>
-                                    <option @if($user->sound == 'viber.mp3') selected @endif value="viber.mp3">Note</option>
-                                    <option @if($user->sound == 'vk.mp3') selected @endif value="vk.mp3">Fault</option>
-                                    <option @if($user->sound == 'return_tone.wav') selected @endif value="return_tone.wav">Return tone</option>
-                                </select>
-                            </form>
-                        </div>
-                    </div>
-
                     <!-- combo -->
                     <div class="myaccount-combo channels-combo">
                         <div class="form-group">
@@ -350,12 +325,6 @@
         $(document).ready(function(){
             $('input:checkbox').on('change', function(e){
                 $.get($(e.target).parents('form').attr('action'));
-            });
-            $('.sound-select').on('change', function(e){
-                $.get($(e.target).closest('form').attr('action'), { sound: $('.sound-select select').val() });
-            });
-            $('input:checkbox').click(function () {
-                $('.sound-select').slideToggle();
             });
         });
     </script>

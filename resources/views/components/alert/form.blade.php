@@ -140,6 +140,33 @@
                 until you've <a href="{{ route('user.sms_credits') }}">added credits</a>.</p>
         @endif
     @endif
+
+    <div class="add-actions"><i class="material-icons">arrow_drop_down</i> More actions</div>
+    <div class="wrapper-add-actions" style="display: @if( $alert->sound_enable ) block @else none @endif">
+        <h5>Browser Alert</h5>
+        <label class="container">Play Sound
+            <input type="hidden" id="sound_enable" value="0" name="sound_enable">
+            <input type="checkbox" value="1" @if(old('sound_enable', $alert->sound_enable)) checked @endif name="sound_enable">
+            <span class="checkmark"></span>
+        </label>
+        <div class="row gutter-10">
+            <div class="col-md-6 first-field-gutter">
+                <select class="form-control" name="sound" style="display: @if( $alert->sound_enable ) block @else none @endif">
+                    <option disabled selected>Choose sound</option>
+                    <option @if($alert->sound == 'notification.mp3') selected @endif value="notification.mp3">
+                        Notification
+                    </option>
+                    <option @if($alert->sound == 'phone.mp3') selected @endif value="phone.mp3">Phone</option>
+                    <option @if($alert->sound == 'tone.wav') selected @endif value="tone.wav">Tone</option>
+                    <option @if($alert->sound == 'viber.mp3') selected @endif value="viber.mp3">Note</option>
+                    <option @if($alert->sound == 'vk.mp3') selected @endif value="vk.mp3">Fault</option>
+                    <option @if($alert->sound == 'return_tone.wav') selected @endif value="return_tone.wav">Return
+                        tone
+                    </option>
+                </select>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- END combo -->
 
@@ -468,8 +495,11 @@
 
 
         $(document).ready(function () {
-            $('input[name="expiration_date"]').attr("readonly", false);
+            setTimeout(function () {
+                $('input[name="expiration_date"]').attr("readonly", false);
+            }, 500);
             if ($('input[name="open_ended"]').is(":checked")) {
+                $('.expiration').prop('disabled', true);
                 $('.expiration .flatpickr-input, .clockpicker .expiration-time').prop('disabled', true);
                 $('.expiration .flatpickr-input, .clockpicker .expiration-time, .expiration .input-group-addon, .clockpicker .input-group-addon').addClass('expiration-disabled');
             }
@@ -560,7 +590,21 @@
             };
             $("#cooldown").change(freshIntervalValues);
             $("#period").change(freshIntervalValues);
+        });
 
+        $('.add-actions').click(function () {
+            if ($('.add-actions').hasClass('active')) {
+                $('.add-actions').html('<i class="material-icons">arrow_drop_down</i> More actions');
+                $('.add-actions').removeClass('active');
+            } else {
+                $('.add-actions').addClass('active');
+                $('.add-actions').html('<i class="material-icons">arrow_drop_up</i> Less actions');
+            }
+            $('.wrapper-add-actions').slideToggle();
+        });
+
+        $('.wrapper-add-actions input:checkbox').click(function () {
+            $('.wrapper-add-actions select').slideToggle();
         });
     </script>
 @endpush

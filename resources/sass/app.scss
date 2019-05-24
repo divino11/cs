@@ -2013,3 +2013,17 @@ h2, .h2 {
 .starting-date input {
   background-color: transparent !important;
 }
+
+.add-actions {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #50556b;
+  font-size: 14px;
+}
+
+.row .first-field-gutter {
+    padding-right: 5px;
+    padding-left: 5px;
+}
