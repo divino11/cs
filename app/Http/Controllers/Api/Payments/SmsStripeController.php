@@ -14,16 +14,20 @@ class SmsStripeController extends Controller
     public function __invoke(Request $request)
     {
         if($request->stripeToken) {
-             if (!$request->user()->stripe_id) {
-                $request->user()->createAsStripeCustomer();
-             }
-            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+            try {
+                if (!$request->user()->stripe_id) {
+                    $request->user()->createAsStripeCustomer();
+                }
+                \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
 
-            \Stripe\Charge::create([
-                "amount" => config('payments.sms.cent_price'),
-                "currency" => "usd",
-                "source" => "tok_mastercard",
-            ]);
+                \Stripe\Charge::create([
+                    "amount" => config('payments.sms.cent_price'),
+                    "currency" => "usd",
+                    "source" => "tok_mastercard",
+                ]);
+            } catch (\Exception $e) {
+                return redirect()->back()->withErrors([$e->getMessage()]);
+            }
 
             User::updateSmsCount($request->user()->id);
             Transaction::updateOrCreate(['created_at' => Carbon::now()], [

@@ -7,6 +7,12 @@ use App\Http\Requests\Subscriptions\CreateRequest;
 use App\Transaction;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
+use Stripe\Error\ApiConnection;
+use Stripe\Error\Authentication;
+use Stripe\Error\Base;
+use Stripe\Error\Card;
+use Stripe\Error\InvalidRequest;
+use Stripe\Error\RateLimit;
 
 class SubscribeStripeController extends Controller
 {
@@ -14,8 +20,13 @@ class SubscribeStripeController extends Controller
     {
         if ($request->stripeToken) {
 
-            $request->user()->createAsStripeCustomer();
-            $request->user()->newSubscription('main', config('payments.subscriptions.plan'))->create($request->stripeToken);
+            try {
+                $request->user()->createAsStripeCustomer();
+                $request->user()->newSubscription('main', config('payments.subscriptions.plan'))
+                    ->create($request->stripeToken);
+            } catch (\Exception $e) {
+                return redirect()->back()->withErrors([$e->getMessage()]);
+            }
 
             Transaction::updateOrCreate(['created_at' => Carbon::now()], [
                 'user_id' => $request->user()->id,
