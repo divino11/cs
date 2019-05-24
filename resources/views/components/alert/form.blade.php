@@ -248,7 +248,7 @@
             var flag = 1;
             var ticker, metricVal, metricText = {};
             if ('{{ $alert->conditions['value'] }}') {
-                setStorage($('select[name="conditions[metric]"]').val(), $('#type option:selected').val(), {{ $alert->conditions['value'] }});
+                setStorage('value', '0', {{ $alert->conditions['value'] }});
             }
 
             $('#exchange').change(function () {
@@ -294,7 +294,7 @@
                         return ticker;
                     }
                 });
-            }).change();
+            });
 
             $("select[name='conditions[metric]']").change(function () {
                 if (ticker) {
@@ -303,10 +303,15 @@
             });
 
             $('#type').change(function () {
+                selectedType = $('#type option:selected').val();
                 if (ticker) {
                     updatePrice();
                 }
-                selectedType = $('#type option:selected').val();
+
+                if (getStorage(metricVal, selectedType, null)) {
+                    $('input[name="conditions[value]"]:visible').val(getStorage(metricVal, selectedType, null));
+                    $('#alert_message').val(changeTextarea(getStorage(metricVal, selectedType, null)));
+                }
                 if (selectedType == '7' || selectedType == '8') {
                     $('.input-group-text').text('%');
                 }
@@ -344,7 +349,8 @@
                 }
             });
 
-            $('#alert_message').bind('change', function () {
+            $('#alert_message').bind('keyup', function () {
+                localStorage.setItem('alert_0', $('#alert_message').val());
                 cleanMessage(selectedType);
             });
 
@@ -353,7 +359,7 @@
                 setStorage(metricVal, selectedType, $('input[name="conditions[value]"]:visible').val());
             });
 
-            function setStorage(metric, type, value) {
+            function setStorage(metric = 0, type = 0, value) {
                 localStorage.setItem(metric + '_' + type, value);
             }
 
@@ -391,11 +397,6 @@
                 $('#currencyPrice').text(currencyPrice);
 
                 currentValue = $("input[name='conditions[value]']:visible");
-
-                /*setStorage(metricVal, selectedType, currencyPrice);
-                currencyPrice = getStorage(metricVal, selectedType, currencyPrice);
-                currentValue.val(currencyPrice);*/
-
                 if (selectedType == 5 || selectedType == 6) {
                     currentValue.val('2');
                 } else if (selectedType == 7 || selectedType == 8) {
@@ -403,6 +404,13 @@
                 } else {
                     currentValue.val(currencyPrice);
                 }
+
+                if (getStorage('value', '0', null)) {
+                    $("input[name='conditions[value]']:visible").val(getStorage('value', '0', null));
+                    localStorage.removeItem('value_0');
+                }
+
+                $('#alert_message').val(changeTextarea(currentValue.val()));
             }
 
             function changeTextarea(price) {
@@ -442,9 +450,13 @@
                 }
                 var message = market + ' ' + metric + ' ' + type + ' ' + value + regular + interval;
 
+                if (localStorage.getItem('alert_0')) {
+                    return localStorage.getItem('alert_0');
+                }
                 return message.replace(/\s+/g, ' ').trim();
             }
         });
+
 
         $(document).ready(function () {
             $('input[name="expiration_date"]').attr("readonly", false);
