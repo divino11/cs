@@ -7,7 +7,7 @@
     <div class="settings-generalmodule">
         <h5>Account Details</h5>
         <div class="row myaccount-list no-gutters">
-            <div class="col-6 myaccount-list-grey">
+            <div class="col-6 myaccount-list-inner">
                 <ul>
                     <li>Email:</li>
                     <li>SMS Credit:</li>
@@ -45,7 +45,7 @@
         </div>
         <h5>Subscription Details</h5>
         <div class="row myaccount-list no-gutters">
-            <div class="col-6 myaccount-list-grey">
+            <div class="col-6 myaccount-list-inner">
                 <ul>
                     <li>Plan:</li>
                     <li>Billing Cycle:</li>
@@ -72,7 +72,7 @@
         </div>
         <h5>Settings</h5>
         <div class="row myaccount-list no-gutters">
-            <div class="col-6 myaccount-list-grey">
+            <div class="col-6 myaccount-list-inner">
                 <ul>
                     <li>Timezone:</li>
                 </ul>

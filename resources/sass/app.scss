@@ -1525,8 +1525,8 @@ svg:not(:root).svg-inline--fa {
   font-size: 1.25rem;
 }
 
-.myaccount-list-grey {
-  color: #999;
+.myaccount-list-inner {
+  color: #50556b;
 }
 
 .myaccount-list li {
@@ -1889,11 +1889,11 @@ h2, .h2 {
     padding-top: 0;
     padding-bottom: 0;
   }
-  .settings-generalmodule .col-6.myaccount-list-grey {
+  .settings-generalmodule .col-6.myaccount-list-inner {
     flex: 0 0 33.3333%;
     max-width: 33.33333%;
   }
-  .settings-generalmodule .col-6:not(.myaccount-list-grey) {
+  .settings-generalmodule .col-6:not(.myaccount-list-inner) {
     flex: 0 0 66.6666%;
     max-width: 66.6666%;
   }
@@ -1907,11 +1907,11 @@ h2, .h2 {
     padding-top: 0;
     padding-bottom: 0;
   }
-  .settings-generalmodule .col-6.myaccount-list-grey {
+  .settings-generalmodule .col-6.myaccount-list-inner {
     flex: 0 0 45%;
     max-width: 45%;
   }
-  .settings-generalmodule .col-6:not(.myaccount-list-grey) {
+  .settings-generalmodule .col-6:not(.myaccount-list-inner) {
     flex: 0 0 55%;
     max-width: 55%;
   }
