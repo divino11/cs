@@ -395,6 +395,10 @@
                 setStorage(metricVal, selectedType, $('input[name="conditions[value]"]:visible').val());
             });
 
+            $('select[name="conditions[interval_number]"], select[name="conditions[interval_unit]"]').change(function () {
+                $('#alert_message').val(changeTextarea($('input[name="conditions[value]"]:visible').val()));
+            });
+
             function setStorage(metric = 0, type = 0, value) {
                 localStorage.setItem(metric + '_' + type, value);
             }
