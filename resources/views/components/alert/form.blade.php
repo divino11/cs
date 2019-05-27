@@ -94,6 +94,33 @@
                @if(collect(old('notification_channels', $alert->notificationChannels))->where('notification_channel', \App\Enums\NotificationChannel::Browser_Alert)->isNotEmpty()) checked @endif>
         <span class="checkmark"></span>
     </label>
+        <div class="row sound-wrapper">
+            <div class="col-md-3">
+                <label class="container">Play Sound
+                    <input type="hidden" id="sound_enable" value="0" name="sound_enable">
+                    <input type="checkbox" class="sound-enable" value="1"
+                           @if(old('sound_enable', $alert->sound_enable)) checked
+                           @endif name="sound_enable">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="col-md-3">
+                <select class="select-form" name="sound"
+                        style="display: @if( $alert->sound_enable ) block @else none @endif">
+                    <option disabled selected>Choose sound</option>
+                    <option @if($alert->sound == 'notification.mp3') selected @endif value="notification.mp3">
+                        Notification
+                    </option>
+                    <option @if($alert->sound == 'phone.mp3') selected @endif value="phone.mp3">Phone</option>
+                    <option @if($alert->sound == 'tone.wav') selected @endif value="tone.wav">Tone</option>
+                    <option @if($alert->sound == 'viber.mp3') selected @endif value="viber.mp3">Note</option>
+                    <option @if($alert->sound == 'vk.mp3') selected @endif value="vk.mp3">Fault</option>
+                    <option @if($alert->sound == 'return_tone.wav') selected @endif value="return_tone.wav">Return
+                        tone
+                    </option>
+                </select>
+        </div>
+    </div>
     @if(request()->user()->hasNotificationEmailVerified())
         <label class="container">Email
             <input type="checkbox" id="email_notification" value="{{ \App\Enums\NotificationChannel::Mail }}"
@@ -140,33 +167,6 @@
                 until you've <a href="{{ route('user.sms_credits') }}">added credits</a>.</p>
         @endif
     @endif
-
-    <div class="add-actions"><i class="material-icons">arrow_drop_down</i> More actions</div>
-    <div class="wrapper-add-actions" style="display: @if( $alert->sound_enable ) block @else none @endif">
-        <h5>Browser Alert</h5>
-        <label class="container">Play Sound
-            <input type="hidden" id="sound_enable" value="0" name="sound_enable">
-            <input type="checkbox" value="1" @if(old('sound_enable', $alert->sound_enable)) checked @endif name="sound_enable">
-            <span class="checkmark"></span>
-        </label>
-        <div class="row gutter-10">
-            <div class="col-md-6 first-field-gutter">
-                <select class="form-control" name="sound" style="display: @if( $alert->sound_enable ) block @else none @endif">
-                    <option disabled selected>Choose sound</option>
-                    <option @if($alert->sound == 'notification.mp3') selected @endif value="notification.mp3">
-                        Notification
-                    </option>
-                    <option @if($alert->sound == 'phone.mp3') selected @endif value="phone.mp3">Phone</option>
-                    <option @if($alert->sound == 'tone.wav') selected @endif value="tone.wav">Tone</option>
-                    <option @if($alert->sound == 'viber.mp3') selected @endif value="viber.mp3">Note</option>
-                    <option @if($alert->sound == 'vk.mp3') selected @endif value="vk.mp3">Fault</option>
-                    <option @if($alert->sound == 'return_tone.wav') selected @endif value="return_tone.wav">Return
-                        tone
-                    </option>
-                </select>
-            </div>
-        </div>
-    </div>
 </div>
 <!-- END combo -->
 
@@ -596,19 +596,8 @@
             $("#period").change(freshIntervalValues);
         });
 
-        $('.add-actions').click(function () {
-            if ($('.add-actions').hasClass('active')) {
-                $('.add-actions').html('<i class="material-icons">arrow_drop_down</i> More actions');
-                $('.add-actions').removeClass('active');
-            } else {
-                $('.add-actions').addClass('active');
-                $('.add-actions').html('<i class="material-icons">arrow_drop_up</i> Less actions');
-            }
-            $('.wrapper-add-actions').slideToggle();
-        });
-
-        $('.wrapper-add-actions input:checkbox').click(function () {
-            $('.wrapper-add-actions select').slideToggle();
+        $('input[name="sound_enable"]').click(function () {
+            $('select[name="sound"]').toggle('slide');
         });
     </script>
 @endpush
