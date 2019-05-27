@@ -459,7 +459,11 @@
                 var interval = '';
                 if (selectedType == 9) {
                     value = '';
-                    regular = 'is currently {price}';
+                    if (metricVal == 0) {
+                        regular = 'is currently {price}';
+                    } else {
+                        regular = 'is currently {volume}';
+                    }
                     type = '';
                     interval = '';
                 }
@@ -476,10 +480,10 @@
                 }
                 if (selectedType == 7 || selectedType == 8) {
                     if (selectedType == 7) {
-                        type = 'increased by';
+                        type = 'moving up';
                     }
                     if (selectedType == 8) {
-                        type = 'decreased by';
+                        type = 'moving down';
                     }
                     regular = '%';
                     interval = ' in ' + intervalTime;
