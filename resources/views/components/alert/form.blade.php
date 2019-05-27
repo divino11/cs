@@ -501,11 +501,11 @@
         $(document).ready(function () {
             setTimeout(function () {
                 $('input[name="expiration_date"]').attr("readonly", false);
-            }, 500);
+            }, 1000);
             if ($('input[name="open_ended"]').is(":checked")) {
                 $('.expiration').prop('disabled', true);
                 $('.expiration .flatpickr-input, .clockpicker .expiration-time').prop('disabled', true);
-                $('.expiration .flatpickr-input, .clockpicker .expiration-time, .expiration .input-group-addon, .clockpicker .input-group-addon').addClass('expiration-disabled');
+                $('.expiration input[name="expiration_date"], .clockpicker .expiration-time, .expiration .input-group-addon, .clockpicker .input-group-addon').addClass('expiration-disabled');
             }
             $('input[name="open_ended"]').change(function () {
                 if ($('input[name="open_ended"]').is(":checked")) {
