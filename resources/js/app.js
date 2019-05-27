@@ -69,6 +69,8 @@ $(document).ready(function() {
     });
 });
 
+var mouseflowPath = window.location.hostname + window.location.pathname;
+var mouseflowCrossDomainSupport = true;
 window._mfq = window._mfq || [];
 (function() {
     var mf = document.createElement("script");
