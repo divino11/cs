@@ -20,7 +20,7 @@
             <select name="conditions[interval_unit]" class="form-control" id="period">
                 @foreach(App\Enums\AlertPeriod::toSelectArray() as $key => $value)
                     <option value="{{ strtolower(App\Enums\AlertPeriod::getDescription($key)) }}"
-                            @if(old('interval_unit', $alert->interval_unit) == strtolower(App\Enums\AlertPeriod::getDescription($key))) selected @endif>{{ $value }}</option>
+                            @if(old('conditions.interval_unit', $alert->conditions['interval_unit'] or $conditions_intervals) == strtolower(App\Enums\AlertPeriod::getDescription($key))) selected @endif>{{ $value }}</option>
                 @endforeach
             </select>
         </div>
