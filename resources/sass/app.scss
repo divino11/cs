@@ -2043,3 +2043,17 @@ h2, .h2 {
 .select-form {
   height: auto !important;
 }
+
+.sms-valid-card {
+  display: flex;
+  align-items: center;
+}
+
+.sms-valid-card p {
+  margin-bottom: 0;
+  padding-right: 10px;
+}
+
+.card-element {
+  width: 100%;
+}

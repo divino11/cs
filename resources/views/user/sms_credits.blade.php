@@ -67,12 +67,21 @@
                             <h4 class="modal-title" id="myModalLabel">Pay with Card</h4>
                         </div>
                         <div class="modal-body">
+                            @if($user->card_last_four)
+                                <form action="{{ route('api.payments.stripe.sms') }}" method="post">
+                                    <div class="sms-valid-card">
+                                        <input type="hidden" name="stripeToken" value="1">
+                                        <p>You can use a valid card ({{ $user->card_last_four }})</p>
+                                        <button class="btn btn-primary" type="submit">Pay 2$</button>
+                                    </div>
+                                </form>
+                            @endif
                             <form action="{{ route('api.payments.stripe.sms') }}" method="post" id="payment-form">
                                 @csrf
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="form-row">
-                                            <label for="card-element">
+                                            <label class="card-element" for="card-element">
                                                 Credit or debit card
                                             </label>
                                             <div id="card-element"></div>
