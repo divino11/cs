@@ -432,7 +432,10 @@
                         break;
                 }
 
-                $('.currency_price_group').show();
+                if (currencyPrice) {
+                    $('.currency_price_group').show();
+                }
+
                 $('.currency_price_group h4').text(metricText + ': ');
                 $('#currencyPrice').text(currencyPrice);
 
