@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Ticker;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class ClearTickers extends Command
@@ -38,6 +39,6 @@ class ClearTickers extends Command
      */
     public function handle()
     {
-        return Ticker::truncate();
+        return Ticker::where('created_at', '<', Carbon::now()->subMonth())->delete();
     }
 }
