@@ -28,28 +28,15 @@ window.Echo = new Echo({
 
 window.Echo.private(`user.${userId}`)
     .notification((data) => {
-        if (data.user.sound_enable) {
-            var audio = new Audio(data.alert_sound);
-            window.focus();
-            audio.play();
-        }
-        $.notify({
-            message: data.alert_message,
-        },{
-            type: 'success',
-            placement: {
-                from: "bottom",
-                align: "right"
-            },
-            offset: 20,
-            spacing: 10,
-            delay: 0,
-            animate: {
-                enter: 'animated slideInUp',
-                exit: 'animated slideInDown'
-            },
+        let notification = new Notification('New post alert!', {
+            body: data.alert_message,
+            icon: data.logo
         });
+        notification.onclick = () => {
+            window.open(window.location.href);
+        };
     });
+
 //window.Pusher.logToConsole = true;
 $(document).ready(function() {
     var countryData = window.intlTelInputGlobals.getCountryData(),

@@ -109,7 +109,8 @@ class AlertTriggered extends Notification
             'alert' => $this->alert,
             'alert_message' => $this->alert_message,
             'alert_sound' => 'storage/sounds/' . $this->alert->sound,
-            'user' => $this->alert
+            'user' => $this->alert,
+            'logo' => asset('logo-notification.png')
         ]);
     }
 
