@@ -202,8 +202,8 @@
             <h5>&nbsp;</h5>
             <select name="interval_unit" class="form-control" id="cooldown">
                 @foreach(App\Enums\AlertPeriod::toSelectArray() as $key => $value)
-                    <option value="{{ strtolower(App\Enums\AlertPeriod::getDescription($key)) }}"
-                            @if(old('interval_unit', $alert->interval_unit) == strtolower(App\Enums\AlertPeriod::getDescription($key))) selected @endif>{{ $value }}</option>
+                    <option value="{{ App\Enums\AlertPeriod::getValue($value) }}"
+                            @if(old('interval_unit', $alert->interval_unit) == App\Enums\AlertPeriod::getValue($value)) selected @endif>{{ $value }}</option>
                 @endforeach
             </select>
         </div>
@@ -461,7 +461,7 @@
                 var metric = $("select[name='conditions[metric]'] option:selected").text().toLowerCase() ? $("select[name='conditions[metric]'] option:selected").text().toLowerCase() : '';
                 var type = $("#type option:selected").text().toLowerCase() ? $("#type option:selected").text().toLowerCase() : '';
                 var value = price ? price : '';
-                var intervalTime = $('select[name="conditions[interval_number]"] option:selected').val() + ' ' + $('select[name="conditions[interval_unit]"] option:selected').val();
+                var intervalTime = $('select[name="conditions[interval_number]"] option:selected').val() + ' ' + $('select[name="conditions[interval_unit]"] option:selected').text().toLowerCase();
                 var regular = '';
                 var interval = '';
                 if (selectedType == 9) {

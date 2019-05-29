@@ -85,7 +85,7 @@ class Alert extends Model
     protected $casts = ['conditions' => 'array'];
 
     protected $attributes = [
-        'interval_unit' => 'hours'
+        'interval_unit' => '1'
     ];
 
     public function exchange()

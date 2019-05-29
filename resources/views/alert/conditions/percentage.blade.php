@@ -19,8 +19,8 @@
         <div class="col-md-6 col-sm-6 myaccount-combo-righthalf">
             <select name="conditions[interval_unit]" class="form-control" id="period">
                 @foreach(App\Enums\AlertPeriod::toSelectArray() as $key => $value)
-                    <option value="{{ strtolower(App\Enums\AlertPeriod::getDescription($key)) }}"
-                            @if(old('conditions.interval_unit', $alert->conditions['interval_unit'] or $conditions_intervals) == strtolower(App\Enums\AlertPeriod::getDescription($key))) selected @endif>{{ $value }}</option>
+                    <option value="{{ App\Enums\AlertPeriod::getValue($value) }}"
+                            @if($conditions_intervals == App\Enums\AlertPeriod::getValue($value)) selected @endif>{{ $value }}</option>
                 @endforeach
             </select>
         </div>
