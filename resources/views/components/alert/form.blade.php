@@ -94,33 +94,29 @@
                @if(collect(old('notification_channels', $alert->notificationChannels))->where('notification_channel', \App\Enums\NotificationChannel::Browser_Alert)->isNotEmpty()) checked @endif>
         <span class="checkmark"></span>
     </label>
-        <div class="row sound-wrapper">
-            <div class="col-md-3">
+
                 <label class="container">Play Sound
                     <input type="hidden" id="sound_enable" value="0" name="sound_enable">
                     <input type="checkbox" class="sound-enable" value="1"
                            @if(old('sound_enable', $alert->sound_enable)) checked
                            @endif name="sound_enable">
                     <span class="checkmark"></span>
+                    <select class="select-form" name="sound"
+                            style="display: @if( $alert->sound_enable ) block @else none @endif">
+                        <option disabled selected>Choose sound</option>
+                        <option @if($alert->sound == 'notification.mp3') selected @endif value="notification.mp3">
+                            Notification
+                        </option>
+                        <option @if($alert->sound == 'phone.mp3') selected @endif value="phone.mp3">Phone</option>
+                        <option @if($alert->sound == 'tone.wav') selected @endif value="tone.wav">Tone</option>
+                        <option @if($alert->sound == 'viber.mp3') selected @endif value="viber.mp3">Note</option>
+                        <option @if($alert->sound == 'vk.mp3') selected @endif value="vk.mp3">Fault</option>
+                        <option @if($alert->sound == 'return_tone.wav') selected @endif value="return_tone.wav">Return
+                            tone
+                        </option>
+                    </select>
                 </label>
-            </div>
-            <div class="col-md-3">
-                <select class="select-form" name="sound"
-                        style="display: @if( $alert->sound_enable ) block @else none @endif">
-                    <option disabled selected>Choose sound</option>
-                    <option @if($alert->sound == 'notification.mp3') selected @endif value="notification.mp3">
-                        Notification
-                    </option>
-                    <option @if($alert->sound == 'phone.mp3') selected @endif value="phone.mp3">Phone</option>
-                    <option @if($alert->sound == 'tone.wav') selected @endif value="tone.wav">Tone</option>
-                    <option @if($alert->sound == 'viber.mp3') selected @endif value="viber.mp3">Note</option>
-                    <option @if($alert->sound == 'vk.mp3') selected @endif value="vk.mp3">Fault</option>
-                    <option @if($alert->sound == 'return_tone.wav') selected @endif value="return_tone.wav">Return
-                        tone
-                    </option>
-                </select>
-        </div>
-    </div>
+
     @if(request()->user()->hasNotificationEmailVerified())
         <label class="container">Email
             <input type="checkbox" id="email_notification" value="{{ \App\Enums\NotificationChannel::Mail }}"
