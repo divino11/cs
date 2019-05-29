@@ -31,20 +31,20 @@ class SubscriptionController extends Controller
     public function create(CreateRequest $request)
     {
         $trx = [
-            'amountTotal' => PaymentPrice::Subscription,
+            'amountTotal' => config('payments.subscriptions.price'),
             'note' => 'Advanced plan',
             'items' => [
                 [
                     'descriptionItem' => 'Advanced plan',
-                    'priceItem' => PaymentPrice::Subscription, // USD
+                    'priceItem' => config('payments.subscriptions.price'),
                     'qtyItem' => 1,
-                    'subtotalItem' => PaymentPrice::Subscription // USD
+                    'subtotalItem' => config('payments.subscriptions.price')
                 ]
             ],
             'payload' => [
                 'subscription' => 'subscription',
                 'description' => 'Advanced plan',
-                'priceItem' => PaymentPrice::Subscription,
+                'priceItem' => config('payments.subscriptions.price'),
                 'service' => 'blockchain',
                 'user_id' => Auth::user()->id,
             ]
@@ -66,7 +66,7 @@ class SubscriptionController extends Controller
 
     public function destroy(CancelRequest $request)
     {
-        if($request->user()->subscription('main')->braintree_id != 1) {
+        if($request->user()->subscription('main')->stripe_id != 1) {
             $request->user()->subscription('main')->cancelNow();
         } else {
             $request->user()->subscriptions()->update([

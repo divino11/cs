@@ -2,17 +2,10 @@
 
 namespace App\Http\Controllers\Api\Payments;
 
-use App\Enums\PaymentPrice;
 use App\Http\Requests\Subscriptions\CreateRequest;
 use App\Transaction;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
-use Stripe\Error\ApiConnection;
-use Stripe\Error\Authentication;
-use Stripe\Error\Base;
-use Stripe\Error\Card;
-use Stripe\Error\InvalidRequest;
-use Stripe\Error\RateLimit;
 
 class SubscribeStripeController extends Controller
 {
@@ -36,9 +29,7 @@ class SubscribeStripeController extends Controller
                 'status' => 100,
             ]);
 
-
-
-            return redirect()->route('user.subscription.index')->with('status', 'You have purchased pro subscription');
+            return redirect()->route('user.subscription.index')->with('status', 'You have purchased advanced subscription');
         } else {
             Transaction::updateOrCreate(['created_at' => Carbon::now()], [
                 'user_id' => $request->user()->id,

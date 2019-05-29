@@ -6,8 +6,12 @@ return [
         'price' => 2,
         'cent_price' => 200,
     ],
-    'subscriptions' => [
+    'yearly' => [
         'plan' => 'plan_F4tlpVKs2fTEpy',
         'price' => 100,
+    ],
+    'monthly' => [
+        'plan' => 'plan_F9h1zqzZ4MArvx',
+        'price' => 10,
     ]
 ];

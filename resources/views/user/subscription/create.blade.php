@@ -19,10 +19,27 @@
                     <div class="col-md-8 col-sm-8 advancedplan-module-right">
                         <a href="#" class="btn btn-primary bt-section d-inline-flex" id="bitcoin-button"
                            data-toggle="modal"
-                           data-target="#myModal"><i class="material-icons">credit_card</i>Credit card: $100
+                           data-target="#myModal"><i class="material-icons">credit_card</i> Credit card: $100
                         </a>
                         <a href="{{ $link_transaction }}" class="btn btn-primary bt-section d-inline-flex"
                            target="_blank"><i class="material-icons">monetization_on</i> Bitcoin: $100</a>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-credits-module advancedplan-module">
+            <div class="row">
+
+                    <div class="col-md-4 col-sm-4">
+                        <h3>Monthly</h3>
+                    </div>
+
+                    <div class="col-md-8 col-sm-8 advancedplan-module-right">
+                        <a href="#" class="btn btn-primary bt-section d-inline-flex" id="bitcoin-button"
+                           data-toggle="modal"
+                           data-target="#myModal"><i class="material-icons">credit_card</i> Credit card: $10
+                        </a>
+                        <a href="{{ $link_transaction }}" class="btn btn-primary bt-section d-inline-flex"
+                           target="_blank"><i class="material-icons">monetization_on</i> Bitcoin: $10</a>
                     </div>
                 </div>
             </div>

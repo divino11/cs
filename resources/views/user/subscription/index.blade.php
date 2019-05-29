@@ -54,6 +54,8 @@
                         <div class="pricing-module-content">
                             <h4>Advanced plan</h4>
                             <div class="pricing-module-ttl"><span class="pricing-module-price">$100</span> <span class="pricing-module-month">/year</span></div>
+                            <div class="pricing-module-ttl"><span class="pricing-module-month">or</span></div>
+                            <div class="pricing-module-ttl"><span class="pricing-module-price">$10</span> <span class="pricing-module-month">/month</span></div>
                             @subscribed
                                 <button disabled class="btn btn-primary bt-section-out" role="button">Current Plan</button>
                             @else
