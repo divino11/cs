@@ -28,8 +28,14 @@ window.Echo = new Echo({
 
 window.Echo.private(`user.${userId}`)
     .notification((data) => {
-        let notification = new Notification('New post alert!', {
-            body: data.alert_message,
+        if (data.user.sound_enable) {
+            var audio = new Audio(data.alert_sound);
+            window.focus();
+            audio.play();
+        }
+
+        let notification = new Notification(data.alert_message, {
+            body: 'CoinSpy',
             icon: data.logo
         });
         notification.onclick = () => {

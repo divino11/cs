@@ -602,5 +602,9 @@
         $('input[name="sound_enable"]').click(function () {
             $('select[name="sound"]').toggle('slide');
         });
+
+        $('#browser_notification').click(function () {
+            Notification.requestPermission();
+        });
     </script>
 @endpush
