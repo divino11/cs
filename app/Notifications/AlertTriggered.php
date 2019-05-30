@@ -108,9 +108,9 @@ class AlertTriggered extends Notification
         return new BroadcastMessage([
             'alert' => $this->alert,
             'alert_message' => $this->alert_message,
-            'alert_sound' => 'storage/sounds/' . $this->alert->sound,
+            'alert_sound' => 'sounds/' . $this->alert->sound,
             'user' => $this->alert,
-            'logo' => asset('logo-notification.png')
+            'logo' => 'logo-notification.png'
         ]);
     }
 
