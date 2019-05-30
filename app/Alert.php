@@ -18,6 +18,7 @@ use App\AlertStrategies\RegularUpdate;
 use App\AlertStrategies\VolumeGreaterThan;
 use App\AlertStrategies\VolumeLessThan;
 use App\Contracts\AlertStrategy;
+use App\Enums\AlertPeriod;
 use App\Enums\AlertType;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
@@ -85,7 +86,7 @@ class Alert extends Model
     protected $casts = ['conditions' => 'array'];
 
     protected $attributes = [
-        'interval_unit' => '1'
+        'interval_unit' => AlertPeriod::Hours
     ];
 
     public function exchange()
@@ -156,7 +157,7 @@ class Alert extends Model
 
     public function getIntervalFormatAttribute()
     {
-        return $this->conditions['interval_number'] . ' ' . $this->conditions['interval_unit'];
+        return $this->conditions['interval_number'] . ' ' . strtolower(AlertPeriod::getKey((int)$this->conditions['interval_unit']));
     }
 
     public function getIntervalAttribute()
@@ -167,7 +168,7 @@ class Alert extends Model
     public function getCooldownAttribute()
     {
         if ($this->interval_number) {
-            return CarbonInterval::fromString($this->interval_number . ' ' . $this->interval_unit);
+            return CarbonInterval::fromString($this->interval_number . ' ' . strtolower(AlertPeriod::getKey((int)$this->interval_unit)));
         }
         return new CarbonInterval('0', '0', '0', '0', '1');
     }
