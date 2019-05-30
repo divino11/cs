@@ -381,7 +381,7 @@
                 }
             });
 
-            $('#alert_message').bind('keyup', function () {
+            $('#alert_message').bind('change', function () {
                 localStorage.setItem('alert_0', $('#alert_message').val());
                 cleanMessage(selectedType);
             });
