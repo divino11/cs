@@ -34,8 +34,8 @@ window.Echo.private(`user.${userId}`)
             audio.play();
         }
 
-        let notification = new Notification(data.alert_message, {
-            body: 'CoinSpy',
+        let notification = new Notification('CoinSpy', {
+            body: data.alert_message,
             icon: data.logo
         });
         notification.onclick = () => {
