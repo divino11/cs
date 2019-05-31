@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('tickers:clear')->everyMinute();
+        $schedule->command('tickers:clear')->monthly();
         $schedule->job(FetchTickers::class)->everyFiveMinutes();
         $schedule->call(function(){
             Alert::enabled()->get()->each([ProcessAlert::class, 'dispatch']);

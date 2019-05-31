@@ -33,23 +33,16 @@ window.Echo.private(`user.${userId}`)
             window.focus();
             audio.play();
         }
-        $.notify({
-            message: data.alert_message,
-        },{
-            type: 'success',
-            placement: {
-                from: "bottom",
-                align: "right"
-            },
-            offset: 20,
-            spacing: 10,
-            delay: 0,
-            animate: {
-                enter: 'animated slideInUp',
-                exit: 'animated slideInDown'
-            },
+
+        let notification = new Notification(data.alert_message, {
+            body: 'CoinSpy',
+            icon: data.logo
         });
+        notification.onclick = () => {
+            window.open(window.location.href);
+        };
     });
+
 //window.Pusher.logToConsole = true;
 $(document).ready(function() {
     var countryData = window.intlTelInputGlobals.getCountryData(),
