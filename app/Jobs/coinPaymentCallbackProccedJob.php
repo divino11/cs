@@ -39,9 +39,9 @@ class coinPaymentCallbackProccedJob implements ShouldQueue
                 if (isset($this->data['payload']['subscription'])) {
                     $user = User::find($this->data['payload']['user_id']);
                     $user->subscriptions()->create([
-                        'name' => 'main',
+                        'name' => $this->data['payload']['plan'],
                         'stripe_id' => 1,
-                        'stripe_plan' => 'premium',
+                        'stripe_plan' => $this->data['payload']['plan'],
                         'quantity' => 1,
                     ]);
                 }

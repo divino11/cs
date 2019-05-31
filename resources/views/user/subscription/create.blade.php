@@ -17,29 +17,31 @@
                     </div>
 
                     <div class="col-md-8 col-sm-8 advancedplan-module-right">
-                        <a href="#" class="btn btn-primary bt-section d-inline-flex" id="bitcoin-button"
+                        <a href="#" class="btn btn-primary bt-section d-inline-flex btn-plan" id="bitcoin-button"
+                           data-plan="yearly"
+                           data-price={{ config('payments.yearly.price') }}
                            data-toggle="modal"
-                           data-target="#myModal"><i class="material-icons">credit_card</i> Credit card: $100
+                           data-target="#myModal"><i class="material-icons">credit_card</i> Credit card: ${{ config('payments.yearly.price') }}
                         </a>
-                        <a href="{{ $link_transaction }}" class="btn btn-primary bt-section d-inline-flex"
-                           target="_blank"><i class="material-icons">monetization_on</i> Bitcoin: $100</a>
+                        <a href="{{ $link_transaction_yearly }}" class="btn btn-primary bt-section d-inline-flex"
+                           target="_blank"><i class="material-icons">monetization_on</i> Bitcoin: ${{ config('payments.yearly.price') }}</a>
                     </div>
                 </div>
             </div>
             <div class="settings-credits-module advancedplan-module">
-            <div class="row">
-
+                <div class="row">
                     <div class="col-md-4 col-sm-4">
                         <h3>Monthly</h3>
                     </div>
-
                     <div class="col-md-8 col-sm-8 advancedplan-module-right">
-                        <a href="#" class="btn btn-primary bt-section d-inline-flex" id="bitcoin-button"
+                        <a href="#" class="btn btn-primary bt-section d-inline-flex btn-plan" id="bitcoin-button"
+                           data-plan="monthly"
+                           data-price={{ config('payments.monthly.price') }}
                            data-toggle="modal"
-                           data-target="#myModal"><i class="material-icons">credit_card</i> Credit card: $10
+                           data-target="#myModal"><i class="material-icons">credit_card</i> Credit card: ${{ config('payments.monthly.price') }}
                         </a>
-                        <a href="{{ $link_transaction }}" class="btn btn-primary bt-section d-inline-flex"
-                           target="_blank"><i class="material-icons">monetization_on</i> Bitcoin: $10</a>
+                        <a href="{{ $link_transaction_monthly }}" class="btn btn-primary bt-section d-inline-flex"
+                           target="_blank"><i class="material-icons">monetization_on</i> Bitcoin: ${{ config('payments.monthly.price') }}</a>
                     </div>
                 </div>
             </div>
@@ -67,6 +69,7 @@
                         <div class="modal-body">
                             <form action="{{ route('api.payments.stripe.subscribe') }}" method="post" id="payment-form">
                                 @csrf
+                                <input type="hidden" name="plan">
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="form-row">
@@ -94,11 +97,9 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script>
         var stripe = Stripe('{{ config('services.stripe.key') }}');
-        // Create an instance of Elements.
+
         var elements = stripe.elements();
 
-        // Custom styling can be passed to options when creating an Element.
-        // (Note that this demo uses a wider set of styles than the guide below.)
         var style = {
             base: {
                 color: '#32325d',
@@ -115,13 +116,10 @@
             }
         };
 
-        // Create an instance of the card Element.
         var card = elements.create('card', {hidePostalCode: true, style: style});
 
-        // Add an instance of the card Element into the `card-element` <div>.
         card.mount('#card-element');
 
-        // Handle real-time validation errors from the card Element.
         card.addEventListener('change', function (event) {
             var displayError = document.getElementById('card-errors');
             if (event.error) {
@@ -161,5 +159,12 @@
             // Submit the form
             form.submit();
         }
+
+        $('.btn-plan').click(function () {
+            var plan = $(this).data('plan');
+            var price = 'Pay ' + $(this).data('price') + '$';
+            $('input[name="plan"]').val(plan);
+            $('.modal-footer button').text(price);
+        });
     </script>
 @endpush

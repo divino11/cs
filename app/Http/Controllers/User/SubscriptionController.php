@@ -30,29 +30,55 @@ class SubscriptionController extends Controller
      */
     public function create(CreateRequest $request)
     {
-        $trx = [
-            'amountTotal' => config('payments.subscriptions.price'),
+        $trx_yearly = [
+            'amountTotal' => config('payments.yearly.price'),
             'note' => 'Advanced plan',
             'items' => [
                 [
                     'descriptionItem' => 'Advanced plan',
-                    'priceItem' => config('payments.subscriptions.price'),
+                    'priceItem' => config('payments.yearly.price'),
                     'qtyItem' => 1,
-                    'subtotalItem' => config('payments.subscriptions.price')
+                    'subtotalItem' => config('payments.yearly.price')
                 ]
             ],
             'payload' => [
                 'subscription' => 'subscription',
                 'description' => 'Advanced plan',
-                'priceItem' => config('payments.subscriptions.price'),
+                'plan' => 'yearly',
+                'priceItem' => config('payments.yearly.price'),
                 'service' => 'blockchain',
                 'user_id' => Auth::user()->id,
             ]
         ];
 
-        $link_transaction = CoinPayment::url_payload($trx);
+        $trx_monthly = [
+            'amountTotal' => config('payments.monthly.price'),
+            'note' => 'Advanced plan',
+            'items' => [
+                [
+                    'descriptionItem' => 'Advanced plan',
+                    'priceItem' => config('payments.monthly.price'),
+                    'qtyItem' => 1,
+                    'subtotalItem' => config('payments.monthly.price')
+                ]
+            ],
+            'payload' => [
+                'subscription' => 'subscription',
+                'description' => 'Advanced plan',
+                'plan' => 'monthly',
+                'priceItem' => config('payments.monthly.price'),
+                'service' => 'blockchain',
+                'user_id' => Auth::user()->id,
+            ]
+        ];
 
-        return view('user.subscription.create', ['link_transaction' => $link_transaction])->with('status', 'You have purchased pro subscription');
+        $link_transaction_yearly = CoinPayment::url_payload($trx_yearly);
+        $link_transaction_monthly = CoinPayment::url_payload($trx_monthly);
+
+        return view('user.subscription.create', [
+            'link_transaction_yearly' => $link_transaction_yearly,
+            'link_transaction_monthly' => $link_transaction_monthly,
+        ])->with('status', 'You have purchased pro subscription');
     }
 
     public function update(ResumeRequest $request)

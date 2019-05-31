@@ -11,7 +11,7 @@ return [
         'price' => 100,
     ],
     'monthly' => [
-        'plan' => 'plan_F9h1zqzZ4MArvx',
+        'plan' => 'plan_FASzHezZXcC5q5',
         'price' => 10,
     ]
 ];

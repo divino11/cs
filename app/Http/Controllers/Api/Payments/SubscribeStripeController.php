@@ -12,10 +12,9 @@ class SubscribeStripeController extends Controller
     public function __invoke(CreateRequest $request)
     {
         if ($request->stripeToken) {
-
             try {
                 $request->user()->createAsStripeCustomer();
-                $request->user()->newSubscription('main', config('payments.subscriptions.plan'))
+                $request->user()->newSubscription($request->plan, config('payments.' . $request->plan . '.plan'))
                     ->create($request->stripeToken);
             } catch (\Exception $e) {
                 return redirect()->back()->withErrors([$e->getMessage()]);
@@ -24,7 +23,7 @@ class SubscribeStripeController extends Controller
             Transaction::updateOrCreate(['created_at' => Carbon::now()], [
                 'user_id' => $request->user()->id,
                 'description' => 'Advanced plan',
-                'amount' => config('payments.subscriptions.price'),
+                'amount' => config('payments.' . $request->plan . '.price'),
                 'service' => config('payments.sms.service'),
                 'status' => 100,
             ]);
@@ -34,7 +33,7 @@ class SubscribeStripeController extends Controller
             Transaction::updateOrCreate(['created_at' => Carbon::now()], [
                 'user_id' => $request->user()->id,
                 'description' => 'Advanced plan',
-                'amount' => config('payments.subscriptions.price'),
+                'amount' => config('payments.' . $request->plan . '.price'),
                 'service' => config('payments.sms.service'),
                 'status' => -1,
             ]);
