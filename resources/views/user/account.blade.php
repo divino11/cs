@@ -19,7 +19,7 @@
             </div>
             <div class="col-6">
                 <ul>
-                    <li>{{ $user->email }}</li>
+                    <li>@if ($user->email) {{ $user->email }} @else - @endif</li>
                     <li>{{ $user->sms ? $user->sms : '0' }}</li>
                     <li class="channels-ico">
                         @if ($user->hasNotificationEmailVerified())
