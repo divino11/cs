@@ -10,9 +10,13 @@ class OauthEmailController extends Controller
 {
     public function __invoke(CreateEmailRequest $request)
     {
-        Auth::user()->fill([
-            'email' => $request->email,
-        ])->save();
+        try {
+            Auth::user()->fill([
+                'email' => $request->email,
+            ])->save();
+        } catch (\Exception $exception) {
+            return back()->withErrors([$exception->getMessage()]);
+        }
 
         return back()->with('status', 'Email has been created');
     }
