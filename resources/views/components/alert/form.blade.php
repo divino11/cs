@@ -582,6 +582,17 @@
                 wrap: true,
             });
 
+            $('input[name="expiration_date"]').change(function () {
+                var expirationDate = $('input[name="expiration_date"]').val();
+                $('.starting-date').flatpickr({
+                    dateFormat: "Y-m-d",
+                    minDate: "today",
+                    maxDate: expirationDate,
+                    defaultDate: "today",
+                    wrap: true,
+                });
+            });
+
             var freshIntervalValues = function (e) {
                 intervalOptions = @json(config('alerts.intervals'));
                 var unitList = $(e.target);
