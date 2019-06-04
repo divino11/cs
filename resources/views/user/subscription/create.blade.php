@@ -24,7 +24,7 @@
                            data-target="#myModal"><i class="material-icons">credit_card</i> Credit card: ${{ config('payments.yearly.price') }}
                         </a>
                         <a href="{{ $link_transaction_yearly }}" class="btn btn-primary bt-section d-inline-flex"
-                           target="_blank"><i class="material-icons">monetization_on</i> Bitcoin: ${{ config('payments.yearly.price') }}</a>
+                           target="_blank"><i class="material-icons">monetization_on</i> Cryptocurrency: ${{ config('payments.yearly.crypto') }}</a>
                     </div>
                 </div>
             </div>
@@ -40,8 +40,6 @@
                            data-toggle="modal"
                            data-target="#myModal"><i class="material-icons">credit_card</i> Credit card: ${{ config('payments.monthly.price') }}
                         </a>
-                        <a href="{{ $link_transaction_monthly }}" class="btn btn-primary bt-section d-inline-flex"
-                           target="_blank"><i class="material-icons">monetization_on</i> Bitcoin: ${{ config('payments.monthly.price') }}</a>
                     </div>
                 </div>
             </div>
