@@ -33,14 +33,6 @@ class SocialController extends Controller
 
             if (!$userSocial->getEmail()) {
                 $emailVerifiedAt = null;
-                $newUser = User::create([
-                    'email' => $userSocial->getEmail(),
-                    'provider_id' => $userSocial->getId(),
-                    'provider' => $provider,
-                    'email_verified_at' => $emailVerifiedAt,
-                ]);
-                Auth::login($newUser);
-                return redirect('/oauth-email');
             }
 
             $newUser = User::create([

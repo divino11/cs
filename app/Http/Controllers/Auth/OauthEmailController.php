@@ -3,23 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Request;
 
 class OauthEmailController extends Controller
 {
-    protected $redirectTo = '/oauth-email';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function __invoke(Request $request)
     {
-        $this->middleware('email')->except('logout');
-    }
+        $request->user()->fill([
+            'email' => $request->email,
+        ])->save();
 
-    public function __invoke()
-    {
-        return view('auth.oauth_email');
+        return back()->with('status', 'Email has been crated');
     }
 }
