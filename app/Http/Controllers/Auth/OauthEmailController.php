@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\CreateEmailRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 
 class OauthEmailController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke(CreateEmailRequest $request)
     {
         Auth::user()->fill([
             'email' => $request->email,
