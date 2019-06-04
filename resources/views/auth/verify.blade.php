@@ -18,9 +18,8 @@
                         {{ __('Before proceeding, please check your email for a verification link.') }}
                         {{ __('If you did not receive the email') }}, <a href="{{ route('verification.resend') }}">{{ __('click here to request another') }}</a>.
                     @else
-                        <form action="{{ route('oauth.email', ['user_id' => \Illuminate\Support\Facades\Auth::user()->id]) }}">
+                        <form action="{{ route('oauth.email') }}">
                             @csrf
-                            @method('PUT')
                             <input type="email" name="email" placeholder="Enter your email">
                             <button class="btn btn-default bt-custom">Save</button>
                         </form>
