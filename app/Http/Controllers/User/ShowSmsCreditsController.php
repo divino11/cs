@@ -13,20 +13,20 @@ class ShowSmsCreditsController extends Controller
     public function __invoke()
     {
         $trx = [
-            'amountTotal' => PaymentPrice::Sms,
-            'note' => '100 SMS Credits',
+            'amountTotal' => config('payments.sms.crypto'),
+            'note' => '5000 SMS Credits',
             'items' => [
                 [
-                    'descriptionItem' => '100 SMS Credits',
-                    'priceItem' => PaymentPrice::Sms, // USD
+                    'descriptionItem' => '5000 SMS Credits',
+                    'priceItem' => config('payments.sms.crypto'), // USD
                     'qtyItem' => 1,
-                    'subtotalItem' => PaymentPrice::Sms // USD
+                    'subtotalItem' => config('payments.sms.crypto') // USD
                 ]
             ],
             'payload' => [
                 'sms' => 'sms',
-                'description' => '100 Sms Credits',
-                'priceItem' => PaymentPrice::Sms,
+                'description' => '5000 Sms Credits',
+                'priceItem' => config('payments.sms.crypto'),
                 'service' => 'blockchain',
                 'user_id' => Auth::user()->id,
             ]
@@ -37,6 +37,6 @@ class ShowSmsCreditsController extends Controller
         return view('user.sms_credits', [
             'link_transaction' => $link_transaction,
             'user' => Auth::user()
-        ])->with('status', 'You have purchased 100 SMS Credits');
+        ])->with('status', 'You have purchased 5000 SMS Credits');
     }
 }

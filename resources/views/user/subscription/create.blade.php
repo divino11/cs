@@ -22,7 +22,7 @@
                            data-target="#myModal"><i class="material-icons">credit_card</i>Credit card: $100
                         </a>
                         <a href="{{ $link_transaction }}" class="btn btn-primary bt-section d-inline-flex"
-                           target="_blank"><i class="material-icons">monetization_on</i> Bitcoin: $100</a>
+                           target="_blank"><i class="material-icons">monetization_on</i> Cryptocurrency: $90</a>
                     </div>
                 </div>
             </div>

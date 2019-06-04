@@ -41,13 +41,13 @@
                             <img src="{{ asset('images/credits_bitcoin.svg') }}" alt=""/>
                         </div>
                         <div class="media-body">
-                            <h3>Bitcoin</h3>
-                            <p>100 credits for $2.00 USD</p>
+                            <h3>Cryptocurrency</h3>
+                            <p>5000 credits for $90.00 USD</p>
                         </div>
                     </div>
 
                     <div class="col-md-6 col-sm-6 settings-credits-module-right">
-                        <a href="{{ $link_transaction }}" class="btn btn-primary bt-section" target="_blank">Pay with Bitcoin</a>
+                        <a href="{{ $link_transaction }}" class="btn btn-primary bt-section" target="_blank">Pay with Cryptocurrency</a>
                     </div>
 
                 </div>
