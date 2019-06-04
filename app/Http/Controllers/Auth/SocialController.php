@@ -29,10 +29,20 @@ class SocialController extends Controller
             Auth::login($user);
             return redirect('/#');
         } else {
-            $emailVerifiedAt = null;
-            if ($userSocial->getEmail()) {
-                $emailVerifiedAt = Carbon::now();
+            $emailVerifiedAt = Carbon::now();
+
+            if (!$userSocial->getEmail()) {
+                $emailVerifiedAt = null;
+                $newUser = User::create([
+                    'email' => $userSocial->getEmail(),
+                    'provider_id' => $userSocial->getId(),
+                    'provider' => $provider,
+                    'email_verified_at' => $emailVerifiedAt,
+                ]);
+                Auth::login($newUser);
+                return redirect('/oauth-email');
             }
+
             $newUser = User::create([
                 'email' => $userSocial->getEmail(),
                 'provider_id' => $userSocial->getId(),

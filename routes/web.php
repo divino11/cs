@@ -12,6 +12,9 @@
 */
 
 Auth::routes(['verify' => true]);
+Route::group(['middleware' => 'email'], function () {
+    Route::get('/oauth-email', 'Auth\OauthEmailController')->name('oauth.email');
+});
 Route::get('/', 'HomeController');
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['namespace' => 'Api', 'as' => 'api.'], function () {
