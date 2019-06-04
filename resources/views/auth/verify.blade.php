@@ -20,8 +20,9 @@
                     @else
                         <form action="{{ route('oauth.email') }}">
                             @csrf
-                            <input type="email" name="email" placeholder="Enter your email">
-                            <button class="btn btn-default bt-custom">Save</button>
+                            <input type="email" name="email" class="form-control" placeholder="Enter your email">
+                            <br>
+                            <button class="btn btn-default bt-custom pull-right">Save</button>
                         </form>
                     @endif
                 </div>
