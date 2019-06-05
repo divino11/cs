@@ -215,7 +215,7 @@
             <div class="calendar-group">
                 <div class="expiration">
                     <input class="form-control" data-input type="text" autocomplete="off"
-                           value="{{ old('expiration_date', $alert->expiration_date) }}"
+                           value="{{ old('expiration_date', $alert->expiration_date ? Carbon\Carbon::parse($alert->expiration_date)->format('Y-m-d') : now()->addMonth()) }}"
                            name="expiration_date">
                     <span class="input-group-addon" title="toggle" data-toggle>
         <i class="material-icons">calendar_today</i>
@@ -227,7 +227,7 @@
             <h5>&nbsp;</h5>
             <div class="clockpicker">
                 <input type="text" class="form-control expiration-time"
-                       value="{{ old('expiration_time', $alert->expiration_date ? substr(preg_split("/[\s]+/", $alert->expiration_date)[1], 0, 5) : '00:00')  }}" autocomplete="off"
+                       value="{{ old('expiration_time', $alert->expiration_date ? Carbon\Carbon::parse($alert->expiration_date)->format('H:i') : '00:00')}}" autocomplete="off"
                        name="expiration_time">
                 <span class="input-group-addon">
         <i class="material-icons">access_time</i>
@@ -531,7 +531,7 @@
                         $(this).remove();
                     }
                 });
-                if ($('#type option:selected').val() == 5 || $('#type option:selected').val() == 6 || $('#type option:selected').val() == 7 || $('#type option:selected').val() == 8) {
+                if ($('#type option:selected').val() == 5 || $('#type option:selected').val() == 6 || $('#type option:selected').val() == 7 || $('#type option:selected').val() == 8 || $('#type option:selected').val() == 9) {
                     $('input, textarea, select').filter('[required]:not(:visible), [disabled], .regular_update input[name="conditions[value]"]').remove();
                 }
             });
@@ -567,8 +567,7 @@
             $('.expiration').flatpickr({
                 dateFormat: "Y-m-d",
                 minDate: "today",
-                wrap: true,
-                defaultDate: new Date().fp_incr(30)
+                wrap: true
             });
 
             $('.clockpicker, .starting-time').clockpicker({
@@ -582,7 +581,7 @@
                 wrap: true,
             });
 
-            $('input[name="expiration_date"]').change(function () {
+            /*$('input[name="expiration_date"]').change(function () {
                 var expirationDate = $('input[name="expiration_date"]').val();
                 $('.starting-date').flatpickr({
                     dateFormat: "Y-m-d",
@@ -591,7 +590,7 @@
                     defaultDate: "today",
                     wrap: true,
                 });
-            });
+            });*/
 
             var freshIntervalValues = function (e) {
                 intervalOptions = @json(config('alerts.intervals'));

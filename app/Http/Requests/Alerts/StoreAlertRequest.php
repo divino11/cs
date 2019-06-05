@@ -28,6 +28,13 @@ class StoreAlertRequest extends FormRequest
      */
     public function rules()
     {
+        $expiration = $this->expiration_date . ' ' . $this->expiration_time;
+        $starting = $this->conditions['starting_date'] . ' ' . $this->conditions['starting_time'];
+        $this->merge([
+            'expiration_date' => $expiration,
+            'conditions.starting_date' => $starting
+        ]);
+
         return [
             'exchange_id' => 'required|exists:exchanges,id',
             'market_id' => 'required|exists:markets,id',
@@ -39,10 +46,8 @@ class StoreAlertRequest extends FormRequest
             'notification_channels.*.notification_channel' => 'enum_value:' . NotificationChannel::class.',false',
             'frequency' => 'required|boolean',
             'cooldown_number' => 'numeric|min:5',
-            'expiration_date' => 'date',
-            'expiration_time' => 'date_format:H:i|after:' . now()->timezone(Auth::user()->timezone)->format('H:i'),
-            'conditions.starting_date' => 'required',
-            'conditions.starting_time' => 'required',
+            'expiration_date' => 'after:' . now()->timezone(Auth::user()->timezone)->format('Y-m-d H:i'),
+            'conditions.starting_date' => 'before:expiration_date',
             'alert_message' => 'required',
             'open_ended' => 'boolean'
         ];

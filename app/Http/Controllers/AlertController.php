@@ -48,11 +48,11 @@ class AlertController extends Controller
      */
     public function store(StoreAlertRequest $request)
     {
-        $expirationDate = $request->expiration_date . ' ' . $request->expiration_time;
         if ($request->open_ended) {
-            $expirationDate = null;
+            $request->merge([
+                'expiration_date' => null
+            ]);
         }
-        $request->merge(['expiration_date' => $expirationDate]);
         $alert = Auth::user()->alerts()->create($request->except('notification_channels'));
         foreach ($request->notification_channels as $notification_channel) {
             $alert->notificationChannels()->create($notification_channel);
@@ -97,11 +97,11 @@ class AlertController extends Controller
      */
     public function update(StoreAlertRequest $request, Alert $alert)
     {
-        $expirationDate = $request->expiration_date . ' ' . $request->expiration_time;
         if ($request->open_ended) {
-            $expirationDate = null;
+            $request->merge([
+                'expiration_date' => null,
+            ]);
         }
-        $request->merge(['expiration_date' => $expirationDate]);
 
         $alert->update($request->except(['notification_channels']));
 
