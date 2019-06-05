@@ -6,6 +6,7 @@ use App\Enums\AlertMetric;
 use App\Enums\AlertType;
 use App\Enums\NotificationChannel;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class StoreAlertRequest extends FormRequest
@@ -33,14 +34,15 @@ class StoreAlertRequest extends FormRequest
             'conditions.metric' => 'required|enum_value:' . AlertMetric::class .',false',
             'conditions.value' => 'required|numeric|min:0',
             'conditions.interval_number' => 'required',
-            'conditions.starting_date' => 'required',
-            'conditions.starting_time' => 'required',
             'conditions.interval_unit' => 'required',
             'notification_channels' => 'required',
             'notification_channels.*.notification_channel' => 'enum_value:' . NotificationChannel::class.',false',
             'frequency' => 'required|boolean',
             'cooldown_number' => 'numeric|min:5',
             'expiration_date' => 'date',
+            'expiration_time' => 'date_format:H:i|after:' . now()->timezone(Auth::user()->timezone)->format('H:i'),
+            'conditions.starting_date' => 'required',
+            'conditions.starting_time' => 'required',
             'alert_message' => 'required',
             'open_ended' => 'boolean'
         ];

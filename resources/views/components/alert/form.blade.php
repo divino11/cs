@@ -227,7 +227,7 @@
             <h5>&nbsp;</h5>
             <div class="clockpicker">
                 <input type="text" class="form-control expiration-time"
-                       value="{{ old('expiration_time', $alert->expiration_time ?? '00:00') }}" autocomplete="off"
+                       value="{{ old('expiration_time', $alert->expiration_date ? substr(preg_split("/[\s]+/", $alert->expiration_date)[1], 0, 5) : '00:00')  }}" autocomplete="off"
                        name="expiration_time">
                 <span class="input-group-addon">
         <i class="material-icons">access_time</i>
