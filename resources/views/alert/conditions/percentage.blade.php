@@ -3,7 +3,7 @@
         <div class="input-group-append">
             <div class="input-group-text"></div>
         </div>
-        <input class="form-control" type="number" step="any" min="0" name="conditions[value]" value="{{ old('conditions.value', $alert->conditions['value']) }}" required />
+        <input class="form-control" type="number" step="any" min="0" name="conditions[value]" value="{{ old('conditions.value', $alert->conditions['value'] ?? '') }}" required />
     </div>
 </div>
 <div class="form-group">

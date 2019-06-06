@@ -1,4 +1,5 @@
 <div class="row gutter-10">
+    <input type="hidden" name="conditions[value]" value="1">
     <div class="col-md-6 col-sm-6">
         <h5>Starting on</h5>
         <div class="calendar-group">

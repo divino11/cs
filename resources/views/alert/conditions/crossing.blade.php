@@ -7,7 +7,7 @@
                 <span class="input-group-text" id="quoteCurrency"></span>
             </div>
             <input type="number" step="any" class="form-control" name="conditions[value]" required
-                   value="{{ old('conditions.value', $alert->conditions['value']) }}"
+                   value="{{ old('conditions.value', $alert->conditions['value'] ?? '') }}"
                    aria-label="Amount (to the nearest dollar)">
         </div>
     </div>

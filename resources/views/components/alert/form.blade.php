@@ -526,13 +526,13 @@
         $(document).ready(function () {
             //remove required
             $('#alertForm button[type="submit"]').click(function () {
-                $('input, textarea, select').filter('[required]:not(:visible), [disabled], .regular_update input[name="conditions[value]"]').each(function () {
+                $('input, textarea, select').filter('[required]:not(:visible), [disabled]').each(function () {
                     if (!$(this)[0].checkValidity()) {
                         $(this).remove();
                     }
                 });
                 if ($('#type option:selected').val() == 5 || $('#type option:selected').val() == 6 || $('#type option:selected').val() == 7 || $('#type option:selected').val() == 8 || $('#type option:selected').val() == 9) {
-                    $('input, textarea, select').filter('[required]:not(:visible), [disabled], .regular_update input[name="conditions[value]"]').remove();
+                    $('input, textarea, select').filter('[required]:not(:visible), [disabled]').remove();
                 }
             });
 
