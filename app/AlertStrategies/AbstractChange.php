@@ -19,7 +19,11 @@ abstract class AbstractChange implements AlertStrategy
 
     public function __construct(Alert $alert)
     {
-        $this->alertValue = $alert->conditions['value'];
+        foreach ($alert->conditions['values'] as $key => $value) {
+            if ($alert->type == $key) {
+                $this->alertValue = $value;
+            }
+        }
         $fromDate = Carbon::now()->sub(CarbonInterval::make($alert->interval_format));
         $this->current = Ticker::marketLatest($alert->exchange_id, $alert->market_id)
             ->firstOrFail()

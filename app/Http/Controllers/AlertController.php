@@ -48,11 +48,15 @@ class AlertController extends Controller
      */
     public function store(StoreAlertRequest $request)
     {
+        //dd($request->all());
         if ($request->open_ended) {
             $request->merge([
                 'expiration_date' => null
             ]);
         }
+
+
+
         $alert = Auth::user()->alerts()->create($request->except('notification_channels'));
         foreach ($request->notification_channels as $notification_channel) {
             $alert->notificationChannels()->create($notification_channel);

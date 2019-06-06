@@ -14,7 +14,11 @@ abstract class AbstractCrossing implements AlertStrategy
 
     public function __construct(Alert $alert)
     {
-        $this->alertValue = $alert->conditions['value'];
+        foreach ($alert->conditions['values'] as $key => $value) {
+            if ($alert->type == $key) {
+                $this->alertValue = $value;
+            }
+        }
         $metric = $alert->conditions['metric'];
         list($this->currentValue, $this->previousValue) = Ticker::marketLatest($alert->exchange_id, $alert->market_id)
             ->take(2)
