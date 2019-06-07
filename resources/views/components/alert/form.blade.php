@@ -545,12 +545,10 @@
                 }
                 if (selectedType == 5 || selectedType == 6) {
                     if (selectedType == 5) {
-                        type = 'increased';
-                        regular = ' times';
+                        type = 'moving up';
                     }
                     if (selectedType == 6) {
-                        type = 'decreased';
-                        regular = ' times';
+                        type = 'moving down';
                     }
                     interval = ' in ' + intervalTime;
                 }
