@@ -601,6 +601,9 @@
                         $(this).remove();
                     }
                 });
+                $('#period:not(:visible), #period_value:not(:visible)').each(function () {
+                   $(this).remove();
+                });
             });
 
             //select2
