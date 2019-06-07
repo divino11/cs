@@ -59,7 +59,7 @@
                     <option value="" disabled>Select condition</option>
                     @foreach(App\Enums\AlertType::toSelectArray() as $key => $item)
                         <option value="{{$key}}"
-                                @if(old('type', $alert->type) === $key) selected @endif>{{$item}}</option>
+                                @if(old('type', $alert->type) == $key) selected @endif>{{$item}}</option>
                     @endforeach
                 </select>
             </div>
@@ -288,12 +288,14 @@
         var selectedType;
         $(document).ready(function () {
             localStorage.clear();
-            var selectedPlatform, selectedCurrency, currencyPrice = '', currentValue, typeName = null, is_valueDB = false;
+            var selectedPlatform, selectedCurrency, currencyPrice = '', currentValue, typeName = null;
+            var conditions = @json($alert->conditions);
             var ticker, metricVal, metricText = {};
-            if ( @json($alert->conditions['values']) ) {
-                $.each(@json($alert->conditions['values']), function (key, value) {
+
+            if ( conditions.hasOwnProperty('values') ) {
+                $.each(conditions.values, function (key, value) {
                     setStorage(0, key, value);
-                    if ( @json($alert->type) == key) {
+                    if ( {{ $alert->type }} == key) {
                         setStorage('value', '0', value);
                     }
                 });
