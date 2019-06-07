@@ -70,14 +70,35 @@
 
 <!-- END combo -->
 
-<div class="percentage myaccount-combo tab-type">
-    @include('alert.conditions.percentage')
+<div class="crossing tab-type">
+    @include('alert.conditions.crossing')
+</div>
+<div class="crossing_up tab-type">
+    @include('alert.conditions.crossing_up')
+</div>
+<div class="crossing_down tab-type">
+    @include('alert.conditions.crossing_down')
+</div>
+<div class="greater_than tab-type">
+    @include('alert.conditions.greater_than')
+</div>
+<div class="less_than tab-type">
+    @include('alert.conditions.less_than')
+</div>
+<div class="move_up_percentage myaccount-combo tab-type">
+    @include('alert.conditions.move_up_percentage')
+</div>
+<div class="move_down_percentage myaccount-combo tab-type">
+    @include('alert.conditions.move_down_percentage')
+</div>
+<div class="move_up myaccount-combo tab-type">
+    @include('alert.conditions.move_up')
+</div>
+<div class="move_down myaccount-combo tab-type">
+    @include('alert.conditions.move_down')
 </div>
 <div class="regular_update myaccount-combo tab-type">
     @include('alert.conditions.regular_update')
-</div>
-<div class="crossing tab-type">
-    @include('alert.conditions.crossing')
 </div>
 
 <div class="myaccount-combo">
@@ -267,11 +288,15 @@
         var selectedType;
         $(document).ready(function () {
             localStorage.clear();
-            var selectedPlatform, selectedCurrency, currencyPrice = '', currentValue, alertMessage;
-            var flag = 1;
+            var selectedPlatform, selectedCurrency, currencyPrice = '', currentValue, typeName = null, is_valueDB = false;
             var ticker, metricVal, metricText = {};
-            if ('{{ $alert->conditions['value'] }}') {
-                setStorage('value', '0', {{ $alert->conditions['value'] }});
+            if ( @json($alert->conditions['values']) ) {
+                $.each(@json($alert->conditions['values']), function (key, value) {
+                    setStorage(0, key, value);
+                    if ( @json($alert->type) == key) {
+                        setStorage('value', '0', value);
+                    }
+                });
             }
 
             $('#exchange').change(function () {
@@ -327,24 +352,77 @@
 
             $('#type').change(function () {
                 selectedType = $('#type option:selected').val();
-
-                if (selectedType == '5' || selectedType == '6' || selectedType == '7' || selectedType == '8') {
-                    $('.tab-type').removeClass('active-type');
-                    $('.percentage').addClass('active-type');
-                } else if (selectedType == '9') {
-                    $('.tab-type').removeClass('active-type');
-                    $('.regular_update').addClass('active-type');
-                } else {
-                    $('.tab-type').removeClass('active-type');
-                    $('.crossing').addClass('active-type');
+                $('.tab-type').removeClass('active-type');
+                switch (selectedType) {
+                    case '0':
+                        $('.crossing').addClass('active-type');
+                        typeName = 'crossing';
+                        break;
+                    case '1':
+                        $('.crossing_up').addClass('active-type');
+                        typeName = 'crossing_up';
+                        break;
+                    case '2':
+                        $('.crossing_down').addClass('active-type');
+                        typeName = 'crossing_down';
+                        break;
+                    case '3':
+                        $('.greater_than').addClass('active-type');
+                        typeName = 'greater_than';
+                        break;
+                    case '4':
+                        $('.less_than').addClass('active-type');
+                        typeName = 'less_than';
+                        break;
+                    case '5':
+                        $('.move_up').addClass('active-type');
+                        typeName = 'move_up';
+                        break;
+                    case '6':
+                        $('.move_down').addClass('active-type');
+                        typeName = 'move_down';
+                        break;
+                    case '7':
+                        $('.move_up_percentage').addClass('active-type');
+                        typeName = 'move_up_percentage';
+                        break;
+                    case '8':
+                        $('.move_down_percentage').addClass('active-type');
+                        typeName = 'move_down_percentage';
+                        break;
+                    case '9':
+                        $('.regular_update').addClass('active-type');
+                        typeName = 'regular_update';
+                        break;
                 }
 
                 if (ticker) {
                     updatePrice();
                 }
 
+                //update interval time
+                $("select[name='conditions[interval_unit]']:visible").change(function (e) {
+                    intervalOptions = @json(config('alerts.intervals'));
+                    var unitList = $(e.target);
+                    var valueList = $("select[name='conditions[interval_number]']:visible");
+                    var intervalUnit = unitList.val();
+
+                    valueList.empty();
+                    $.each(intervalOptions[intervalUnit], function (key, value) {
+                        valueList.append(
+                            $("<option></option>").attr("value", value).text(value)
+                        );
+                    });
+                });
+
+                //update value
+                $(".input-value:visible").change(function () {
+                    $('#alert_message').val(changeTextarea($(this).val()));
+                    setStorage(metricVal, selectedType, $(this).val());
+                });
+
                 if (getStorage(metricVal, selectedType, null)) {
-                    $('input[name="conditions[value]"]:visible').val(getStorage(metricVal, selectedType, null));
+                    $('.active-type input:visible').val(getStorage(metricVal, selectedType, null));
                     $('#alert_message').val(changeTextarea(getStorage(metricVal, selectedType, null)));
                 }
 
@@ -386,13 +464,8 @@
                 cleanMessage(selectedType);
             });
 
-            $('input[name="conditions[value]"]').change(function () {
-                $('#alert_message').val(changeTextarea($('input[name="conditions[value]"]:visible').val()));
-                setStorage(metricVal, selectedType, $('input[name="conditions[value]"]:visible').val());
-            });
-
             $('select[name="conditions[interval_number]"], select[name="conditions[interval_unit]"]').change(function () {
-                $('#alert_message').val(changeTextarea($('input[name="conditions[value]"]:visible').val()));
+                $('#alert_message').val(changeTextarea($('.input-value:visible').val()));
             });
 
             function setStorage(metric = 0, type = 0, value) {
@@ -406,12 +479,12 @@
             function cleanMessage(selectedType) {
                 if ($('#alert_message').val() == '') {
                     if (selectedType == 5 || selectedType == 6) {
-                        $("input[name='conditions[value]']:visible").val('2');
+                        $(".input-value:visible").val('2');
                     } else if (selectedType == 7 || selectedType == 8) {
-                        $("input[name='conditions[value]']:visible").val('5');
+                        $(".input-value:visible").val('5');
                     }
                     localStorage.removeItem('alert_0');
-                    $('#alert_message').val(changeTextarea($("input[name='conditions[value]']:visible").val()));
+                    $('#alert_message').val(changeTextarea($(".input-value:visible").val()));
                 }
             }
 
@@ -435,7 +508,7 @@
                 $('.currency_price_group h4').text(metricText + ': ');
                 $('#currencyPrice').text(currencyPrice);
 
-                currentValue = $("input[name='conditions[value]']:visible");
+                currentValue = $(".input-value:visible");
                 if (selectedType == 5 || selectedType == 6) {
                     currentValue.val('2');
                 } else if (selectedType == 7 || selectedType == 8) {
@@ -445,7 +518,7 @@
                 }
 
                 if (getStorage('value', '0', null)) {
-                    $("input[name='conditions[value]']:visible").val(getStorage('value', '0', null));
+                    $(".input-value:visible").val(getStorage('value', '0', null));
                     localStorage.removeItem('value_0');
                 }
 
@@ -457,7 +530,7 @@
                 var metric = $("select[name='conditions[metric]'] option:selected").text().toLowerCase() ? $("select[name='conditions[metric]'] option:selected").text().toLowerCase() : '';
                 var type = $("#type option:selected").text().toLowerCase() ? $("#type option:selected").text().toLowerCase() : '';
                 var value = price ? price : '';
-                var intervalTime = $('select[name="conditions[interval_number]"] option:selected').val() + ' ' + $('select[name="conditions[interval_unit]"] option:selected').text().toLowerCase();
+                var intervalTime = $('select[name="conditions[interval_number]"]:visible option:selected').val() + ' ' + $('select[name="conditions[interval_unit]"]:visible option:selected').text().toLowerCase();
                 var regular = '';
                 var interval = '';
                 if (selectedType == 9) {
@@ -472,12 +545,10 @@
                 }
                 if (selectedType == 5 || selectedType == 6) {
                     if (selectedType == 5) {
-                        type = 'increased';
-                        regular = ' times';
+                        type = 'moving up';
                     }
                     if (selectedType == 6) {
-                        type = 'decreased';
-                        regular = ' times';
+                        type = 'moving down';
                     }
                     interval = ' in ' + intervalTime;
                 }
@@ -499,7 +570,6 @@
                 return message.replace(/\s+/g, ' ').trim();
             }
         });
-
 
         $(document).ready(function () {
             setTimeout(function () {
@@ -531,9 +601,6 @@
                         $(this).remove();
                     }
                 });
-                if ($('#type option:selected').val() == 5 || $('#type option:selected').val() == 6 || $('#type option:selected').val() == 7 || $('#type option:selected').val() == 8 || $('#type option:selected').val() == 9) {
-                    $('input, textarea, select').filter('[required]:not(:visible), [disabled]').remove();
-                }
             });
 
             //select2
@@ -581,7 +648,7 @@
                 wrap: true,
             });
 
-            /*$('input[name="expiration_date"]').change(function () {
+            $('input[name="expiration_date"]').change(function () {
                 var expirationDate = $('input[name="expiration_date"]').val();
                 $('.starting-date').flatpickr({
                     dateFormat: "Y-m-d",
@@ -590,7 +657,7 @@
                     defaultDate: "today",
                     wrap: true,
                 });
-            });*/
+            });
 
             var freshIntervalValues = function (e) {
                 intervalOptions = @json(config('alerts.intervals'));
@@ -606,7 +673,6 @@
                 });
             };
             $("#cooldown").change(freshIntervalValues);
-            $("#period").change(freshIntervalValues);
         });
 
         $('input[name="sound_enable"]').click(function () {

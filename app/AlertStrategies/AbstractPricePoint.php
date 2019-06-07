@@ -17,6 +17,10 @@ abstract class AbstractPricePoint implements AlertStrategy
         $this->tickerValue = Ticker::marketLatest($alert->exchange_id, $alert->market_id)
             ->firstOrFail()
             ->getMetric($alert->conditions['metric']);
-        $this->alertValue = $alert->conditions['value'];
+        foreach ($alert->conditions['values'] as $key => $value) {
+            if ($alert->type == $key) {
+                $this->alertValue = $value;
+            }
+        }
     }
 }
