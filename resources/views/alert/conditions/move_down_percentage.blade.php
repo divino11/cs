@@ -13,7 +13,7 @@
         <div class="col-md-6 col-sm-6">
             <select type="number" class="form-control" name="conditions[interval_number]" id="period_value">
                 @foreach(config('alerts.intervals.' . $conditions_intervals) as $value)
-                    <option value="{{ $value }}" @if(old('conditions.interval_number', $alert->conditions['interval_number']) == $value) selected @endif>{{ $value }}</option>
+                    <option value="{{ $value }}" @if(old('conditions.interval_number', $alert->conditions['interval_number'] ?? '') == $value) selected @endif>{{ $value }}</option>
                 @endforeach
             </select>
         </div>

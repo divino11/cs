@@ -40,8 +40,6 @@ class StoreAlertRequest extends FormRequest
             'market_id' => 'required|exists:markets,id',
             'conditions.metric' => 'required|enum_value:' . AlertMetric::class .',false',
             //'conditions.value' => 'required|numeric|min:0',
-            'conditions.interval_number' => 'required',
-            'conditions.interval_unit' => 'required',
             'notification_channels' => 'required',
             'notification_channels.*.notification_channel' => 'enum_value:' . NotificationChannel::class.',false',
             'frequency' => 'required|boolean',
