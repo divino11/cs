@@ -141,6 +141,8 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'conditions.starting_date' => 'Starting on'
+    ],
 
 ];
