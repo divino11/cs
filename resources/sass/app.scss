@@ -979,8 +979,7 @@ input:checked + .slider:before {
 }
 
 .pricing-module {
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 5px 0 rgba(0,0,0,0.35);
+  box-shadow: 4px 4px 16px 0 rgba(0, 0, 0, 0.16);
 }
 
 @media only screen and (max-width: 767px) {
@@ -1064,7 +1063,7 @@ input:checked + .slider:before {
   text-align: right;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 @media only screen and (max-width: 767px) {
@@ -1182,12 +1181,10 @@ input:checked + .slider:before {
   }
 }
 
-.advancedplan-section h3 {
-  margin-bottom: 5px;
-}
 
-.advancedplan-section p {
-  margin-bottom: 20px;
+.advancedplan-section .col-md-6 {
+  display: flex;
+  align-items: center;
 }
 
 .advancedplan-bottom {
@@ -1997,6 +1994,21 @@ h2, .h2 {
 .settings-credits-module a {
   width: 200px;
   justify-content: center;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+.advancedplan-section .settings-credits-module a {
+  width: auto;
+  margin-right: 15px;
+  @media (max-width: 768px) {
+      width: 100%;
+  }
+}
+
+.advancedplan-section .settings-credits-module a:last-child {
+  margin-right: 0;
 }
 
 .nav-tabs li a {
