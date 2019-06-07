@@ -2,27 +2,19 @@
 
 namespace App\Http\Controllers\Api\Payments;
 
-use App\Enums\PaymentPrice;
 use App\Http\Requests\Subscriptions\CreateRequest;
 use App\Transaction;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
-use Stripe\Error\ApiConnection;
-use Stripe\Error\Authentication;
-use Stripe\Error\Base;
-use Stripe\Error\Card;
-use Stripe\Error\InvalidRequest;
-use Stripe\Error\RateLimit;
 
 class SubscribeStripeController extends Controller
 {
     public function __invoke(CreateRequest $request)
     {
         if ($request->stripeToken) {
-
             try {
                 $request->user()->createAsStripeCustomer();
-                $request->user()->newSubscription('main', config('payments.subscriptions.plan'))
+                $request->user()->newSubscription('main', config('payments.' . $request->plan . '.plan'))
                     ->create($request->stripeToken);
             } catch (\Exception $e) {
                 return redirect()->back()->withErrors([$e->getMessage()]);
@@ -31,19 +23,17 @@ class SubscribeStripeController extends Controller
             Transaction::updateOrCreate(['created_at' => Carbon::now()], [
                 'user_id' => $request->user()->id,
                 'description' => 'Advanced plan',
-                'amount' => config('payments.subscriptions.price'),
+                'amount' => config('payments.' . $request->plan . '.price'),
                 'service' => config('payments.sms.service'),
                 'status' => 100,
             ]);
 
-
-
-            return redirect()->route('user.subscription.index')->with('status', 'You have purchased pro subscription');
+            return redirect()->route('user.subscription.index')->with('status', 'You have purchased advanced subscription');
         } else {
             Transaction::updateOrCreate(['created_at' => Carbon::now()], [
                 'user_id' => $request->user()->id,
                 'description' => 'Advanced plan',
-                'amount' => config('payments.subscriptions.price'),
+                'amount' => config('payments.' . $request->plan . '.price'),
                 'service' => config('payments.sms.service'),
                 'status' => -1,
             ]);

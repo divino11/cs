@@ -9,20 +9,45 @@
             <p>Please select from our payment options:</p>
 
             <!-- blurb -->
-            <div class="settings-credits-module advancedplan-module">
+            <div class="settings-credits-module">
                 <div class="row">
-
-                    <div class="col-md-4 col-sm-4">
-                        <h3>Yearly</h3>
+                    <div class="col-md-6 col-sm-6">
+                        <div class="pull-left">
+                            <img src="{{ asset('images/credits_creditcard.svg') }}" alt=""/>
+                        </div>
+                        <div class="media-body">
+                            <h3>Credit card</h3>
+                            <p>Pay with credit card</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 settings-credits-module-right">
+                        <a href="#" class="btn btn-primary bt-section btn-plan" id="credit-button" data-toggle="modal"
+                           data-plan="monthly"
+                           data-price={{ config('payments.monthly.price') }}
+                           data-target="#myModal">10$/month
+                        </a>
+                        <a href="#" class="btn btn-primary bt-section btn-plan" id="credit-button" data-toggle="modal"
+                           data-plan="yearly"
+                           data-price={{ config('payments.yearly.price') }}
+                                   data-target="#myModal">100$/year
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-credits-module">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="pull-left">
+                            <img src="{{ asset('images/credits_bitcoin.svg') }}" alt=""/>
+                        </div>
+                        <div class="media-body">
+                            <h3>Cryptocurrency</h3>
+                            <p>Pay with Cryptocurrency</p>
+                        </div>
                     </div>
 
-                    <div class="col-md-8 col-sm-8 advancedplan-module-right">
-                        <a href="#" class="btn btn-primary bt-section d-inline-flex" id="bitcoin-button"
-                           data-toggle="modal"
-                           data-target="#myModal"><i class="material-icons">credit_card</i>Credit card: $100
-                        </a>
-                        <a href="{{ $link_transaction }}" class="btn btn-primary bt-section d-inline-flex"
-                           target="_blank"><i class="material-icons">monetization_on</i> Cryptocurrency: $90</a>
+                    <div class="col-md-6 col-sm-6 settings-credits-module-right">
+                        <a href="{{ $link_transaction_yearly }}" class="btn btn-primary bt-section" target="_blank">90$/year</a>
                     </div>
                 </div>
             </div>
@@ -50,6 +75,7 @@
                         <div class="modal-body">
                             <form action="{{ route('api.payments.stripe.subscribe') }}" method="post" id="payment-form">
                                 @csrf
+                                <input type="hidden" name="plan">
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="form-row">
@@ -62,7 +88,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button class="btn btn-primary bt-section" type="submit">Pay 100$</button>
+                                    <button class="btn btn-primary bt-section" type="submit">Pay 10$</button>
                                 </div>
                             </form>
                         </div>
@@ -77,11 +103,9 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script>
         var stripe = Stripe('{{ config('services.stripe.key') }}');
-        // Create an instance of Elements.
+
         var elements = stripe.elements();
 
-        // Custom styling can be passed to options when creating an Element.
-        // (Note that this demo uses a wider set of styles than the guide below.)
         var style = {
             base: {
                 color: '#32325d',
@@ -98,13 +122,10 @@
             }
         };
 
-        // Create an instance of the card Element.
         var card = elements.create('card', {hidePostalCode: true, style: style});
 
-        // Add an instance of the card Element into the `card-element` <div>.
         card.mount('#card-element');
 
-        // Handle real-time validation errors from the card Element.
         card.addEventListener('change', function (event) {
             var displayError = document.getElementById('card-errors');
             if (event.error) {
@@ -144,5 +165,12 @@
             // Submit the form
             form.submit();
         }
+
+        $('.btn-plan').click(function () {
+            var plan = $(this).data('plan');
+            var price = 'Pay ' + $(this).data('price') + '$';
+            $('input[name="plan"]').val(plan);
+            $('.modal-footer button').text(price);
+        });
     </script>
 @endpush

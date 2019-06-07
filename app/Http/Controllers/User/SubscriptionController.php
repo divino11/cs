@@ -30,29 +30,32 @@ class SubscriptionController extends Controller
      */
     public function create(CreateRequest $request)
     {
-        $trx = [
-            'amountTotal' => config('payments.subscriptions.crypto'),
+        $trx_yearly = [
+            'amountTotal' => config('payments.yearly.crypto'),
             'note' => 'Advanced plan',
             'items' => [
                 [
                     'descriptionItem' => 'Advanced plan',
-                    'priceItem' => config('payments.subscriptions.crypto'), // USD
+                    'priceItem' => config('payments.yearly.crypto'),
                     'qtyItem' => 1,
-                    'subtotalItem' => config('payments.subscriptions.crypto') // USD
+                    'subtotalItem' => config('payments.yearly.crypto')
                 ]
             ],
             'payload' => [
                 'subscription' => 'subscription',
                 'description' => 'Advanced plan',
-                'priceItem' => config('payments.subscriptions.crypto'),
+                'plan' => 'yearly',
+                'priceItem' => config('payments.yearly.crypto'),
                 'service' => 'blockchain',
                 'user_id' => Auth::user()->id,
             ]
         ];
 
-        $link_transaction = CoinPayment::url_payload($trx);
+        $link_transaction_yearly = CoinPayment::url_payload($trx_yearly);
 
-        return view('user.subscription.create', ['link_transaction' => $link_transaction])->with('status', 'You have purchased advanced subscription');
+        return view('user.subscription.create', [
+            'link_transaction_yearly' => $link_transaction_yearly,
+        ])->with('status', 'You have purchased pro subscription');
     }
 
     public function update(ResumeRequest $request)

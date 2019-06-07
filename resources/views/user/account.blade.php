@@ -56,9 +56,18 @@
             <div class="col-6">
                 <ul>
                     <li>@subscribed Pro @else Free @endsubscribed</li>
-                    <li>@if($subscription){{$subscription->ends_at ? $subscription->ends_at : $subscription->updated_at->addYear()}}@else - @endif</li>
-                    <li>{{ $user->alerts()->count() }} @unless($user->subscribed('main')) out of
-                        5 @endunless</li>
+                    <li>
+                        @if($subscription)
+                            @if ($subscription->stripe_plan == config('payments.monthly.plan'))
+                                {{ $subscription->ends_at ? $subscription->ends_at : $subscription->updated_at->addMonth() }}
+                            @else
+                                {{ $subscription->ends_at ? $subscription->ends_at : $subscription->updated_at->addYear() }}
+                            @endif
+                        @else
+                            -
+                        @endif
+                    </li>
+                    <li>{{ $user->alerts()->count() }} @unless($user->subscribed('main')) out of 5 @endunless</li>
                     <li>{{ $user->card_brand }} Ending on {{ $user->card_last_four }}</li>
                 </ul>
             </div>
