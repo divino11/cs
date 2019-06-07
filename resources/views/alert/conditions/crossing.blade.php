@@ -6,7 +6,7 @@
             <div class="input-group-append">
                 <span class="input-group-text" id="quoteCurrency"></span>
             </div>
-            <input type="number" step="any" class="form-control" name="conditions[values][{{ \App\Enums\AlertType::Crossing }}]" required
+            <input type="number" step="any" class="form-control input-value" name="conditions[values][{{ \App\Enums\AlertType::Crossing }}]" required
                    value="{{ old('conditions.values.' . \App\Enums\AlertType::Crossing, $alert->conditions['values'][\App\Enums\AlertType::Crossing] ?? '') }}"
                    aria-label="Amount (to the nearest dollar)">
         </div>

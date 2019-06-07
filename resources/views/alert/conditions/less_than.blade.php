@@ -6,7 +6,7 @@
             <div class="input-group-append">
                 <span class="input-group-text" id="quoteCurrency"></span>
             </div>
-            <input type="number" step="any" class="form-control" name="conditions[values][{{ \App\Enums\AlertType::Less_Than }}]" required
+            <input type="number" step="any" class="form-control input-value" name="conditions[values][{{ \App\Enums\AlertType::Less_Than }}]" required
                    value="{{ old('conditions.values.' . \App\Enums\AlertType::Less_Than, $alert->conditions['values'][\App\Enums\AlertType::Less_Than] ?? '') }}"
                    aria-label="Amount (to the nearest dollar)">
         </div>

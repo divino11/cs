@@ -288,10 +288,11 @@
         var selectedType;
         $(document).ready(function () {
             localStorage.clear();
-            var selectedPlatform, selectedCurrency, currencyPrice = '', currentValue, typeName;
+            var selectedPlatform, selectedCurrency, currencyPrice = '', currentValue, typeName = null, is_valueDB = false;
             var ticker, metricVal, metricText = {};
             if ( @json($alert->conditions['values']) ) {
                 $.each(@json($alert->conditions['values']), function (key, value) {
+                    setStorage(0, key, value);
                     if ( @json($alert->type) == key) {
                         setStorage('value', '0', value);
                     }
@@ -399,6 +400,27 @@
                     updatePrice();
                 }
 
+                //update interval time
+                $("select[name='conditions[interval_unit]']:visible").change(function (e) {
+                    intervalOptions = @json(config('alerts.intervals'));
+                    var unitList = $(e.target);
+                    var valueList = $("select[name='conditions[interval_number]']:visible");
+                    var intervalUnit = unitList.val();
+
+                    valueList.empty();
+                    $.each(intervalOptions[intervalUnit], function (key, value) {
+                        valueList.append(
+                            $("<option></option>").attr("value", value).text(value)
+                        );
+                    });
+                });
+
+                //update value
+                $(".input-value:visible").change(function () {
+                    $('#alert_message').val(changeTextarea($(this).val()));
+                    setStorage(metricVal, selectedType, $(this).val());
+                });
+
                 if (getStorage(metricVal, selectedType, null)) {
                     $('.active-type input:visible').val(getStorage(metricVal, selectedType, null));
                     $('#alert_message').val(changeTextarea(getStorage(metricVal, selectedType, null)));
@@ -442,14 +464,8 @@
                 cleanMessage(selectedType);
             });
 
-            $(".active-type input").change(function () {
-                console.log(123);
-                $('#alert_message').val(changeTextarea($(this).val()));
-                setStorage(metricVal, selectedType, $(this).val());
-            });
-
             $('select[name="conditions[interval_number]"], select[name="conditions[interval_unit]"]').change(function () {
-                $('#alert_message').val(changeTextarea($('.active-type input:visible').val()));
+                $('#alert_message').val(changeTextarea($('.input-value:visible').val()));
             });
 
             function setStorage(metric = 0, type = 0, value) {
@@ -463,12 +479,12 @@
             function cleanMessage(selectedType) {
                 if ($('#alert_message').val() == '') {
                     if (selectedType == 5 || selectedType == 6) {
-                        $(".active-type input:visible").val('2');
+                        $(".input-value:visible").val('2');
                     } else if (selectedType == 7 || selectedType == 8) {
-                        $(".active-type input:visible").val('5');
+                        $(".input-value:visible").val('5');
                     }
                     localStorage.removeItem('alert_0');
-                    $('#alert_message').val(changeTextarea($(".active-type input:visible").val()));
+                    $('#alert_message').val(changeTextarea($(".input-value:visible").val()));
                 }
             }
 
@@ -492,15 +508,7 @@
                 $('.currency_price_group h4').text(metricText + ': ');
                 $('#currencyPrice').text(currencyPrice);
 
-                if ( @json($alert->conditions['values']) ) {
-                    $.each(@json($alert->conditions['values']), function (key, value) {
-                        if (selectedType == key) {
-                            currencyPrice = value;
-                        }
-                    });
-                }
-
-                currentValue = $(".active-type input:visible");
+                currentValue = $(".input-value:visible");
                 if (selectedType == 5 || selectedType == 6) {
                     currentValue.val('2');
                 } else if (selectedType == 7 || selectedType == 8) {
@@ -510,7 +518,7 @@
                 }
 
                 if (getStorage('value', '0', null)) {
-                    $(".active-type input:visible").val(getStorage('value', '0', null));
+                    $(".input-value:visible").val(getStorage('value', '0', null));
                     localStorage.removeItem('value_0');
                 }
 
@@ -565,7 +573,6 @@
             }
         });
 
-
         $(document).ready(function () {
             setTimeout(function () {
                 $('input[name="expiration_date"]').attr("readonly", false);
@@ -596,9 +603,6 @@
                         $(this).remove();
                     }
                 });
-                /*if ($('#type option:selected').val() == 5 || $('#type option:selected').val() == 6 || $('#type option:selected').val() == 7 || $('#type option:selected').val() == 8 || $('#type option:selected').val() == 9) {
-                    $('input, textarea, select').filter('[required]:not(:visible), [disabled]').remove();
-                }*/
             });
 
             //select2
@@ -657,8 +661,6 @@
                 });
             });
 
-
-
             var freshIntervalValues = function (e) {
                 intervalOptions = @json(config('alerts.intervals'));
                 var unitList = $(e.target);
@@ -673,7 +675,6 @@
                 });
             };
             $("#cooldown").change(freshIntervalValues);
-            $("#period").change(freshIntervalValues);
         });
 
         $('input[name="sound_enable"]').click(function () {

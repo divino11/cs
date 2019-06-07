@@ -3,7 +3,7 @@
         <div class="input-group-append">
             <div class="input-group-text"></div>
         </div>
-        <input class="form-control" type="number" step="any" min="0" name="conditions[values][{{ \App\Enums\AlertType::Moving_Down }}]"
+        <input class="form-control input-value" type="number" step="any" min="0" name="conditions[values][{{ \App\Enums\AlertType::Moving_Down }}]"
                value="{{ old('conditions.values.' . \App\Enums\AlertType::Moving_Down, $alert->conditions['values'][\App\Enums\AlertType::Moving_Down] ?? '') }}" required />
     </div>
 </div>
