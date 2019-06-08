@@ -290,12 +290,13 @@
             localStorage.clear();
             var selectedPlatform, selectedCurrency, currencyPrice = '', currentValue, typeName = null;
             var conditions = @json($alert->conditions);
+            var type = {{ $alert->type }};
             var ticker, metricVal, metricText = {};
 
             if ( conditions.hasOwnProperty('values') ) {
                 $.each(conditions.values, function (key, value) {
                     setStorage(0, key, value);
-                    if ( {{ $alert->type }} == key) {
+                    if (type == key) {
                         setStorage('value', '0', value);
                     }
                 });
