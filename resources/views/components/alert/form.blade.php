@@ -290,7 +290,7 @@
             localStorage.clear();
             var selectedPlatform, selectedCurrency, currencyPrice = '', currentValue, typeName = null;
             var conditions = @json($alert->conditions);
-            var type = {{ $alert->type }};
+            var type = @json($alert->type);
             var ticker, metricVal, metricText = {};
 
             if ( conditions.hasOwnProperty('values') ) {
