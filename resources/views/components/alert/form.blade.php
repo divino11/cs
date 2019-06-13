@@ -293,13 +293,15 @@
             var type = @json($alert->type);
             var ticker, metricVal, metricText = {};
 
-            if ( conditions.hasOwnProperty('values') ) {
-                $.each(conditions.values, function (key, value) {
-                    setStorage(0, key, value);
-                    if (type == key) {
-                        setStorage('value', '0', value);
-                    }
-                });
+            if (conditions) {
+                if (conditions.hasOwnProperty('values')) {
+                    $.each(conditions.values, function (key, value) {
+                        setStorage(0, key, value);
+                        if (type == key) {
+                            setStorage('value', '0', value);
+                        }
+                    });
+                }
             }
 
             $('#exchange').change(function () {

@@ -14,8 +14,14 @@ class SubscribeStripeController extends Controller
         if ($request->stripeToken) {
             try {
                 $request->user()->createAsStripeCustomer();
-                $request->user()->newSubscription('main', config('payments.' . $request->plan . '.plan'))
-                    ->create($request->stripeToken);
+                if ($request->plan == 'yearly') {
+                    $request->user()->newSubscription('main', config('payments.' . $request->plan . '.plan'))
+                        ->create($request->stripeToken);
+                } else {
+                    $request->user()->newSubscription('main', config('payments.' . $request->plan . '.plan'))
+                        ->trialDays(7)
+                        ->create($request->stripeToken);
+                }
             } catch (\Exception $e) {
                 return redirect()->back()->withErrors([$e->getMessage()]);
             }
