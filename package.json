@@ -35,6 +35,6 @@
         "laravel-echo": "^1.5.3",
         "pusher": "^2.2.0",
         "pusher-js": "^4.4.0",
-        "select2": "^4.0.6-rc.1"
+        "select2": "^4.0.6"
     }
 }
